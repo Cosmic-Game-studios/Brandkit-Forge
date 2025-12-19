@@ -117,6 +117,39 @@ The result? Professional-quality brand assets that would normally take a designe
 
 ---
 
+## 🎮 Demo Mode
+
+**Try Brandkit Forge without an API key!** Demo Mode generates prompts you can copy into ChatGPT to create your brand assets manually.
+
+<table>
+<tr>
+<td width="33%" align="center">
+<strong>1. Configure in Demo Mode</strong><br />
+<img src="docs/examples/01-demo-mode-ui.png" alt="Demo Mode UI" width="100%" /><br />
+<em>Enable Demo Mode, upload logo, select styles</em>
+</td>
+<td width="33%" align="center">
+<strong>2. Copy Prompt → ChatGPT</strong><br />
+<img src="docs/examples/02-generated-background.png" alt="Generated Background" width="100%" /><br />
+<em>Paste the generated prompt into ChatGPT</em>
+</td>
+<td width="33%" align="center">
+<strong>3. Get Your Hero Image</strong><br />
+<img src="docs/examples/03-hero-result.png" alt="Hero Result" width="100%" /><br />
+<em>Professional brand asset ready to use</em>
+</td>
+</tr>
+</table>
+
+```bash
+# Start the Web UI
+npm run dev:web
+
+# Enable "Demo Mode" checkbox → No API key needed!
+```
+
+---
+
 ## 🚀 Quick Start
 
 ### Prerequisites
