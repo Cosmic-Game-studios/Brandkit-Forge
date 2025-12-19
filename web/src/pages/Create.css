@@ -548,7 +548,22 @@ input[type='password']:focus {
 .drop-zone-content {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.example-logo {
+  max-width: 80px;
+  max-height: 80px;
+  opacity: 0.6;
+  border-radius: 8px;
+  box-shadow: none !important;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.drop-zone:hover .example-logo {
+  opacity: 0.8;
+  transform: scale(1.05);
 }
 
 .drop-zone-content p {

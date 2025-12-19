@@ -325,7 +325,8 @@ export default function Create() {
                   <img src={logoPreview} alt="Logo Preview" />
                 ) : (
                   <div className="drop-zone-content">
-                    <p>Drop the logo here or click to select</p>
+                    <img src="/Logo.png" alt="Example Logo" className="example-logo" />
+                    <p>Drop your logo here or click to select</p>
                     <p className="drop-zone-hint">PNG, JPG or WebP</p>
                   </div>
                 )}
