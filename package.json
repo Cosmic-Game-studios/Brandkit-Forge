@@ -1,0 +1,51 @@
+{
+  "name": "brandkit-forge",
+  "version": "1.0.0",
+  "description": "One logo in -> complete launch asset pack out with the OpenAI Images API",
+  "type": "module",
+  "main": "dist/cli.js",
+  "bin": {
+    "brandkit-forge": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:web": "npm run build && cd web && npm install && npm run build",
+    "forge": "node dist/cli.js",
+    "dev": "tsx src/cli.ts",
+    "dev:web": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "tsx --watch src/server/index.ts",
+    "dev:client": "cd web && npm install && npm run dev",
+    "start:web": "node dist/server/index.js"
+  },
+  "keywords": [
+    "brandkit",
+    "logo",
+    "assets",
+    "openai",
+    "images",
+    "cli"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@fastify/multipart": "^8.0.0",
+    "archiver": "^7.0.1",
+    "commander": "^11.1.0",
+    "dotenv": "^16.4.5",
+    "fastify": "^4.26.0",
+    "openai": "^4.28.0",
+    "p-limit": "^5.0.0",
+    "sharp": "^0.33.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/archiver": "^6.0.2",
+    "@types/node": "^20.11.24",
+    "concurrently": "^8.2.2",
+    "tsx": "^4.7.1",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

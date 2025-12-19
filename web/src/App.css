@@ -1,0 +1,109 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.app::before {
+  content: '';
+  position: absolute;
+  top: -260px;
+  right: -220px;
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(
+    circle at center,
+    rgba(247, 206, 122, 0.45),
+    transparent 70%
+  );
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.app::after {
+  content: '';
+  position: absolute;
+  bottom: -280px;
+  left: -200px;
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(
+    circle at center,
+    rgba(129, 230, 201, 0.4),
+    transparent 72%
+  );
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.82);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(14px);
+  padding: 1.2rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.app-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: transparent;
+  background: linear-gradient(120deg, #0f766e, #f97316);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.app-header nav {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.app-header nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: rgba(15, 118, 110, 0.08);
+  transition: all 0.2s ease;
+}
+
+.app-header nav a:hover {
+  color: var(--accent);
+  border-color: rgba(15, 118, 110, 0.25);
+  background: rgba(15, 118, 110, 0.15);
+  transform: translateY(-1px);
+}
+
+.app-main {
+  flex: 1;
+  padding: 2.5rem 1.5rem 4rem;
+  max-width: var(--content-width);
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 720px) {
+  .app-header {
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .app-main {
+    padding: 2rem 1.2rem 3rem;
+  }
+}

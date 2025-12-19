@@ -1,0 +1,14 @@
+node_modules/
+dist/
+out/
+.temp/
+.env
+*.log
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+web/node_modules/
+web/dist/

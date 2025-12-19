@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  --font-body: 'Source Sans 3', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-display: 'Space Grotesk', 'Trebuchet MS', 'Segoe UI', sans-serif;
+  --page-bg: radial-gradient(
+      900px 520px at 10% -10%,
+      rgba(247, 206, 122, 0.35),
+      transparent 65%
+    ),
+    radial-gradient(
+      700px 520px at 90% 10%,
+      rgba(129, 230, 201, 0.3),
+      transparent 65%
+    ),
+    linear-gradient(160deg, #f8f5ef 0%, #f6f7f9 45%, #fef3ea 100%);
+  --surface: #ffffff;
+  --surface-muted: #f6f4f1;
+  --surface-strong: #fefaf5;
+  --text-primary: #1a1a1a;
+  --text-muted: #50555a;
+  --text-subtle: #7a7f85;
+  --accent: #0f766e;
+  --accent-strong: #0b5f58;
+  --accent-warm: #f97316;
+  --border: rgba(15, 23, 42, 0.12);
+  --border-strong: rgba(15, 23, 42, 0.2);
+  --shadow-sm: 0 12px 25px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 30px 70px rgba(15, 23, 42, 0.12);
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --content-width: 1200px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--page-bg);
+  color: var(--text-primary);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+::selection {
+  background: rgba(15, 118, 110, 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
