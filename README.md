@@ -36,6 +36,8 @@ Brandkit Forge uses OpenAI's `gpt-image-1.5` to generate stunning backgrounds, h
 
 ## 💡 Why Brandkit Forge?
 
+> **⚠️ Early Development Stage** — This project is in active early development. Features may change, and some functionality is still being refined. We welcome feedback and contributions!
+
 **Built for the OpenAI Dev Challenge 2025**
 
 This project was created as our submission for the [OpenAI Developer Challenge](https://openai.com). We wanted to showcase the powerful capabilities of OpenAI's new `gpt-image-1.5` API by solving a real problem that designers and developers face daily.
