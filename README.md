@@ -695,11 +695,14 @@ npm run lint
 | **v1.1** | Live cost tracking | ✅ Released |
 | **v1.2** | Custom styles | ✅ Released |
 | **v1.3** | Custom presets & chip builder | ✅ Released |
-| **v1.4** | Figma plugin export | 🔄 In Progress |
-| **v1.5** | Batch processing | 📋 Planned |
-| **v2.0** | Team workspaces | 📋 Planned |
-| **v2.1** | Community presets | 📋 Planned |
-| **v2.2** | Design system export | 📋 Planned |
+| **v1.4** | Cost optimizations (smart caching, batch requests) | 📋 Planned |
+| **v1.5** | Self-healing images (auto-detect & regenerate failed outputs) | 📋 Planned |
+| **v2.0** | GPT-5.2 integration (next-gen image model support) | 📋 Planned |
+| **v2.1** | Batch processing | 📋 Planned |
+| **v2.2** | Team workspaces | 📋 Planned |
+| **v2.3** | Community presets | 📋 Planned |
+| **v2.4** | Design system export | 📋 Planned |
+| **v3.0** | Multi-model pipeline (combine models for optimal results) | 📋 Planned |
 
 [View all planned features →](https://github.com/Cosmic-Game-studios/Brandkit-Forge/issues)
 
