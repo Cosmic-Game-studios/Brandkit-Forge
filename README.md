@@ -34,6 +34,32 @@ Brandkit Forge uses OpenAI's `gpt-image-1.5` to generate stunning backgrounds, h
 
 ---
 
+## 💡 Why Brandkit Forge?
+
+**Built for the OpenAI Dev Challenge 2025**
+
+This project was created as our submission for the [OpenAI Developer Challenge](https://openai.com). We wanted to showcase the powerful capabilities of OpenAI's new `gpt-image-1.5` API by solving a real problem that designers and developers face daily.
+
+### The Problem
+
+Creating a complete brand asset pack is tedious and time-consuming:
+- Designers manually create dozens of variations for different use cases
+- Developers need icons in 6+ sizes, social images in multiple formats
+- Every rebrand means hours of repetitive export work
+- Small teams and indie devs often skip professional branding due to cost
+
+### Our Solution
+
+**One logo upload → Complete brand kit in minutes.**
+
+Brandkit Forge leverages both the **Generate** and **Edit** endpoints of `gpt-image-1.5`:
+- **Generate API**: Creates unique, style-matched backgrounds
+- **Edit API**: Intelligently composites the logo onto backgrounds with perfect placement
+
+The result? Professional-quality brand assets that would normally take a designer hours, generated in minutes with full cost transparency.
+
+---
+
 ## ✨ Features
 
 <table>
