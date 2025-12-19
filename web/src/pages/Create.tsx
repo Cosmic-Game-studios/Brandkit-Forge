@@ -116,6 +116,18 @@ export default function Create() {
     apiCalls: number;
     breakdown: { backgrounds: number; heroes: number };
   } | null>(null);
+  const [generatedPrompts, setGeneratedPrompts] = useState<{ type: string; style: string; prompt: string }[]>([]);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
+  const copyPrompt = async (prompt: string, index: number) => {
+    try {
+      await navigator.clipboard.writeText(prompt);
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
 
   const handleFileSelect = (file: File) => {
     if (file.type.startsWith('image/')) {
@@ -151,10 +163,12 @@ export default function Create() {
     setProgress([]);
     setError(null);
     setCost(null);
+    setGeneratedPrompts([]);
+    setCopiedIndex(null);
 
     try {
       const formData = new FormData();
-      formData.append('file', logoFile);
+      // IMPORTANT: config must come BEFORE file for @fastify/multipart
       formData.append(
         'config',
         JSON.stringify({
@@ -172,6 +186,7 @@ export default function Create() {
           demoMode,
         })
       );
+      formData.append('file', logoFile);
 
       const response = await fetch('/api/jobs', {
         method: 'POST',
@@ -187,18 +202,64 @@ export default function Create() {
 
       // SSE for progress and cost updates
       const eventSource = new EventSource(`/api/jobs/${jobId}/events`);
+      let currentPrompt: { type: string; style: string; prompt: string } | null = null;
+      let promptLines: string[] = [];
+
       eventSource.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.cost) {
           setCost(data.cost);
         }
         if (data.message) {
-          setProgress((prev) => [...prev, data.message]);
+          const msg = data.message;
+
+          // Parse prompt markers in demo mode
+          if (demoMode) {
+            const promptMatch = msg.match(/^\[PROMPT:(BACKGROUND|HERO):([^:]+):(\d+)\]$/);
+            if (promptMatch) {
+              // Save previous prompt if exists
+              if (currentPrompt && promptLines.length > 0) {
+                const finishedPrompt = {
+                  type: currentPrompt.type,
+                  style: currentPrompt.style,
+                  prompt: promptLines.join('\n')
+                };
+                setGeneratedPrompts(prev => [...prev, finishedPrompt]);
+              }
+              // Start new prompt
+              currentPrompt = {
+                type: promptMatch[1].toLowerCase(),
+                style: promptMatch[2],
+                prompt: ''
+              };
+              promptLines = [];
+            } else if (msg === '---') {
+              // End of prompt block
+              if (currentPrompt && promptLines.length > 0) {
+                const finishedPrompt = {
+                  type: currentPrompt.type,
+                  style: currentPrompt.style,
+                  prompt: promptLines.join('\n')
+                };
+                setGeneratedPrompts(prev => [...prev, finishedPrompt]);
+                currentPrompt = null;
+                promptLines = [];
+              }
+            } else if (currentPrompt) {
+              // Accumulate prompt lines
+              promptLines.push(msg);
+            }
+          }
+
+          setProgress((prev) => [...prev, msg]);
         }
         if (data.status === 'completed') {
           eventSource.close();
           setIsGenerating(false);
-          navigate(`/results/${jobId}`);
+          // In demo mode, stay on page to show prompts
+          if (!demoMode) {
+            navigate(`/results/${jobId}`);
+          }
         } else if (data.status === 'error') {
           eventSource.close();
           setIsGenerating(false);
@@ -599,7 +660,7 @@ export default function Create() {
                 Demo Mode (no API key needed)
               </label>
               <p className="form-hint">
-                Try the full UI experience with placeholder images - no API costs!
+                Generates prompts you can copy into ChatGPT - no API costs!
               </p>
             </div>
 
@@ -634,6 +695,31 @@ export default function Create() {
         </div>
 
         {error && <div className="error-message">{error}</div>}
+
+        {generatedPrompts.filter(Boolean).length > 0 && !isGenerating && (
+          <div className="prompts-section">
+            <h3>Generated Prompts</h3>
+            <p className="prompts-intro">Copy these prompts into ChatGPT to generate your brand assets:</p>
+            {generatedPrompts.filter(Boolean).map((p, i) => (
+              <div key={i} className="prompt-card">
+                <div className="prompt-header">
+                  <span className={`prompt-type prompt-type--${p.type}`}>
+                    {p.type === 'background' ? 'Background' : 'Hero Edit'}
+                  </span>
+                  <span className="prompt-style">{p.style}</span>
+                  <button
+                    type="button"
+                    onClick={() => copyPrompt(p.prompt, i)}
+                    className="copy-button"
+                  >
+                    {copiedIndex === i ? 'Copied!' : 'Copy'}
+                  </button>
+                </div>
+                <pre className="prompt-text">{p.prompt}</pre>
+              </div>
+            ))}
+          </div>
+        )}
 
         {isGenerating && (
           <div className="progress-section">

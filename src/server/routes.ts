@@ -35,8 +35,20 @@ export async function registerRoutes(fastify: FastifyInstance) {
         return reply.code(400).send({ error: 'No file uploaded' });
       }
 
-      const configStr = (data.fields?.config as any)?.value as string | undefined;
+      // Handle different @fastify/multipart field formats
+      const configField = data.fields?.config;
+      let configStr: string | undefined;
+
+      if (Array.isArray(configField)) {
+        // Field is an array (multiple values)
+        configStr = (configField[0] as any)?.value;
+      } else if (configField && typeof configField === 'object') {
+        // Field is a single object
+        configStr = (configField as any).value;
+      }
+
       if (!configStr) {
+        fastify.log.error({ fields: data.fields }, 'No config found in fields');
         return reply.code(400).send({ error: 'No config provided' });
       }
 

@@ -35,7 +35,7 @@ export async function forgeBrandKit(
   const outputDir = join(config.outputDir, timestamp);
   await mkdir(outputDir, { recursive: true });
 
-  // Demo mode: use placeholder images instead of API calls
+  // Demo mode: just generate prompts for manual use
   if (config.demoMode) {
     const demoCost: CostInfo = {
       totalCost: 0,
@@ -43,25 +43,17 @@ export async function forgeBrandKit(
       breakdown: { backgrounds: 0, heroes: 0 },
     };
 
-    const { manifest, files } = await generateDemoKit(
+    await generateDemoKit(
       { ...config, outputDir },
       outputDir,
       onProgress,
-      (cost) => {
-        demoCost.totalCost = cost.totalCost;
-        demoCost.apiCalls = cost.apiCalls;
-        demoCost.breakdown = cost.breakdown;
-        onCost(cost);
-      }
+      onCost
     );
-
-    const manifestPath = join(outputDir, 'brandkit.json');
-    await writeFile(manifestPath, JSON.stringify(manifest, null, 2), 'utf-8');
 
     return {
       outDir: outputDir,
-      manifestPath,
-      files: [...files, manifestPath, join(outputDir, 'gallery', 'index.html')],
+      manifestPath: '',
+      files: [],
       cost: demoCost,
     };
   }

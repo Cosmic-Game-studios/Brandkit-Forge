@@ -918,3 +918,99 @@ input[type='password']:focus {
 .demo-mode-toggle input[type='checkbox']:checked + * {
   color: var(--accent);
 }
+
+/* Generated Prompts Section */
+.prompts-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.prompts-section h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  color: var(--text);
+}
+
+.prompts-intro {
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.prompt-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.prompt-card:last-child {
+  margin-bottom: 0;
+}
+
+.prompt-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid var(--border);
+}
+
+.prompt-type {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.prompt-type--background {
+  background: rgba(99, 102, 241, 0.2);
+  color: #818cf8;
+}
+
+.prompt-type--hero {
+  background: rgba(249, 115, 22, 0.2);
+  color: #fb923c;
+}
+
+.prompt-style {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  flex: 1;
+}
+
+.copy-button {
+  padding: 0.4rem 0.75rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.copy-button:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.prompt-text {
+  margin: 0;
+  padding: 1rem;
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--text-muted);
+  max-height: 200px;
+  overflow-y: auto;
+}
