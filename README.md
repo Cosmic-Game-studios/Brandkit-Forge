@@ -728,20 +728,7 @@ Our roadmap is designed around one goal: **delivering the best possible brand as
 
 ---
 
-### 🤖 Phase 3: Next-Gen AI
-
-*Leveraging the latest models for superior results*
-
-| Feature | Description | Status |
-|---------|-------------|--------|
-| **gpt-image-2 Support** | Ready for OpenAI's next-generation image model | 📋 Planned |
-| **Multi-Model Pipeline** | Combine models (DALL-E, Midjourney, Stable Diffusion) | 📋 Planned |
-| **Model Comparison** | Generate with multiple models, pick the best result | 📋 Planned |
-| **Style Transfer** | Apply reference image styles to generations | 📋 Planned |
-
----
-
-### 🔌 Phase 4: Integrations
+### 🔌 Phase 3: Integrations
 
 *Seamless workflow with your existing tools*
 
@@ -754,7 +741,7 @@ Our roadmap is designed around one goal: **delivering the best possible brand as
 
 ---
 
-### 👥 Phase 5: Collaboration
+### 👥 Phase 4: Collaboration
 
 *Built for teams and communities*
 
