@@ -689,22 +689,85 @@ npm run lint
 
 ## 🗺️ Roadmap
 
-| Version | Feature | Status |
-|---------|---------|--------|
-| **v1.0** | Core CLI + Web UI | ✅ Released |
-| **v1.1** | Live cost tracking | ✅ Released |
-| **v1.2** | Custom styles | ✅ Released |
-| **v1.3** | Custom presets & chip builder | ✅ Released |
-| **v1.4** | Cost optimizations (smart caching, batch requests) | 📋 Planned |
-| **v1.5** | Self-healing images (auto-detect & regenerate failed outputs) | 📋 Planned |
-| **v2.0** | GPT-5.2 integration (next-gen image model support) | 📋 Planned |
-| **v2.1** | Batch processing | 📋 Planned |
-| **v2.2** | Team workspaces | 📋 Planned |
-| **v2.3** | Community presets | 📋 Planned |
-| **v2.4** | Design system export | 📋 Planned |
-| **v3.0** | Multi-model pipeline (combine models for optimal results) | 📋 Planned |
+Our roadmap is designed around one goal: **delivering the best possible brand asset experience**.
 
-[View all planned features →](https://github.com/Cosmic-Game-studios/Brandkit-Forge/issues)
+### ✅ Released
+
+| Version | Feature | Description |
+|---------|---------|-------------|
+| **v1.0** | Core Platform | CLI + Web UI, background generation, hero composition |
+| **v1.1** | Cost Transparency | Live cost tracking, estimated pricing before generation |
+| **v1.2** | Custom Styles | User-defined style templates with prompt control |
+| **v1.3** | Chip-Based Builder | Visual prompt builder — no prompt engineering needed |
+
+---
+
+### 🎯 Phase 1: Quality & Reliability
+
+*Making every generated image production-ready*
+
+| Feature | Description | Status |
+|---------|-------------|--------|
+| **Self-Healing Images** | AI analyzes outputs, auto-regenerates failed/low-quality results | 📋 Planned |
+| **Quality Scoring** | Automatic quality assessment with confidence scores | 📋 Planned |
+| **Smart Retry Logic** | Intelligent retry with prompt adjustments on failures | 📋 Planned |
+| **Output Validation** | Detect artifacts, text leaks, and composition issues | 📋 Planned |
+
+---
+
+### 💰 Phase 2: Cost & Performance
+
+*Faster generation, lower costs, smarter resource usage*
+
+| Feature | Description | Status |
+|---------|-------------|--------|
+| **Intelligent Caching** | Content-aware cache with similarity matching | 📋 Planned |
+| **Batch Request Optimization** | Group API calls for reduced latency and cost | 📋 Planned |
+| **Progressive Generation** | Low-quality preview first, high-quality on approval | 📋 Planned |
+| **Cost Presets** | Budget modes: Draft ($0.50), Standard ($2), Premium ($5+) | 📋 Planned |
+
+---
+
+### 🤖 Phase 3: Next-Gen AI
+
+*Leveraging the latest models for superior results*
+
+| Feature | Description | Status |
+|---------|-------------|--------|
+| **GPT-5.2 Integration** | Support for OpenAI's next-generation image model | 📋 Planned |
+| **Multi-Model Pipeline** | Combine models (DALL-E, Midjourney, Stable Diffusion) | 📋 Planned |
+| **Model Comparison** | Generate with multiple models, pick the best result | 📋 Planned |
+| **Style Transfer** | Apply reference image styles to generations | 📋 Planned |
+
+---
+
+### 🔌 Phase 4: Integrations
+
+*Seamless workflow with your existing tools*
+
+| Feature | Description | Status |
+|---------|-------------|--------|
+| **Figma Plugin** | Export directly to Figma with proper layer structure | 📋 Planned |
+| **Design System Export** | Generate design tokens, CSS variables, Tailwind config | 📋 Planned |
+| **CI/CD Pipeline** | GitHub Actions for automated brand asset generation | 📋 Planned |
+| **API Webhooks** | Real-time notifications for job completion | 📋 Planned |
+
+---
+
+### 👥 Phase 5: Collaboration
+
+*Built for teams and communities*
+
+| Feature | Description | Status |
+|---------|-------------|--------|
+| **Team Workspaces** | Shared projects, brand guidelines, access control | 📋 Planned |
+| **Community Presets** | Browse and share style presets with the community | 📋 Planned |
+| **Version History** | Track changes, compare generations, rollback | 📋 Planned |
+| **Brand Guidelines AI** | Auto-enforce brand consistency across all assets | 📋 Planned |
+
+---
+
+[💡 Suggest a feature →](https://github.com/Cosmic-Game-studios/Brandkit-Forge/issues/new)
 
 ---
 
