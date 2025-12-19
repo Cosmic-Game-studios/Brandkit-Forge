@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/logo-placeholder.png" alt="Brandkit Forge Logo" width="140" height="140" />
+<img src="assets/BrandkitForge.png" alt="Brandkit Forge Banner" width="600" />
 
 # Brandkit Forge
 
