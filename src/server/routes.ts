@@ -58,6 +58,7 @@ export async function registerRoutes(fastify: FastifyInstance) {
         dryRun: false,
         cache: configData.cache !== false,
         apiKey: configData.apiKey, // API key from frontend
+        demoMode: configData.demoMode || false, // Demo mode
       };
 
       const jobId = await createJob(logoBuffer, config);

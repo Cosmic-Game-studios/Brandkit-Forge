@@ -1,7 +1,7 @@
 import { join } from 'path';
 import pLimit from 'p-limit';
 import type { BrandConfig, BrandkitManifest } from '../types.js';
-import { buildBackgroundPrompt, buildCustomBackgroundPrompt } from '../lib/prompts.js';
+import { buildBackgroundPrompt } from '../lib/prompts.js';
 import { generateBackground } from '../lib/openai.js';
 import { hashConfig, getCachedPath, setCachedPath } from '../lib/cache.js';
 
@@ -21,11 +21,8 @@ export async function generateBackgrounds(
     const styleBackgrounds: string[] = [];
 
     for (let i = 0; i < config.n; i++) {
-      // Check if this is a custom style
-      const customPrompt = config.customStyles?.[style];
-      const prompt = customPrompt
-        ? buildCustomBackgroundPrompt(customPrompt, config.colors)
-        : buildBackgroundPrompt(style, config.colors, config);
+      // buildBackgroundPrompt handles both built-in and custom styles via config.customStyles
+      const prompt = buildBackgroundPrompt(style, config.colors, config);
       const hash = hashConfig(config, `${style}-background-${i}-${prompt}`);
       const cachedPath = getCachedPath(hash, config);
 

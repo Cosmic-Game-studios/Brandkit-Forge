@@ -13,6 +13,7 @@ export interface BrandConfig {
   dryRun: boolean;
   cache: boolean;
   apiKey?: string; // Optional API key from frontend
+  demoMode?: boolean; // Demo mode uses placeholder images instead of API
 }
 
 export interface StylePrompt {

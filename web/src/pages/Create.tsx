@@ -106,6 +106,7 @@ export default function Create() {
   const [n, setN] = useState('2');
   const [cache, setCache] = useState(true);
   const [apiKey, setApiKey] = useState('');
+  const [demoMode, setDemoMode] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [progress, setProgress] = useState<string[]>([]);
@@ -168,6 +169,7 @@ export default function Create() {
           n,
           cache,
           apiKey: apiKey.trim() || undefined,
+          demoMode,
         })
       );
 
@@ -588,19 +590,35 @@ export default function Create() {
             </div>
 
             <div className="form-section">
-              <label htmlFor="apiKey">OpenAI API Key *</label>
-              <input
-                id="apiKey"
-                type="password"
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                placeholder="sk-..."
-                required
-              />
+              <label className="checkbox-label demo-mode-toggle">
+                <input
+                  type="checkbox"
+                  checked={demoMode}
+                  onChange={(e) => setDemoMode(e.target.checked)}
+                />
+                Demo Mode (no API key needed)
+              </label>
               <p className="form-hint">
-                Your API key is only used for this request and not stored.
+                Try the full UI experience with placeholder images - no API costs!
               </p>
             </div>
+
+            {!demoMode && (
+              <div className="form-section">
+                <label htmlFor="apiKey">OpenAI API Key *</label>
+                <input
+                  id="apiKey"
+                  type="password"
+                  value={apiKey}
+                  onChange={(e) => setApiKey(e.target.value)}
+                  placeholder="sk-..."
+                  required
+                />
+                <p className="form-hint">
+                  Your API key is only used for this request and not stored.
+                </p>
+              </div>
+            )}
 
             <div className="form-section">
               <label className="checkbox-label">
@@ -665,10 +683,10 @@ export default function Create() {
 
         <button
           type="submit"
-          disabled={!logoFile || !name.trim() || !apiKey.trim() || selectedStyles.length === 0 || isGenerating}
+          disabled={!logoFile || !name.trim() || (!demoMode && !apiKey.trim()) || selectedStyles.length === 0 || isGenerating}
           className="submit-button"
         >
-          {isGenerating ? 'Generating...' : 'Generate brandkit'}
+          {isGenerating ? 'Generating...' : demoMode ? 'Generate Demo Brandkit' : 'Generate brandkit'}
         </button>
       </form>
     </div>

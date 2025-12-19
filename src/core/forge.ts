@@ -6,6 +6,7 @@ import { generateBackgrounds } from '../pipeline/generateBackgrounds.js';
 import { composeHeroes } from '../pipeline/composeHero.js';
 import { exportIcons, exportSocial } from '../pipeline/exportSizes.js';
 import { generateGallery } from '../pipeline/gallery.js';
+import { generateDemoKit } from '../pipeline/demoGenerator.js';
 
 export interface ForgeOptions {
   onProgress?: (message: string) => void;
@@ -26,6 +27,45 @@ export async function forgeBrandKit(
   const onProgress = opts?.onProgress || (() => {});
   const onCost = opts?.onCost || (() => {});
 
+  if (!existsSync(config.logoPath)) {
+    throw new Error(`Logo file not found: ${config.logoPath}`);
+  }
+
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const outputDir = join(config.outputDir, timestamp);
+  await mkdir(outputDir, { recursive: true });
+
+  // Demo mode: use placeholder images instead of API calls
+  if (config.demoMode) {
+    const demoCost: CostInfo = {
+      totalCost: 0,
+      apiCalls: 0,
+      breakdown: { backgrounds: 0, heroes: 0 },
+    };
+
+    const { manifest, files } = await generateDemoKit(
+      { ...config, outputDir },
+      outputDir,
+      onProgress,
+      (cost) => {
+        demoCost.totalCost = cost.totalCost;
+        demoCost.apiCalls = cost.apiCalls;
+        demoCost.breakdown = cost.breakdown;
+        onCost(cost);
+      }
+    );
+
+    const manifestPath = join(outputDir, 'brandkit.json');
+    await writeFile(manifestPath, JSON.stringify(manifest, null, 2), 'utf-8');
+
+    return {
+      outDir: outputDir,
+      manifestPath,
+      files: [...files, manifestPath, join(outputDir, 'gallery', 'index.html')],
+      cost: demoCost,
+    };
+  }
+
   // Initialize cost tracking
   const costInfo: CostInfo = {
     totalCost: 0,
@@ -42,14 +82,6 @@ export async function forgeBrandKit(
     costInfo.breakdown[type] += amount;
     onCost({ ...costInfo });
   };
-
-  if (!existsSync(config.logoPath)) {
-    throw new Error(`Logo file not found: ${config.logoPath}`);
-  }
-
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-  const outputDir = join(config.outputDir, timestamp);
-  await mkdir(outputDir, { recursive: true });
 
   onProgress('Brandkit Forge started');
   onProgress(`Brand: ${config.name}`);
