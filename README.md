@@ -119,7 +119,7 @@ The result? Professional-quality brand assets that would normally take a designe
 
 ## 🎮 Demo Mode
 
-**Try Brandkit Forge without an API key!** Demo Mode generates prompts you can copy into ChatGPT to create your brand assets manually.
+**Try Brandkit Forge without an API key!** Demo Mode generates prompts you can use to create your brand assets manually.
 
 <table>
 <tr>
@@ -129,9 +129,9 @@ The result? Professional-quality brand assets that would normally take a designe
 <em>Enable Demo Mode, upload logo, select styles</em>
 </td>
 <td width="33%" align="center">
-<strong>2. Copy Prompt → ChatGPT</strong><br />
+<strong>2. Copy Generated Prompts</strong><br />
 <img src="docs/examples/02-generated-background.png" alt="Generated Background" width="100%" /><br />
-<em>Paste the generated prompt into ChatGPT</em>
+<em>Use the prompts with any AI image generator</em>
 </td>
 <td width="33%" align="center">
 <strong>3. Get Your Hero Image</strong><br />
