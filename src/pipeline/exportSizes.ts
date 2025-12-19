@@ -2,7 +2,7 @@ import sharp from 'sharp';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { mkdir } from 'fs/promises';
-import type { BrandkitManifest } from '../types.js';
+import type { BrandConfig, BrandkitManifest } from '../types.js';
 import pLimit from 'p-limit';
 
 const ICON_SIZES = [
@@ -17,10 +17,22 @@ const ICON_SIZES = [
   { name: 'favicon-16', size: 16 },
 ];
 
+function applyFormat(sharpInstance: sharp.Sharp, config: BrandConfig): sharp.Sharp {
+  const format = config.format || 'png';
+  const quality = config.compression || 85;
+
+  if (format === 'jpeg') {
+    return sharpInstance.jpeg({ quality });
+  } else if (format === 'webp') {
+    return sharpInstance.webp({ quality });
+  }
+  return sharpInstance.png();
+}
+
 export async function exportIcons(
   logoPath: string,
   outputDir: string,
-  format: string,
+  config: BrandConfig,
   manifest: BrandkitManifest
 ): Promise<void> {
   const iconsDir = join(outputDir, 'icons');
@@ -28,16 +40,18 @@ export async function exportIcons(
 
   const logoBuffer = readFileSync(logoPath);
   const limit = pLimit(5);
+  const format = config.format || 'png';
 
   const tasks = ICON_SIZES.map(({ name, size }) =>
     limit(async () => {
       const ext = format === 'jpeg' ? 'jpg' : format;
       const outputPath = join(iconsDir, `${name}.${ext}`);
 
-      await sharp(logoBuffer)
-        .resize(size, size, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
-        .toFormat(format as 'png' | 'webp' | 'jpeg')
-        .toFile(outputPath);
+      let sharpInstance = sharp(logoBuffer)
+        .resize(size, size, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } });
+
+      sharpInstance = applyFormat(sharpInstance, config);
+      await sharpInstance.toFile(outputPath);
 
       manifest.generated.icons.push(outputPath);
       console.log(`  Exported: ${name}.${ext}`);
@@ -50,29 +64,28 @@ export async function exportIcons(
 export async function exportSocial(
   heroPath: string,
   outputDir: string,
-  format: string,
+  config: BrandConfig,
   manifest: BrandkitManifest
 ): Promise<void> {
   const socialDir = join(outputDir, 'social');
   await mkdir(socialDir, { recursive: true });
 
   const heroBuffer = readFileSync(heroPath);
+  const format = config.format || 'png';
 
   const ogExt = format === 'jpeg' ? 'jpg' : format;
   const ogPath = join(socialDir, `og-1200x630.${ogExt}`);
-  await sharp(heroBuffer)
-    .resize(1200, 630, { fit: 'cover', position: 'center' })
-    .toFormat(format as 'png' | 'webp' | 'jpeg')
-    .toFile(ogPath);
+  let ogSharp = sharp(heroBuffer).resize(1200, 630, { fit: 'cover', position: 'center' });
+  ogSharp = applyFormat(ogSharp, config);
+  await ogSharp.toFile(ogPath);
   manifest.generated.social.push(ogPath);
   console.log(`  Exported: og-1200x630.${ogExt}`);
 
   const xExt = format === 'jpeg' ? 'jpg' : format;
   const xPath = join(socialDir, `x-1600x900.${xExt}`);
-  await sharp(heroBuffer)
-    .resize(1600, 900, { fit: 'cover', position: 'center' })
-    .toFormat(format as 'png' | 'webp' | 'jpeg')
-    .toFile(xPath);
+  let xSharp = sharp(heroBuffer).resize(1600, 900, { fit: 'cover', position: 'center' });
+  xSharp = applyFormat(xSharp, config);
+  await xSharp.toFile(xPath);
   manifest.generated.social.push(xPath);
   console.log(`  Exported: x-1600x900.${xExt}`);
 }

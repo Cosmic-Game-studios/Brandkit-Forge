@@ -14,6 +14,9 @@ export interface BrandConfig {
   cache: boolean;
   apiKey?: string; // Optional API key from frontend
   demoMode?: boolean; // Demo mode uses placeholder images instead of API
+  backgroundSize?: 'landscape' | 'square' | 'portrait'; // Image orientation
+  transparency?: boolean; // PNG transparency for hero images
+  compression?: number; // JPEG compression quality (50-100)
 }
 
 export interface StylePrompt {

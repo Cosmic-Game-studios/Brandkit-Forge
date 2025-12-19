@@ -124,9 +124,9 @@ export async function forgeBrandKit(
   onProgress('\nStep 3: Export icons and social media assets...');
   const firstHero = manifest.generated.heroes[0];
   if (firstHero) {
-    await exportSocial(firstHero, outputDir, config.format, manifest);
+    await exportSocial(firstHero, outputDir, config, manifest);
   }
-  await exportIcons(config.logoPath, outputDir, config.format, manifest);
+  await exportIcons(config.logoPath, outputDir, config, manifest);
 
   onProgress('\nStep 4: Generate gallery...');
   generateGallery(outputDir, manifest);

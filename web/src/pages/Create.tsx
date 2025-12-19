@@ -53,7 +53,10 @@ export default function Create() {
     setColors(newColors);
   };
   const [format, setFormat] = useState('png');
-  
+  const [backgroundSize, setBackgroundSize] = useState<'landscape' | 'square' | 'portrait'>('landscape');
+  const [transparency, setTransparency] = useState(false);
+  const [compression, setCompression] = useState(85);
+
   const availableStyles = ['minimal', 'neon', 'clay', 'blueprint'];
   
   const toggleStyle = (style: string) => {
@@ -184,6 +187,9 @@ export default function Create() {
           cache,
           apiKey: apiKey.trim() || undefined,
           demoMode,
+          backgroundSize,
+          transparency: format === 'png' ? transparency : undefined,
+          compression: format === 'jpeg' ? compression : undefined,
         })
       );
       formData.append('file', logoFile);
@@ -291,19 +297,34 @@ export default function Create() {
     const numStyles = selectedStyles.length;
 
     // Pricing per image based on quality (gpt-image-1.5)
-    const pricing: Record<string, { background: number; heroLandscape: number; heroSquare: number }> = {
-      low: { background: 0.015, heroLandscape: 0.015, heroSquare: 0.01 },
-      medium: { background: 0.06, heroLandscape: 0.06, heroSquare: 0.04 },
-      high: { background: 0.25, heroLandscape: 0.25, heroSquare: 0.17 },
-      auto: { background: 0.25, heroLandscape: 0.25, heroSquare: 0.17 }, // auto defaults to high
+    const pricing: Record<string, { landscape: number; square: number; portrait: number }> = {
+      low: { landscape: 0.015, square: 0.01, portrait: 0.015 },
+      medium: { landscape: 0.06, square: 0.04, portrait: 0.06 },
+      high: { landscape: 0.25, square: 0.17, portrait: 0.25 },
+      auto: { landscape: 0.25, square: 0.17, portrait: 0.25 }, // auto defaults to high
     };
 
     const prices = pricing[quality] || pricing.high;
 
-    // Per style per variant: 1 background + 1 hero landscape + 1 hero square = 3 API calls
-    const costPerVariant = prices.background + prices.heroLandscape + prices.heroSquare;
+    // Calculate API calls based on size selection
+    // Square: 1 background + 1 square hero = 2 calls
+    // Landscape/Portrait: 1 background + 1 primary hero + 1 square hero = 3 calls
+    let costPerVariant: number;
+    let apiCallsPerVariant: number;
+
+    if (backgroundSize === 'square') {
+      costPerVariant = prices.square + prices.square; // bg + square hero
+      apiCallsPerVariant = 2;
+    } else if (backgroundSize === 'portrait') {
+      costPerVariant = prices.portrait + prices.portrait + prices.square; // bg + portrait hero + square hero
+      apiCallsPerVariant = 3;
+    } else {
+      costPerVariant = prices.landscape + prices.landscape + prices.square; // bg + landscape hero + square hero
+      apiCallsPerVariant = 3;
+    }
+
     const totalCost = numStyles * variants * costPerVariant;
-    const totalApiCalls = numStyles * variants * 3;
+    const totalApiCalls = numStyles * variants * apiCallsPerVariant;
 
     return { totalCost, totalApiCalls, numStyles, variants };
   })();
@@ -337,7 +358,7 @@ export default function Create() {
             )}
           </div>
           <div className="hero-card-note">
-            Preset {presetLabel} | Format {format.toUpperCase()} | Quality {quality} | Variants {n}
+            {presetLabel} | {format.toUpperCase()} | {quality} | {backgroundSize} | {n} variants
           </div>
           {selectedStyles.length > 0 && (
             <div className="cost-estimate">
@@ -623,15 +644,15 @@ export default function Create() {
 
             <div className="form-row">
               <div className="form-section">
-                <label htmlFor="format">Format</label>
+                <label htmlFor="backgroundSize">Image Size</label>
                 <select
-                  id="format"
-                  value={format}
-                  onChange={(e) => setFormat(e.target.value)}
+                  id="backgroundSize"
+                  value={backgroundSize}
+                  onChange={(e) => setBackgroundSize(e.target.value as 'landscape' | 'square' | 'portrait')}
                 >
-                  <option value="png">PNG</option>
-                  <option value="webp">WebP</option>
-                  <option value="jpeg">JPEG</option>
+                  <option value="landscape">Landscape (1536×1024)</option>
+                  <option value="square">Square (1024×1024)</option>
+                  <option value="portrait">Portrait (1024×1536)</option>
                 </select>
               </div>
 
@@ -648,6 +669,51 @@ export default function Create() {
                   <option value="auto">Auto</option>
                 </select>
               </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-section">
+                <label htmlFor="format">File Format</label>
+                <select
+                  id="format"
+                  value={format}
+                  onChange={(e) => setFormat(e.target.value)}
+                >
+                  <option value="png">PNG</option>
+                  <option value="webp">WebP</option>
+                  <option value="jpeg">JPEG</option>
+                </select>
+              </div>
+
+              {format === 'jpeg' && (
+                <div className="form-section">
+                  <label htmlFor="compression">Compression ({compression}%)</label>
+                  <input
+                    id="compression"
+                    type="range"
+                    min="50"
+                    max="100"
+                    value={compression}
+                    onChange={(e) => setCompression(parseInt(e.target.value))}
+                    className="range-slider"
+                  />
+                  <p className="form-hint">Higher = better quality, larger file</p>
+                </div>
+              )}
+
+              {format === 'png' && (
+                <div className="form-section">
+                  <label className="checkbox-label">
+                    <input
+                      type="checkbox"
+                      checked={transparency}
+                      onChange={(e) => setTransparency(e.target.checked)}
+                    />
+                    Transparent background
+                  </label>
+                  <p className="form-hint">Remove background from hero images</p>
+                </div>
+              )}
             </div>
 
             <div className="form-section">

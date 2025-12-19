@@ -13,11 +13,20 @@ interface ResultData {
   outputDir: string;
 }
 
+interface CategoryFiles {
+  backgrounds: FileInfo[];
+  heroes: FileInfo[];
+  icons: FileInfo[];
+  social: FileInfo[];
+}
+
 export default function Results() {
   const { jobId } = useParams<{ jobId: string }>();
   const [result, setResult] = useState<ResultData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [previewImage, setPreviewImage] = useState<FileInfo | null>(null);
+  const [activeTab, setActiveTab] = useState<'all' | 'backgrounds' | 'heroes' | 'icons' | 'social'>('all');
 
   useEffect(() => {
     if (!jobId) return;
@@ -45,6 +54,25 @@ export default function Results() {
       window.location.href = `/api/jobs/${jobId}/download`;
     }
   };
+
+  const openPreview = (file: FileInfo) => {
+    setPreviewImage(file);
+  };
+
+  const closePreview = () => {
+    setPreviewImage(null);
+  };
+
+  // Close on escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closePreview();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   if (loading) {
     return (
@@ -79,21 +107,61 @@ export default function Results() {
   const imageFiles = result.files.filter((f) =>
     /\.(png|jpg|jpeg|webp)$/i.test(f.path)
   );
+
+  // Categorize files
+  const categorized: CategoryFiles = {
+    backgrounds: imageFiles.filter(f => f.path.includes('background')),
+    heroes: imageFiles.filter(f => f.path.includes('hero')),
+    icons: imageFiles.filter(f => f.path.includes('icons')),
+    social: imageFiles.filter(f => f.path.includes('social')),
+  };
+
+  const getDisplayFiles = () => {
+    switch (activeTab) {
+      case 'backgrounds': return categorized.backgrounds;
+      case 'heroes': return categorized.heroes;
+      case 'icons': return categorized.icons;
+      case 'social': return categorized.social;
+      default: return imageFiles;
+    }
+  };
+
+  const displayFiles = getDisplayFiles();
   const assetCount = imageFiles.length;
 
   return (
     <div className="results-page">
+      {/* Preview Modal */}
+      {previewImage && (
+        <div className="preview-modal" onClick={closePreview}>
+          <div className="preview-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="preview-close" onClick={closePreview}>×</button>
+            <img src={previewImage.url} alt={previewImage.path} />
+            <div className="preview-info">
+              <span className="preview-path">{previewImage.path}</span>
+              <a href={previewImage.url} download className="preview-download">
+                Download
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="results-header">
         <div className="results-title">
-          <h1>Brandkit generated successfully!</h1>
+          <h1>Brandkit generated!</h1>
           <div className="results-summary">
             <div className="summary-item">
-              <span className="summary-label">Assets</span>
+              <span className="summary-label">Total</span>
               <span className="summary-value">{assetCount}</span>
             </div>
             <div className="summary-item">
-              <span className="summary-label">Output</span>
-              <span className="summary-value">{result.outputDir}</span>
+              <span className="summary-label">Backgrounds</span>
+              <span className="summary-value">{categorized.backgrounds.length}</span>
+            </div>
+            <div className="summary-item">
+              <span className="summary-label">Heroes</span>
+              <span className="summary-value">{categorized.heroes.length}</span>
             </div>
           </div>
         </div>
@@ -102,29 +170,79 @@ export default function Results() {
             Download ZIP
           </button>
           <Link to="/" className="back-link">
-            Create another brandkit
+            Create another
           </Link>
         </div>
       </div>
 
-      {result.manifest && (
-        <div className="manifest-section">
-          <h2>Manifest</h2>
-          <pre className="manifest-json">
-            {JSON.stringify(result.manifest, null, 2)}
-          </pre>
-        </div>
-      )}
+      {/* Category Tabs */}
+      <div className="category-tabs">
+        <button
+          className={`tab-button ${activeTab === 'all' ? 'active' : ''}`}
+          onClick={() => setActiveTab('all')}
+        >
+          All ({assetCount})
+        </button>
+        {categorized.backgrounds.length > 0 && (
+          <button
+            className={`tab-button ${activeTab === 'backgrounds' ? 'active' : ''}`}
+            onClick={() => setActiveTab('backgrounds')}
+          >
+            Backgrounds ({categorized.backgrounds.length})
+          </button>
+        )}
+        {categorized.heroes.length > 0 && (
+          <button
+            className={`tab-button ${activeTab === 'heroes' ? 'active' : ''}`}
+            onClick={() => setActiveTab('heroes')}
+          >
+            Heroes ({categorized.heroes.length})
+          </button>
+        )}
+        {categorized.icons.length > 0 && (
+          <button
+            className={`tab-button ${activeTab === 'icons' ? 'active' : ''}`}
+            onClick={() => setActiveTab('icons')}
+          >
+            Icons ({categorized.icons.length})
+          </button>
+        )}
+        {categorized.social.length > 0 && (
+          <button
+            className={`tab-button ${activeTab === 'social' ? 'active' : ''}`}
+            onClick={() => setActiveTab('social')}
+          >
+            Social ({categorized.social.length})
+          </button>
+        )}
+      </div>
 
       <div className="gallery-section">
-        <h2>Generated assets ({assetCount})</h2>
+        <div className="gallery-header">
+          <h2>Preview</h2>
+          <p className="gallery-hint">Click image to enlarge</p>
+        </div>
         <div className="gallery-grid">
-          {imageFiles.map((file, index) => (
-            <div key={index} className="gallery-item">
-              <img src={file.url} alt={file.path} loading="lazy" />
+          {displayFiles.map((file, index) => (
+            <div
+              key={index}
+              className="gallery-item"
+              onClick={() => openPreview(file)}
+            >
+              <div className="gallery-item-image">
+                <img src={file.url} alt={file.path} loading="lazy" />
+                <div className="gallery-item-overlay">
+                  <span className="zoom-icon">🔍</span>
+                </div>
+              </div>
               <div className="gallery-item-info">
-                <div className="gallery-item-path">{file.path}</div>
-                <a href={file.url} download className="gallery-item-download">
+                <div className="gallery-item-path">{file.path.split('/').pop()}</div>
+                <a
+                  href={file.url}
+                  download
+                  className="gallery-item-download"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   Download
                 </a>
               </div>
@@ -132,6 +250,15 @@ export default function Results() {
           ))}
         </div>
       </div>
+
+      {result.manifest && (
+        <details className="manifest-section">
+          <summary>View Manifest (JSON)</summary>
+          <pre className="manifest-json">
+            {JSON.stringify(result.manifest, null, 2)}
+          </pre>
+        </details>
+      )}
     </div>
   );
 }

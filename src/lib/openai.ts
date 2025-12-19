@@ -67,6 +67,15 @@ export interface GenerateResult {
   cost: ApiCallCost;
 }
 
+function getSizeFromConfig(config: BrandConfig): '1536x1024' | '1024x1024' | '1024x1536' {
+  switch (config.backgroundSize) {
+    case 'portrait': return '1024x1536';
+    case 'square': return '1024x1024';
+    case 'landscape':
+    default: return '1536x1024';
+  }
+}
+
 export async function generateBackground(
   prompt: string,
   outputPath: string,
@@ -74,7 +83,7 @@ export async function generateBackground(
 ): Promise<GenerateResult> {
   const openai = getOpenAIClient(config.apiKey);
   const model = 'gpt-image-1.5';
-  const size = '1536x1024';
+  const size = getSizeFromConfig(config);
   const quality = config.quality === 'auto' ? 'high' : config.quality;
 
   console.log(`  -> Generating background: ${outputPath}`);
@@ -95,12 +104,14 @@ export async function generateBackground(
 
   const buffer = Buffer.from(imageData.b64_json as string, 'base64');
   await mkdir(dirname(outputPath), { recursive: true });
-  await writeFile(outputPath, buffer);
+
+  // Convert to desired format
+  const finalPath = await convertToFormat(buffer, outputPath, config);
 
   const cost = calculateImageCost(model, size, quality);
 
   return {
-    path: outputPath,
+    path: finalPath,
     cost: {
       model,
       operation: 'generate',
@@ -111,12 +122,35 @@ export async function generateBackground(
   };
 }
 
+async function convertToFormat(
+  buffer: Buffer,
+  outputPath: string,
+  config: BrandConfig
+): Promise<string> {
+  const format = config.format || 'png';
+  const ext = format === 'jpeg' ? 'jpg' : format;
+  const finalPath = outputPath.replace(/\.png$/, `.${ext}`);
+
+  let sharpInstance = sharp(buffer);
+
+  if (format === 'jpeg') {
+    sharpInstance = sharpInstance.jpeg({ quality: config.compression || 85 });
+  } else if (format === 'webp') {
+    sharpInstance = sharpInstance.webp({ quality: config.compression || 85 });
+  } else {
+    sharpInstance = sharpInstance.png();
+  }
+
+  await sharpInstance.toFile(finalPath);
+  return finalPath;
+}
+
 export async function composeHero(
   logoPath: string,
   backgroundPath: string,
   prompt: string,
   outputPath: string,
-  size: '1536x1024' | '1024x1024',
+  size: '1536x1024' | '1024x1024' | '1024x1536',
   config: BrandConfig
 ): Promise<GenerateResult> {
   const openai = getOpenAIClient(config.apiKey);
@@ -129,7 +163,12 @@ export async function composeHero(
   const backgroundBuffer = readFileSync(backgroundPath);
 
   // Combine background and logo into a composite for better edit results.
-  const [width, height] = size === '1536x1024' ? [1536, 1024] : [1024, 1024];
+  const sizeMap: Record<string, [number, number]> = {
+    '1536x1024': [1536, 1024],
+    '1024x1024': [1024, 1024],
+    '1024x1536': [1024, 1536],
+  };
+  const [width, height] = sizeMap[size] || [1024, 1024];
 
   // Build a temporary image with the background as base and the logo centered.
   const compositeBuffer = await sharp(backgroundBuffer)
@@ -168,12 +207,14 @@ export async function composeHero(
 
   const buffer = Buffer.from(imageData.b64_json as string, 'base64');
   await mkdir(dirname(outputPath), { recursive: true });
-  await writeFile(outputPath, buffer);
+
+  // Convert to desired format
+  const finalPath = await convertToFormat(buffer, outputPath, config);
 
   const cost = calculateImageCost(model, size, quality);
 
   return {
-    path: outputPath,
+    path: finalPath,
     cost: {
       model,
       operation: 'edit',

@@ -71,6 +71,9 @@ export async function registerRoutes(fastify: FastifyInstance) {
         cache: configData.cache !== false,
         apiKey: configData.apiKey, // API key from frontend
         demoMode: configData.demoMode || false, // Demo mode
+        backgroundSize: configData.backgroundSize || 'landscape', // Image size
+        transparency: configData.transparency || false, // PNG transparency
+        compression: configData.compression || 85, // JPEG compression
       };
 
       const jobId = await createJob(logoBuffer, config);

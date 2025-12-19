@@ -6,6 +6,25 @@ import { composeHero } from '../lib/openai.js';
 import { hashConfig, getCachedPath, setCachedPath } from '../lib/cache.js';
 import type { CostCallback } from './generateBackgrounds.js';
 
+function getHeroSizes(config: BrandConfig): Array<{ type: string; size: '1536x1024' | '1024x1024' | '1024x1536'; filename: string }> {
+  const bgSize = config.backgroundSize || 'landscape';
+  const sizes: Array<{ type: string; size: '1536x1024' | '1024x1024' | '1024x1536'; filename: string }> = [];
+
+  // Use .png as base - convertToFormat will change extension if needed
+  // Always include a square version
+  sizes.push({ type: 'square', size: '1024x1024', filename: 'hero-square.png' });
+
+  // Add the primary size based on config
+  if (bgSize === 'portrait') {
+    sizes.push({ type: 'portrait', size: '1024x1536', filename: 'hero-portrait.png' });
+  } else if (bgSize === 'landscape') {
+    sizes.push({ type: 'landscape', size: '1536x1024', filename: 'hero-landscape.png' });
+  }
+  // If square, we only generate the square version (already added above)
+
+  return sizes;
+}
+
 export async function composeHeroes(
   config: BrandConfig,
   outputDir: string,
@@ -16,13 +35,12 @@ export async function composeHeroes(
   const limit = pLimit(2);
   const tasks = [];
   const editPrompt = buildEditPrompt(config);
+  const heroSizes = getHeroSizes(config);
 
   for (const [style, bgPaths] of backgrounds.entries()) {
     for (let i = 0; i < bgPaths.length; i++) {
       const backgroundPath = bgPaths[i];
-      for (const sizeType of ['landscape', 'square'] as const) {
-        const size = sizeType === 'landscape' ? '1536x1024' : '1024x1024';
-        const filename = sizeType === 'landscape' ? 'hero-landscape.png' : 'hero-square.png';
+      for (const { type: sizeType, size, filename } of heroSizes) {
         const outputPath = join(outputDir, 'variants', style, `${i}`, filename);
 
         const hash = hashConfig(config, `${style}-${i}-${sizeType}-${editPrompt}`);
@@ -47,7 +65,7 @@ export async function composeHeroes(
             backgroundPath,
             editPrompt,
             outputPath,
-            size as '1536x1024' | '1024x1024',
+            size,
             config
           );
           setCachedPath(hash, result.path, config);
