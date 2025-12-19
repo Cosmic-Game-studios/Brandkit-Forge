@@ -88,12 +88,12 @@ export async function generateBackground(
     response_format: 'b64_json',
   });
 
-  const imageData = response.data[0];
-  if (!imageData || !('b64_json' in imageData)) {
+  const imageData = response.data?.[0];
+  if (!imageData || !('b64_json' in imageData) || !imageData.b64_json) {
     throw new Error('No image data received in the API response');
   }
 
-  const buffer = Buffer.from(imageData.b64_json, 'base64');
+  const buffer = Buffer.from(imageData.b64_json as string, 'base64');
   await mkdir(dirname(outputPath), { recursive: true });
   await writeFile(outputPath, buffer);
 
@@ -148,9 +148,12 @@ export async function composeHero(
     .toBuffer();
 
   // Use the composite image for the Edit API.
+  // Create a File-like object from the buffer for OpenAI API
+  const imageFile = new File([compositeBuffer], 'composite.png', { type: 'image/png' });
+
   const response = await openai.images.edit({
     model,
-    image: compositeBuffer,
+    image: imageFile,
     prompt,
     size,
     n: 1,
@@ -158,12 +161,12 @@ export async function composeHero(
     response_format: 'b64_json',
   });
 
-  const imageData = response.data[0];
-  if (!imageData || !('b64_json' in imageData)) {
+  const imageData = response.data?.[0];
+  if (!imageData || !('b64_json' in imageData) || !imageData.b64_json) {
     throw new Error('No image data received in the API response');
   }
 
-  const buffer = Buffer.from(imageData.b64_json, 'base64');
+  const buffer = Buffer.from(imageData.b64_json as string, 'base64');
   await mkdir(dirname(outputPath), { recursive: true });
   await writeFile(outputPath, buffer);
 
