@@ -63,6 +63,7 @@ export async function registerRoutes(fastify: FastifyInstance) {
         styles: parseStyles(configData.styles),
         preset: configData.preset,
         customStyles: configData.customStyles || undefined,
+        customPresets: configData.customPresets || undefined,
         n: parseInt(configData.n || '2', 10),
         outputDir: '', // Set in createJob
         format: configData.format || 'png',

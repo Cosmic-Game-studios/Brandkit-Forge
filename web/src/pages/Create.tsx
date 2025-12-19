@@ -25,6 +25,28 @@ const PRESET_OPTIONS = [
   },
 ] as const;
 
+// Mood chips for easy preset building
+const MOOD_CHIPS = {
+  lighting: ['cinematic', 'soft', 'dramatic', 'natural', 'studio', 'neon', 'golden hour', 'moody'],
+  atmosphere: ['premium', 'minimal', 'bold', 'calm', 'energetic', 'dreamy', 'intense', 'elegant'],
+  style: ['modern', 'vintage', 'futuristic', 'organic', 'geometric', 'abstract', 'clean', 'textured'],
+  depth: ['deep shadows', 'soft shadows', 'flat', 'layered', '3D', 'gradient', 'high contrast', 'low contrast'],
+  finish: ['polished', 'matte', 'glossy', 'silky', 'refined', 'sharp', 'smooth', 'crisp'],
+} as const;
+
+type MoodCategory = keyof typeof MOOD_CHIPS;
+
+// Style chips for easy style building
+const STYLE_CHIPS = {
+  look: ['minimal', 'neon', 'clay', 'blueprint', 'retro', 'futuristic', 'organic', 'brutalist'],
+  surface: ['clean planes', 'smooth gradients', 'rough texture', 'glass', 'metallic', 'matte', 'holographic', 'iridescent'],
+  lighting: ['architectural', 'studio', 'dramatic', 'soft glow', 'rim light', 'ambient', 'spot light', 'diffused'],
+  mood: ['museum-grade', 'premium', 'playful', 'corporate', 'artistic', 'tech', 'luxury', 'indie'],
+  form: ['abstract', 'geometric', 'fluid', 'angular', 'rounded', 'layered', 'flat', '3D depth'],
+} as const;
+
+type StyleCategory = keyof typeof STYLE_CHIPS;
+
 export default function Create() {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -36,8 +58,17 @@ export default function Create() {
   const [selectedStyles, setSelectedStyles] = useState<string[]>(['minimal', 'neon', 'clay', 'blueprint']);
   const [customStyles, setCustomStyles] = useState<Record<string, string>>({});
   const [showCustomStyleModal, setShowCustomStyleModal] = useState(false);
-  const [editingCustomStyle, setEditingCustomStyle] = useState<{ name: string; prompt: string } | null>(null);
+  const [editingCustomStyle, setEditingCustomStyle] = useState<{ name: string; chips: string[] } | null>(null);
   const [preset, setPreset] = useState<string>('core');
+  const [customPresets, setCustomPresets] = useState<Record<string, { description: string; background: string; edit: string }>>({});
+  const [showCustomPresetModal, setShowCustomPresetModal] = useState(false);
+  const [editingCustomPreset, setEditingCustomPreset] = useState<{
+    id: string;
+    name: string;
+    description: string;
+    backgroundChips: string[];
+    editChips: string[];
+  } | null>(null);
   
   const addColor = () => {
     setColors([...colors, '#6D28D9']);
@@ -70,30 +101,40 @@ export default function Create() {
   const addCustomStyle = () => {
     setEditingCustomStyle({
       name: '',
-      prompt:
-        'ultra minimal, large clean planes, razor-smooth gradients, architectural lighting, museum-grade, abstract',
+      chips: ['minimal', 'clean planes', 'architectural', 'premium', 'abstract'],
     });
     setShowCustomStyleModal(true);
   };
-  
+
+  const toggleStyleChip = (chip: string) => {
+    if (!editingCustomStyle) return;
+    const updated = editingCustomStyle.chips.includes(chip)
+      ? editingCustomStyle.chips.filter(c => c !== chip)
+      : [...editingCustomStyle.chips, chip];
+    setEditingCustomStyle({ ...editingCustomStyle, chips: updated });
+  };
+
   const saveCustomStyle = () => {
-    if (editingCustomStyle && editingCustomStyle.name.trim()) {
+    if (editingCustomStyle && editingCustomStyle.name.trim() && editingCustomStyle.chips.length > 0) {
       const newCustomStyles = { ...customStyles };
-      newCustomStyles[editingCustomStyle.name.trim()] = editingCustomStyle.prompt;
+      // Convert chips to prompt string
+      newCustomStyles[editingCustomStyle.name.trim()] = editingCustomStyle.chips.join(', ');
       setCustomStyles(newCustomStyles);
-      
+
       // Add to selected styles if not already selected
       if (!selectedStyles.includes(editingCustomStyle.name.trim())) {
         setSelectedStyles([...selectedStyles, editingCustomStyle.name.trim()]);
       }
-      
+
       setShowCustomStyleModal(false);
       setEditingCustomStyle(null);
     }
   };
-  
+
   const editCustomStyle = (styleName: string) => {
-    setEditingCustomStyle({ name: styleName, prompt: customStyles[styleName] });
+    // Convert stored string back to chip array
+    const chips = customStyles[styleName].split(', ').map(s => s.trim()).filter(Boolean);
+    setEditingCustomStyle({ name: styleName, chips });
     setShowCustomStyleModal(true);
   };
   
@@ -103,8 +144,72 @@ export default function Create() {
     setCustomStyles(newCustomStyles);
     setSelectedStyles(selectedStyles.filter(s => s !== styleName));
   };
-  
-  const allStyles = [...availableStyles, ...Object.keys(customStyles)];
+
+  const addCustomPreset = () => {
+    setEditingCustomPreset({
+      id: '',
+      name: '',
+      description: '',
+      backgroundChips: ['cinematic', 'premium', 'modern'],
+      editChips: ['polished', 'refined', 'clean']
+    });
+    setShowCustomPresetModal(true);
+  };
+
+  const togglePresetChip = (chipType: 'background' | 'edit', chip: string) => {
+    if (!editingCustomPreset) return;
+    const key = chipType === 'background' ? 'backgroundChips' : 'editChips';
+    const current = editingCustomPreset[key];
+    const updated = current.includes(chip)
+      ? current.filter(c => c !== chip)
+      : [...current, chip];
+    setEditingCustomPreset({ ...editingCustomPreset, [key]: updated });
+  };
+
+  const saveCustomPreset = () => {
+    if (editingCustomPreset && editingCustomPreset.name.trim() && editingCustomPreset.backgroundChips.length > 0 && editingCustomPreset.editChips.length > 0) {
+      const presetId = editingCustomPreset.id || editingCustomPreset.name.toLowerCase().replace(/\s+/g, '-');
+      const newCustomPresets = { ...customPresets };
+      // Convert chips to prompt strings
+      const background = editingCustomPreset.backgroundChips.join(', ');
+      const edit = editingCustomPreset.editChips.join(', ');
+      const description = editingCustomPreset.description || `${editingCustomPreset.backgroundChips.slice(0, 3).join(', ')} look`;
+      newCustomPresets[presetId] = { description, background, edit };
+      setCustomPresets(newCustomPresets);
+
+      // Select the new preset
+      setPreset(presetId);
+
+      setShowCustomPresetModal(false);
+      setEditingCustomPreset(null);
+    }
+  };
+
+  const editCustomPreset = (presetId: string) => {
+    const presetData = customPresets[presetId];
+    // Convert stored strings back to chip arrays
+    const backgroundChips = presetData.background.split(', ').map(s => s.trim()).filter(Boolean);
+    const editChips = presetData.edit.split(', ').map(s => s.trim()).filter(Boolean);
+    setEditingCustomPreset({
+      id: presetId,
+      name: presetId,
+      description: presetData.description,
+      backgroundChips,
+      editChips
+    });
+    setShowCustomPresetModal(true);
+  };
+
+  const deleteCustomPreset = (presetId: string) => {
+    const newCustomPresets = { ...customPresets };
+    delete newCustomPresets[presetId];
+    setCustomPresets(newCustomPresets);
+    // If the deleted preset was selected, switch to default
+    if (preset === presetId) {
+      setPreset('core');
+    }
+  };
+
   const [quality, setQuality] = useState('high');
   const [n, setN] = useState('2');
   const [cache, setCache] = useState(true);
@@ -180,6 +285,7 @@ export default function Create() {
           colors: colors.length > 0 ? colors.join(',') : undefined,
           styles: styles || undefined,
           customStyles: Object.keys(customStyles).length > 0 ? customStyles : undefined,
+          customPresets: Object.keys(customPresets).length > 0 ? customPresets : undefined,
           preset: preset || undefined,
           format,
           quality,
@@ -288,7 +394,8 @@ export default function Create() {
 
   const styleTokens = selectedStyles.slice(0, 6);
   const selectedPreset = PRESET_OPTIONS.find((option) => option.id === preset);
-  const presetLabel = selectedPreset ? selectedPreset.name : preset;
+  const customPreset = customPresets[preset];
+  const presetLabel = selectedPreset ? selectedPreset.name : (customPreset ? preset : preset);
 
   // Calculate estimated cost based on selected options
   // GPT-image-1.5 pricing (December 2025)
@@ -560,27 +667,69 @@ export default function Create() {
 
             <div className="form-section">
               <label htmlFor="preset">Prompt preset</label>
-              <select
-                id="preset"
-                value={preset}
-                onChange={(e) => setPreset(e.target.value)}
-              >
-                {PRESET_OPTIONS.map((option) => (
-                  <option key={option.id} value={option.id}>
-                    {option.name}
-                  </option>
-                ))}
-              </select>
+              <div className="preset-selector">
+                <select
+                  id="preset"
+                  value={preset}
+                  onChange={(e) => setPreset(e.target.value)}
+                >
+                  <optgroup label="Built-in Presets">
+                    {PRESET_OPTIONS.map((option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                  {Object.keys(customPresets).length > 0 && (
+                    <optgroup label="Custom Presets">
+                      {Object.entries(customPresets).map(([id]) => (
+                        <option key={id} value={id}>
+                          {id}
+                        </option>
+                      ))}
+                    </optgroup>
+                  )}
+                </select>
+                {customPreset && (
+                  <div className="preset-actions">
+                    <button
+                      type="button"
+                      onClick={() => editCustomPreset(preset)}
+                      className="preset-edit-btn"
+                      title="Edit preset"
+                    >
+                      ✎
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => deleteCustomPreset(preset)}
+                      className="preset-delete-btn"
+                      title="Delete preset"
+                    >
+                      ×
+                    </button>
+                  </div>
+                )}
+              </div>
               <p className="form-hint">
                 {selectedPreset
                   ? selectedPreset.description
+                  : customPreset
+                  ? customPreset.description
                   : 'Choose a preset to steer the overall look.'}
               </p>
+              <button
+                type="button"
+                onClick={addCustomPreset}
+                className="add-custom-style-button"
+              >
+                + Create Custom Preset
+              </button>
             </div>
             
             {showCustomStyleModal && editingCustomStyle && (
               <div className="modal-overlay" onClick={() => setShowCustomStyleModal(false)}>
-                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <div className="modal-content modal-content--wide" onClick={(e) => e.stopPropagation()}>
                   <h3>Create Custom Style</h3>
                   <div className="modal-form">
                     <div className="form-section">
@@ -592,19 +741,62 @@ export default function Create() {
                         placeholder="e.g. retro-futuristic"
                       />
                     </div>
-                    <div className="form-section">
-                      <label>Style Prompt *</label>
-                      <textarea
-                        value={editingCustomStyle.prompt}
-                        onChange={(e) => setEditingCustomStyle({ ...editingCustomStyle, prompt: e.target.value })}
-                        placeholder="Describe the style..."
-                        rows={4}
-                        className="custom-style-textarea"
-                      />
-                      <p className="form-hint">
-                        Describe the visual style. Example: "ultra minimal, large clean surfaces, crisp gradients, architectural lighting, premium, abstract"
-                      </p>
+
+                    <div className="preset-builder-section">
+                      <label className="preset-builder-label">Style Properties *</label>
+                      <p className="form-hint">Select properties to define your style</p>
+                      <div className="preset-selected-chips">
+                        {editingCustomStyle.chips.map(chip => (
+                          <span key={chip} className="mood-chip mood-chip--selected" onClick={() => toggleStyleChip(chip)}>
+                            {chip} ×
+                          </span>
+                        ))}
+                        {editingCustomStyle.chips.length === 0 && (
+                          <span className="mood-chip-placeholder">Click chips below to add</span>
+                        )}
+                      </div>
+                      <div className="mood-categories">
+                        {(Object.entries(STYLE_CHIPS) as [StyleCategory, readonly string[]][]).map(([category, chips]) => (
+                          <div key={category} className="mood-category">
+                            <span className="mood-category-label">{category}</span>
+                            <div className="mood-chips">
+                              {chips.map(chip => (
+                                <button
+                                  key={chip}
+                                  type="button"
+                                  className={`mood-chip ${editingCustomStyle.chips.includes(chip) ? 'mood-chip--active' : ''}`}
+                                  onClick={() => toggleStyleChip(chip)}
+                                >
+                                  {chip}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
+
+                    {editingCustomStyle.chips.length > 0 && (
+                      <div className="prompt-preview">
+                        <label className="preset-builder-label">Prompt Preview</label>
+                        <div className="prompt-preview-box">
+                          <p className="prompt-preview-intro">Your style will be used in the background prompt:</p>
+                          <code className="prompt-preview-code">
+                            Create an abstract background for a premium brand hero.<br />
+                            Intended use: logo placement background for a launch asset.<br />
+                            Style: <span className="prompt-highlight">{editingCustomStyle.chips.join(', ')}</span>.<br />
+                            Mood: [from preset].<br />
+                            Scene: background only, no objects.<br />
+                            Medium: high-end digital gradient design.<br />
+                            Composition: asymmetrical, heavy negative space, safe zone center-left.<br />
+                            Details: smooth gradients, clean surfaces, refined lighting, premium finish.<br />
+                            Constraints: no text, letters, logos, icons, watermarks, UI, or people.<br />
+                            Output: high resolution, print-ready, no banding or artifacts.
+                          </code>
+                        </div>
+                      </div>
+                    )}
+
                     <div className="modal-actions">
                       <button
                         type="button"
@@ -620,9 +812,169 @@ export default function Create() {
                         type="button"
                         onClick={saveCustomStyle}
                         className="modal-save-btn"
-                        disabled={!editingCustomStyle.name.trim() || !editingCustomStyle.prompt.trim()}
+                        disabled={!editingCustomStyle.name.trim() || editingCustomStyle.chips.length === 0}
                       >
                         Save Style
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {showCustomPresetModal && editingCustomPreset && (
+              <div className="modal-overlay" onClick={() => setShowCustomPresetModal(false)}>
+                <div className="modal-content modal-content--wide" onClick={(e) => e.stopPropagation()}>
+                  <h3>{editingCustomPreset.id ? 'Edit Custom Preset' : 'Create Custom Preset'}</h3>
+                  <div className="modal-form">
+                    <div className="form-row">
+                      <div className="form-section">
+                        <label>Preset Name *</label>
+                        <input
+                          type="text"
+                          value={editingCustomPreset.name}
+                          onChange={(e) => setEditingCustomPreset({ ...editingCustomPreset, name: e.target.value })}
+                          placeholder="e.g. vintage-warm"
+                          disabled={!!editingCustomPreset.id}
+                        />
+                      </div>
+                      <div className="form-section">
+                        <label>Description (optional)</label>
+                        <input
+                          type="text"
+                          value={editingCustomPreset.description}
+                          onChange={(e) => setEditingCustomPreset({ ...editingCustomPreset, description: e.target.value })}
+                          placeholder="Auto-generated from selected moods"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="preset-builder-section">
+                      <label className="preset-builder-label">Background Mood *</label>
+                      <p className="form-hint">Select moods for background generation</p>
+                      <div className="preset-selected-chips">
+                        {editingCustomPreset.backgroundChips.map(chip => (
+                          <span key={chip} className="mood-chip mood-chip--selected" onClick={() => togglePresetChip('background', chip)}>
+                            {chip} ×
+                          </span>
+                        ))}
+                        {editingCustomPreset.backgroundChips.length === 0 && (
+                          <span className="mood-chip-placeholder">Click chips below to add</span>
+                        )}
+                      </div>
+                      <div className="mood-categories">
+                        {(Object.entries(MOOD_CHIPS) as [MoodCategory, readonly string[]][]).map(([category, chips]) => (
+                          <div key={category} className="mood-category">
+                            <span className="mood-category-label">{category}</span>
+                            <div className="mood-chips">
+                              {chips.map(chip => (
+                                <button
+                                  key={chip}
+                                  type="button"
+                                  className={`mood-chip ${editingCustomPreset.backgroundChips.includes(chip) ? 'mood-chip--active' : ''}`}
+                                  onClick={() => togglePresetChip('background', chip)}
+                                >
+                                  {chip}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="preset-builder-section">
+                      <label className="preset-builder-label">Hero/Edit Mood *</label>
+                      <p className="form-hint">Select moods for hero image composition</p>
+                      <div className="preset-selected-chips">
+                        {editingCustomPreset.editChips.map(chip => (
+                          <span key={chip} className="mood-chip mood-chip--selected" onClick={() => togglePresetChip('edit', chip)}>
+                            {chip} ×
+                          </span>
+                        ))}
+                        {editingCustomPreset.editChips.length === 0 && (
+                          <span className="mood-chip-placeholder">Click chips below to add</span>
+                        )}
+                      </div>
+                      <div className="mood-categories">
+                        {(Object.entries(MOOD_CHIPS) as [MoodCategory, readonly string[]][]).map(([category, chips]) => (
+                          <div key={category} className="mood-category">
+                            <span className="mood-category-label">{category}</span>
+                            <div className="mood-chips">
+                              {chips.map(chip => (
+                                <button
+                                  key={chip}
+                                  type="button"
+                                  className={`mood-chip ${editingCustomPreset.editChips.includes(chip) ? 'mood-chip--active' : ''}`}
+                                  onClick={() => togglePresetChip('edit', chip)}
+                                >
+                                  {chip}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {(editingCustomPreset.backgroundChips.length > 0 || editingCustomPreset.editChips.length > 0) && (
+                      <div className="prompt-preview">
+                        <label className="preset-builder-label">Prompt Preview</label>
+                        <div className="prompt-preview-box">
+                          <p className="prompt-preview-intro">Your moods will be used in these prompts:</p>
+                          {editingCustomPreset.backgroundChips.length > 0 && (
+                            <div className="prompt-preview-section">
+                              <span className="prompt-preview-label">Background Prompt:</span>
+                              <code className="prompt-preview-code">
+                                Create an abstract background for a premium brand hero.<br />
+                                Intended use: logo placement background for a launch asset.<br />
+                                Style: [from style selection].<br />
+                                Mood: <span className="prompt-highlight">{editingCustomPreset.backgroundChips.join(', ')}</span>.<br />
+                                Scene: background only, no objects.<br />
+                                Medium: high-end digital gradient design.<br />
+                                ...
+                              </code>
+                            </div>
+                          )}
+                          {editingCustomPreset.editChips.length > 0 && (
+                            <div className="prompt-preview-section">
+                              <span className="prompt-preview-label">Hero/Edit Prompt:</span>
+                              <code className="prompt-preview-code">
+                                Edit the image to create a premium brand hero.<br />
+                                Change only: logo placement, separation, and optional tagline.<br />
+                                Subject: the provided logo only.<br />
+                                Logo: keep EXACTLY unchanged (shape, colors, proportions, edges).<br />
+                                Placement: centered with generous margins; do not crop.<br />
+                                Background: preserve the provided background.<br />
+                                Separation: add a refined glow or soft shadow behind the logo.<br />
+                                Look: <span className="prompt-highlight">{editingCustomPreset.editChips.join(', ')}</span>.<br />
+                                Constraints: no extra symbols, no extra text besides the tagline.<br />
+                                Finish: ultra clean, premium, professional brand hero image.
+                              </code>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="modal-actions">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowCustomPresetModal(false);
+                          setEditingCustomPreset(null);
+                        }}
+                        className="modal-cancel-btn"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        onClick={saveCustomPreset}
+                        className="modal-save-btn"
+                        disabled={!editingCustomPreset.name.trim() || editingCustomPreset.backgroundChips.length === 0 || editingCustomPreset.editChips.length === 0}
+                      >
+                        Save Preset
                       </button>
                     </div>
                   </div>

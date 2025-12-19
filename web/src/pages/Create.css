@@ -550,6 +550,213 @@ input[type='password']:focus {
   cursor: not-allowed;
 }
 
+.modal-content--wide {
+  max-width: 700px;
+}
+
+/* Preset Selector */
+.preset-selector {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.preset-selector select {
+  flex: 1;
+}
+
+.preset-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.preset-edit-btn,
+.preset-delete-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.preset-edit-btn:hover {
+  background: rgba(15, 118, 110, 0.1);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.preset-delete-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  border-color: #dc2626;
+}
+
+/* Preset Builder */
+.preset-builder-section {
+  background: var(--surface-muted);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid var(--border);
+}
+
+.preset-builder-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.preset-selected-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  min-height: 36px;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  margin: 0.5rem 0;
+}
+
+.mood-chip-placeholder {
+  color: var(--text-subtle);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.mood-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.mood-category {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.mood-category-label {
+  min-width: 80px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-subtle);
+  padding-top: 0.4rem;
+}
+
+.mood-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  flex: 1;
+}
+
+.mood-chip {
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-weight: 500;
+}
+
+.mood-chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(15, 118, 110, 0.05);
+}
+
+.mood-chip--active {
+  background: rgba(15, 118, 110, 0.15);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.mood-chip--selected {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+  cursor: pointer;
+}
+
+.mood-chip--selected:hover {
+  background: rgba(220, 38, 38, 0.9);
+  border-color: #dc2626;
+  color: white;
+}
+
+/* Prompt Preview */
+.prompt-preview {
+  margin-top: 0.5rem;
+}
+
+.prompt-preview-box {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.03), rgba(15, 118, 110, 0.05));
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 0.5rem;
+}
+
+.prompt-preview-intro {
+  margin: 0 0 0.75rem 0;
+  font-size: 0.8rem;
+  color: var(--text-subtle);
+  font-weight: 500;
+}
+
+.prompt-preview-section {
+  margin-bottom: 0.5rem;
+}
+
+.prompt-preview-section:last-child {
+  margin-bottom: 0;
+}
+
+.prompt-preview-label {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-subtle);
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.prompt-preview-code {
+  display: block;
+  background: rgba(15, 23, 42, 0.05);
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.prompt-highlight {
+  color: var(--accent);
+  font-weight: 600;
+  background: rgba(15, 118, 110, 0.1);
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+}
+
 .drop-zone {
   border: 2px dashed rgba(15, 23, 42, 0.2);
   border-radius: var(--radius-md);

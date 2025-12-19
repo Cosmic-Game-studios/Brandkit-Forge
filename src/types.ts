@@ -6,6 +6,7 @@ export interface BrandConfig {
   styles: string[];
   preset?: string;
   customStyles?: Record<string, string>; // Custom style name -> prompt
+  customPresets?: Record<string, { description: string; background: string; edit: string }>; // Custom preset name -> config
   n: number;
   outputDir: string;
   format: 'png' | 'webp' | 'jpeg';

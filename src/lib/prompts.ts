@@ -1,5 +1,5 @@
 import type { BrandConfig } from '../types.js';
-import { getPromptPreset } from './promptLibrary.js';
+import { getPromptPreset, PromptPreset } from './promptLibrary.js';
 
 const STYLE_TEMPLATES: Record<string, string> = {
   minimal:
@@ -12,12 +12,28 @@ const STYLE_TEMPLATES: Record<string, string> = {
     'high contrast blueprint style, razor grid lines, technical overlays, precision geometry, monochrome',
 };
 
+function getPresetForConfig(config: BrandConfig): PromptPreset {
+  // Check for custom preset first
+  if (config.preset && config.customPresets?.[config.preset]) {
+    const custom = config.customPresets[config.preset];
+    return {
+      id: config.preset,
+      name: config.preset,
+      description: custom.description,
+      background: custom.background,
+      edit: custom.edit,
+    };
+  }
+  // Fall back to built-in preset
+  return getPromptPreset(config.preset);
+}
+
 export function buildBackgroundPrompt(
   style: string,
   colors: string[] = [],
   config: BrandConfig
 ): string {
-  const preset = getPromptPreset(config.preset);
+  const preset = getPresetForConfig(config);
   const customStyle = config.customStyles?.[style];
   const styleDesc = customStyle || STYLE_TEMPLATES[style] || STYLE_TEMPLATES.minimal;
   const colorDesc = colors.length > 0 ? `Primary colors: ${colors.join(', ')}.` : '';
@@ -40,7 +56,7 @@ export function buildBackgroundPrompt(
 }
 
 export function buildEditPrompt(config: BrandConfig): string {
-  const preset = getPromptPreset(config.preset);
+  const preset = getPresetForConfig(config);
   const taglinePart = config.tagline
     ? `Text: add the tagline exactly as provided below the logo. Tagline: "${config.tagline}". Use a clean sans-serif font, high legibility, subtle weight, no effects, single line if possible.`
     : 'Text: do not add any text.';

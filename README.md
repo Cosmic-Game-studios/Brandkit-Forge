@@ -366,6 +366,64 @@ Create unlimited custom styles via Web UI or API:
 </details>
 
 <details>
+<summary><h3>🧩 Chip-Based Prompt Builder</h3></summary>
+
+Build custom styles and presets visually using the intuitive chip selector — no prompt engineering required!
+
+#### How It Works
+
+Instead of writing complex prompts manually, select properties from curated categories. The system automatically assembles them into optimized prompts.
+
+#### Style Builder Categories
+
+| Category | Available Chips |
+|----------|-----------------|
+| **Look** | minimal, neon, clay, blueprint, retro, futuristic, organic, brutalist |
+| **Surface** | clean planes, smooth gradients, rough texture, glass, metallic, matte, holographic, iridescent |
+| **Lighting** | architectural, studio, dramatic, soft glow, rim light, ambient, spot light, diffused |
+| **Mood** | museum-grade, premium, playful, corporate, artistic, tech, luxury, indie |
+| **Form** | abstract, geometric, fluid, angular, rounded, layered, flat, 3D depth |
+
+#### Preset Builder Categories
+
+| Category | Available Chips |
+|----------|-----------------|
+| **Lighting** | cinematic, soft, dramatic, natural, studio, neon, golden hour, moody |
+| **Atmosphere** | premium, minimal, bold, calm, energetic, dreamy, intense, elegant |
+| **Style** | modern, vintage, futuristic, organic, geometric, abstract, clean, textured |
+| **Depth** | deep shadows, soft shadows, flat, layered, 3D, gradient, high contrast, low contrast |
+| **Finish** | polished, matte, glossy, silky, refined, sharp, smooth, crisp |
+
+#### Live Prompt Preview
+
+As you select chips, see exactly how they'll be used in the actual AI prompt:
+
+```
+Create an abstract background for a premium brand hero.
+Intended use: logo placement background for a launch asset.
+Style: retro, holographic, dramatic, luxury, geometric.
+Mood: cinematic, bold, modern, high contrast, polished.
+Scene: background only, no objects.
+...
+```
+
+#### Custom Presets via API
+
+```json
+{
+  "customPresets": {
+    "synthwave": {
+      "description": "80s retro futurism with neon vibes",
+      "background": "neon, bold, futuristic, high contrast, glossy",
+      "edit": "cinematic, intense, modern, polished, sharp"
+    }
+  }
+}
+```
+
+</details>
+
+<details>
 <summary><h3>💰 Cost Estimation</h3></summary>
 
 Real-time cost tracking based on OpenAI `gpt-image-1.5` pricing.
@@ -636,8 +694,9 @@ npm run lint
 | **v1.0** | Core CLI + Web UI | ✅ Released |
 | **v1.1** | Live cost tracking | ✅ Released |
 | **v1.2** | Custom styles | ✅ Released |
-| **v1.3** | Figma plugin export | 🔄 In Progress |
-| **v1.4** | Batch processing | 📋 Planned |
+| **v1.3** | Custom presets & chip builder | ✅ Released |
+| **v1.4** | Figma plugin export | 🔄 In Progress |
+| **v1.5** | Batch processing | 📋 Planned |
 | **v2.0** | Team workspaces | 📋 Planned |
 | **v2.1** | Community presets | 📋 Planned |
 | **v2.2** | Design system export | 📋 Planned |
