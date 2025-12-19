@@ -18,7 +18,7 @@
 
 <br />
 
-<img src="assets/demo-preview.png" alt="Brandkit Forge Demo" width="100%" />
+<img src="assets/demo-ui.png" alt="Brandkit Forge Demo" width="100%" />
 
 ---
 

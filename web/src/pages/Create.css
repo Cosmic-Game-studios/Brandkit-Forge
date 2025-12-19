@@ -3,14 +3,14 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 1.25rem;
   animation: page-in 0.6s ease both;
 }
 
 .page-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-  gap: 2rem;
+  gap: 1.25rem;
   align-items: center;
 }
 
@@ -21,51 +21,51 @@
 .page-hero-text h1 {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(2rem, 2.8vw, 2.8rem);
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
   letter-spacing: -0.02em;
 }
 
 .eyebrow {
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.4rem;
   text-transform: uppercase;
   letter-spacing: 0.4em;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: var(--text-subtle);
   font-weight: 600;
 }
 
 .hero-subtitle {
-  margin-top: 0.9rem;
+  margin-top: 0.5rem;
   max-width: 520px;
   color: var(--text-muted);
-  font-size: 1.05rem;
+  font-size: 0.95rem;
 }
 
 .hero-badges {
-  margin-top: 1.4rem;
+  margin-top: 0.75rem;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: 0.4rem;
 }
 
 .hero-badges span {
   border-radius: 999px;
-  padding: 0.4rem 0.85rem;
+  padding: 0.3rem 0.7rem;
   background: rgba(15, 118, 110, 0.12);
   color: var(--accent);
   border: 1px solid rgba(15, 118, 110, 0.2);
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: 600;
 }
 
 .hero-card {
   background: var(--surface);
   border-radius: var(--radius-lg);
-  padding: 1.6rem;
+  padding: 1rem;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
   display: grid;
-  gap: 1rem;
+  gap: 0.5rem;
   animation: fade-up 0.6s ease 0.08s both;
   overflow: visible;
   position: relative;
@@ -74,20 +74,20 @@
 
 .hero-card-title {
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 0.9rem;
   color: var(--text-primary);
 }
 
 .hero-chip-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.35rem;
 }
 
 .chip {
-  padding: 0.35rem 0.7rem;
+  padding: 0.25rem 0.5rem;
   border-radius: 999px;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   background: var(--surface-muted);
   border: 1px solid var(--border);
   color: var(--text-muted);
@@ -99,7 +99,7 @@
 }
 
 .hero-card-note {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   color: var(--text-subtle);
 }
 
@@ -109,25 +109,25 @@
     rgba(255, 255, 255, 0.9),
     rgba(254, 250, 245, 0.95)
   );
-  padding: 2rem;
+  padding: 1.25rem;
   border-radius: var(--radius-lg);
   border: 1px solid rgba(15, 23, 42, 0.08);
   box-shadow: var(--shadow-lg);
   display: grid;
-  gap: 1.5rem;
+  gap: 1rem;
   overflow: visible;
 }
 
 .form-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .form-panel {
   background: var(--surface);
   border-radius: var(--radius-md);
-  padding: 1.5rem;
+  padding: 1rem;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
   animation: fade-up 0.6s ease both;
@@ -147,7 +147,7 @@
 }
 
 .form-section {
-  margin-bottom: 1.3rem;
+  margin-bottom: 0.75rem;
 }
 
 .form-section:last-child {
@@ -156,26 +156,27 @@
 
 .form-section label {
   display: block;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.35rem;
   font-weight: 600;
+  font-size: 0.85rem;
   color: var(--text-primary);
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 input[type='text'],
 input[type='number'],
 select {
   width: 100%;
-  padding: 0.8rem 0.9rem;
+  padding: 0.55rem 0.7rem;
   border: 1px solid rgba(15, 23, 42, 0.15);
-  border-radius: 12px;
+  border-radius: 8px;
   background: #fff;
-  font-size: 1rem;
+  font-size: 0.9rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -190,29 +191,31 @@ select:focus {
 .checkbox-label {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.4rem;
   cursor: pointer;
   color: var(--text-muted);
+  font-size: 0.85rem;
 }
 
 .checkbox-label input[type='checkbox'] {
-  width: auto;
+  width: 16px;
+  height: 16px;
 }
 
 .form-hint {
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
 input[type='password'] {
   width: 100%;
-  padding: 0.8rem 0.9rem;
+  padding: 0.55rem 0.7rem;
   border: 1px solid rgba(15, 23, 42, 0.15);
-  border-radius: 12px;
+  border-radius: 8px;
   background: #fff;
-  font-size: 1rem;
+  font-size: 0.9rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -225,21 +228,21 @@ input[type='password']:focus {
 .colors-container {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  margin-top: 0.5rem;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
 }
 
 .color-input-group {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.35rem;
 }
 
 .color-picker {
-  width: 50px;
-  height: 40px;
+  width: 36px;
+  height: 28px;
   border: 2px solid rgba(15, 23, 42, 0.15);
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   padding: 0;
   background: none;
@@ -256,10 +259,10 @@ input[type='password']:focus {
 
 .color-text {
   flex: 1;
-  padding: 0.6rem 0.8rem;
+  padding: 0.4rem 0.5rem;
   border: 1px solid rgba(15, 23, 42, 0.15);
-  border-radius: 8px;
-  font-size: 0.9rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
   font-family: monospace;
   background: white;
 }
@@ -271,14 +274,14 @@ input[type='password']:focus {
 }
 
 .color-remove {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   border: none;
   background: rgba(239, 68, 68, 0.1);
   color: #dc2626;
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 1rem;
   line-height: 1;
   display: flex;
   align-items: center;
@@ -292,13 +295,13 @@ input[type='password']:focus {
 }
 
 .color-add-button {
-  padding: 0.75rem 1rem;
+  padding: 0.4rem 0.6rem;
   border: 2px dashed rgba(15, 23, 42, 0.2);
-  border-radius: 8px;
+  border-radius: 6px;
   background: rgba(255, 255, 255, 0.7);
   color: var(--text-muted);
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: 0.8rem;
   font-weight: 500;
   transition: all 0.2s ease;
   text-align: center;
@@ -313,18 +316,18 @@ input[type='password']:focus {
 .styles-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-  margin-top: 0.5rem;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
 }
 
 .style-checkbox {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.9rem 1rem;
+  gap: 0.5rem;
+  padding: 0.5rem 0.7rem;
   background: white;
   border: 2px solid rgba(15, 23, 42, 0.15);
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
@@ -336,8 +339,8 @@ input[type='password']:focus {
 }
 
 .style-checkbox input[type='checkbox'] {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   cursor: pointer;
   accent-color: var(--accent);
 }
@@ -353,7 +356,7 @@ input[type='password']:focus {
 }
 
 .style-label {
-  font-size: 1rem;
+  font-size: 0.85rem;
   text-transform: capitalize;
   color: var(--text-primary);
   transition: color 0.2s ease;
@@ -398,14 +401,14 @@ input[type='password']:focus {
 }
 
 .add-custom-style-button {
-  margin-top: 0.75rem;
-  padding: 0.75rem 1rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
   border: 2px dashed rgba(15, 23, 42, 0.2);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.7);
   color: var(--text-muted);
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: 0.8rem;
   font-weight: 500;
   transition: all 0.2s ease;
   text-align: center;
@@ -517,7 +520,7 @@ input[type='password']:focus {
 .drop-zone {
   border: 2px dashed rgba(15, 23, 42, 0.2);
   border-radius: var(--radius-md);
-  padding: 2.8rem 1.5rem;
+  padding: 1.5rem 1rem;
   text-align: center;
   cursor: pointer;
   transition: all 0.25s ease;
@@ -532,45 +535,45 @@ input[type='password']:focus {
 }
 
 .drop-zone.has-file {
-  padding: 1.4rem;
+  padding: 0.75rem;
 }
 
 .drop-zone img {
   max-width: 100%;
-  max-height: 300px;
-  border-radius: 12px;
+  max-height: 180px;
+  border-radius: 8px;
   box-shadow: var(--shadow-sm);
 }
 
 .drop-zone-content {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 
 .drop-zone-content p {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 0.9rem;
   color: var(--text-muted);
 }
 
 .drop-zone-hint {
-  font-size: 0.9rem !important;
+  font-size: 0.8rem !important;
   color: var(--text-subtle) !important;
 }
 
 .submit-button {
   width: 100%;
-  padding: 1rem;
+  padding: 0.75rem;
   background: linear-gradient(120deg, var(--accent), var(--accent-warm));
   color: white;
   border: none;
-  border-radius: 14px;
-  font-size: 1.1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 12px 24px rgba(15, 118, 110, 0.2);
+  box-shadow: 0 8px 16px rgba(15, 118, 110, 0.2);
 }
 
 .submit-button:hover:not(:disabled) {
@@ -587,16 +590,17 @@ input[type='password']:focus {
 .error-message {
   background: rgba(239, 68, 68, 0.1);
   color: #b42318;
-  padding: 1rem;
-  border-radius: 12px;
-  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
 .progress-section {
-  margin: 1rem 0;
+  margin: 0.5rem 0;
   display: grid;
-  gap: 1rem;
+  gap: 0.5rem;
   overflow: visible;
   position: relative;
   z-index: 100;
@@ -604,7 +608,7 @@ input[type='password']:focus {
 
 .progress-bar {
   width: 100%;
-  height: 10px;
+  height: 6px;
   background: rgba(15, 23, 42, 0.08);
   border-radius: 999px;
   overflow: hidden;
@@ -629,13 +633,13 @@ input[type='password']:focus {
 }
 
 .progress-log {
-  max-height: 200px;
+  max-height: 120px;
   overflow-y: auto;
   background: var(--surface-muted);
-  padding: 1rem;
-  border-radius: 12px;
+  padding: 0.6rem;
+  border-radius: 8px;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   border: 1px solid var(--border);
 }
 
@@ -690,8 +694,8 @@ input[type='password']:focus {
 .cost-display {
   background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(249, 115, 22, 0.06));
   border: 1px solid rgba(15, 118, 110, 0.2);
-  border-radius: 12px;
-  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
   animation: fade-up 0.3s ease;
   overflow: visible;
   position: relative;
@@ -702,13 +706,13 @@ input[type='password']:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .cost-total {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .cost-info-wrapper {
@@ -794,24 +798,24 @@ input[type='password']:focus {
 .cost-label {
   font-weight: 600;
   color: var(--text-primary);
-  font-size: 0.95rem;
+  font-size: 0.8rem;
 }
 
 .cost-value {
   font-family: 'SF Mono', 'Courier New', monospace;
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--accent);
   background: rgba(15, 118, 110, 0.1);
-  padding: 0.25rem 0.6rem;
-  border-radius: 6px;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
 }
 
 .cost-details {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
+  gap: 0.4rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
   flex-wrap: wrap;
 }
@@ -834,8 +838,8 @@ input[type='password']:focus {
 
 /* Cost Estimate (Preview before generation) */
 .cost-estimate {
-  margin-top: 1rem;
-  padding-top: 1rem;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
   border-top: 1px solid var(--border);
   overflow: visible;
   position: relative;
@@ -844,27 +848,27 @@ input[type='password']:focus {
 .cost-estimate-header {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.35rem;
 }
 
 .cost-estimate-label {
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
 }
 
 .cost-estimate-value {
   font-family: 'SF Mono', 'Courier New', monospace;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   font-weight: 700;
   color: var(--accent);
   background: rgba(15, 118, 110, 0.12);
-  padding: 0.2rem 0.5rem;
-  border-radius: 5px;
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
 }
 
 .cost-estimate-details {
-  margin-top: 0.4rem;
-  font-size: 0.8rem;
+  margin-top: 0.2rem;
+  font-size: 0.7rem;
   color: var(--text-subtle);
 }
 
