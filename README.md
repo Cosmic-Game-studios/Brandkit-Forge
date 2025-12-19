@@ -1,104 +1,111 @@
-<p align="center">
-  <img src="assets/logo-placeholder.png" alt="Brandkit Forge" width="120" height="120" />
-</p>
+<div align="center">
 
-<h1 align="center">Brandkit Forge</h1>
+<img src="assets/logo-placeholder.png" alt="Brandkit Forge Logo" width="140" height="140" />
 
-<p align="center">
-  <strong>One logo in. A complete brand asset pack out.</strong>
-</p>
+# Brandkit Forge
 
-<p align="center">
-  <a href="https://github.com/Cosmic-Game-studios/Brandkit-Forge/actions"><img src="https://img.shields.io/github/actions/workflow/status/Cosmic-Game-studios/Brandkit-Forge/ci.yml?branch=main&style=flat-square" alt="Build Status" /></a>
-  <a href="https://www.npmjs.com/package/brandkit-forge"><img src="https://img.shields.io/npm/v/brandkit-forge?style=flat-square&color=cb3837" alt="npm version" /></a>
-  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT" /></a>
-  <a href="https://github.com/Cosmic-Game-studios/Brandkit-Forge/stargazers"><img src="https://img.shields.io/github/stars/Cosmic-Game-studios/Brandkit-Forge?style=flat-square" alt="GitHub Stars" /></a>
-  <a href="https://github.com/Cosmic-Game-studios/Brandkit-Forge/issues"><img src="https://img.shields.io/github/issues/Cosmic-Game-studios/Brandkit-Forge?style=flat-square" alt="GitHub Issues" /></a>
-  <a href="https://twitter.com/cosmicgamestudios"><img src="https://img.shields.io/twitter/follow/cosmicgamestudios?style=flat-square&logo=twitter" alt="Twitter Follow" /></a>
-</p>
+### Transform a single logo into a complete brand asset pack with AI
 
-<p align="center">
-  <a href="#features">Features</a> •
-  <a href="#quick-start">Quick Start</a> •
-  <a href="#documentation">Documentation</a> •
-  <a href="#api-reference">API</a> •
-  <a href="#contributing">Contributing</a>
-</p>
+[![Build Status](https://img.shields.io/github/actions/workflow/status/Cosmic-Game-studios/Brandkit-Forge/ci.yml?branch=main&style=for-the-badge&logo=github)](https://github.com/Cosmic-Game-studios/Brandkit-Forge/actions)
+[![npm version](https://img.shields.io/npm/v/brandkit-forge?style=for-the-badge&logo=npm&color=cb3837)](https://www.npmjs.com/package/brandkit-forge)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--image--1.5-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com)
 
-<p align="center">
-  <img src="assets/demo.gif" alt="Brandkit Forge Demo" width="800" />
-</p>
+<br />
+
+[**Getting Started**](#-quick-start) · [**Documentation**](#-documentation) · [**API Reference**](#-api-reference) · [**Contributing**](#-contributing) · [**Roadmap**](#-roadmap)
+
+<br />
+
+<img src="assets/demo-preview.png" alt="Brandkit Forge Demo" width="100%" />
 
 ---
 
-## Overview
+**One logo in. A complete brand asset pack out.**
 
-**Brandkit Forge** is an AI-powered brand asset generator that transforms a single logo into a complete, production-ready brand kit. Built on OpenAI's `gpt-image-1.5` model, it generates backgrounds, hero compositions, icons, and social media assets in multiple styles—all with a single command or through an intuitive web interface.
+Brandkit Forge uses OpenAI's `gpt-image-1.5` to generate stunning backgrounds, hero compositions, icons, and social media assets—all from a single logo upload.
 
-Perfect for startups, indie developers, agencies, and anyone who needs professional brand assets fast.
+<br />
 
-```bash
-npx brandkit-forge --logo logo.png --name "Acme Corp" --styles "minimal,neon,noir"
-```
+[<img src="https://img.shields.io/badge/⭐_Star_this_repo-If_it_helps_you-yellow?style=for-the-badge" alt="Star this repo" />](https://github.com/Cosmic-Game-studios/Brandkit-Forge)
 
-## Features
+</div>
+
+---
+
+## ✨ Features
 
 <table>
 <tr>
-<td width="50%">
+<td width="50%" valign="top">
 
-### AI-Powered Generation
-- **Smart Backgrounds** — Style-aware backgrounds that complement your brand
-- **Hero Compositions** — Logo placement with optional tagline integration
-- **Multiple Styles** — Minimal, Neon, Clay, Blueprint, and custom styles
-- **Quality Presets** — Core, Soft, Bold, Noir aesthetic presets
+### 🎨 AI-Powered Generation
+
+- **Smart Backgrounds** — Context-aware backgrounds that complement your brand identity
+- **Hero Compositions** — Professional logo placement with optional tagline
+- **Multiple Styles** — Minimal, Neon, Clay, Blueprint + unlimited custom styles
+- **Quality Presets** — Core, Soft, Bold, Noir aesthetic directions
+- **Color Intelligence** — Automatic color palette detection and integration
 
 </td>
-<td width="50%">
+<td width="50%" valign="top">
 
-### Production Ready
-- **Icon Pack** — 16px to 1024px icons, favicon included
-- **Social Assets** — OG images, Twitter/X cards, ready to deploy
-- **Multiple Formats** — PNG, WebP, JPEG export options
-- **ZIP Export** — One-click download of all assets
+### 📦 Production Ready Assets
+
+- **Complete Icon Pack** — 16px → 1024px, favicons included
+- **Social Media Kit** — OG images, Twitter/X cards, LinkedIn banners
+- **Multiple Formats** — PNG, WebP, JPEG with quality control
+- **ZIP Export** — One-click download of all generated assets
+- **JSON Manifest** — Full audit trail with prompts and parameters
 
 </td>
 </tr>
 <tr>
-<td width="50%">
+<td width="50%" valign="top">
 
-### Developer Experience
-- **CLI & Web UI** — Use however you prefer
-- **REST API** — Integrate into your workflow
-- **Real-time Progress** — SSE-powered live updates
-- **Cost Tracking** — Live API cost estimation
+### 🛠 Developer Experience
+
+- **CLI + Web UI** — Choose your preferred workflow
+- **REST API** — Full programmatic access for automation
+- **Real-time Updates** — Server-Sent Events for live progress
+- **Live Cost Tracking** — Know your API costs before and during generation
+- **TypeScript** — Fully typed codebase with excellent IDE support
 
 </td>
-<td width="50%">
+<td width="50%" valign="top">
 
-### Enterprise Features
-- **Caching** — Skip regeneration of identical requests
-- **Dry Run Mode** — Preview prompts without API calls
-- **Full Manifest** — Complete audit trail in JSON
-- **TypeScript** — Fully typed, modern codebase
+### 🏢 Enterprise Ready
+
+- **Smart Caching** — Skip regeneration of identical requests
+- **Dry Run Mode** — Preview all prompts without API calls
+- **Parallel Processing** — Concurrent generation for speed
+- **Error Recovery** — Graceful handling with detailed logs
+- **Extensible** — Custom styles, presets, and pipelines
 
 </td>
 </tr>
 </table>
 
-## Quick Start
+---
+
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- **Node.js** 18.0 or higher
-- **OpenAI API Key** with image generation access
-- **npm** or **yarn** or **pnpm**
+| Requirement | Version |
+|-------------|---------|
+| Node.js | ≥ 18.0 |
+| npm / yarn / pnpm | Latest |
+| OpenAI API Key | With image access |
 
 ### Installation
 
 ```bash
 # Clone the repository
 git clone https://github.com/Cosmic-Game-studios/Brandkit-Forge.git
+
+# Navigate to directory
 cd Brandkit-Forge
 
 # Install dependencies
@@ -107,315 +114,33 @@ npm install
 # Build the project
 npm run build
 
-# Configure environment
-cp .env.example .env
-# Edit .env and add your OPENAI_API_KEY
+# Set up environment
+echo "OPENAI_API_KEY=sk-your-key-here" > .env
 ```
 
-### Your First Brand Kit
+### Generate Your First Brand Kit
 
 ```bash
-# Generate a complete brand kit
+# Using CLI
 npm run forge -- \
   --logo ./your-logo.png \
   --name "Your Brand" \
-  --tagline "Your amazing tagline" \
-  --styles "minimal,neon,blueprint" \
-  --quality high
-```
+  --styles "minimal,neon,blueprint"
 
-### Web Interface
-
-```bash
-# Start development server
+# Or start the Web UI
 npm run dev:web
-
-# Open http://localhost:3000
+# Then open http://localhost:3000
 ```
 
-## Documentation
-
-### Table of Contents
-
-- [CLI Reference](#cli-reference)
-- [Web UI Guide](#web-ui-guide)
-- [API Reference](#api-reference)
-- [Configuration](#configuration)
-- [Prompt Presets](#prompt-presets)
-- [Custom Styles](#custom-styles)
-- [Output Structure](#output-structure)
-- [Cost Estimation](#cost-estimation)
-- [Caching](#caching)
-- [Architecture](#architecture)
-
----
-
-### CLI Reference
-
-```bash
-brandkit-forge [options]
-```
-
-#### Required Options
-
-| Option | Description |
-|--------|-------------|
-| `--logo <path>` | Path to your logo file (PNG, WebP, or JPEG) |
-| `--name <name>` | Your brand name |
-
-#### Optional Options
-
-| Option | Description | Default |
-|--------|-------------|---------|
-| `--tagline <text>` | Brand tagline | — |
-| `--colors <colors>` | Comma-separated hex colors | Auto-detected |
-| `--styles <styles>` | Comma-separated style names | `minimal,neon,clay,blueprint` |
-| `--preset <preset>` | Visual preset (`core\|soft\|bold\|noir`) | `core` |
-| `-n <number>` | Variants per style | `2` |
-| `--out <dir>` | Output directory | `./out` |
-| `--format <fmt>` | Output format (`png\|webp\|jpeg`) | `png` |
-| `--quality <q>` | Generation quality (`low\|medium\|high\|auto`) | `high` |
-| `--dry-run` | Preview prompts without API calls | `false` |
-| `--no-cache` | Disable caching | `false` |
-
-#### Examples
-
-```bash
-# Minimal setup
-brandkit-forge --logo logo.png --name "Acme"
-
-# Full customization
-brandkit-forge \
-  --logo ./assets/logo.png \
-  --name "Side Quest" \
-  --tagline "Go outside. Level up." \
-  --colors "#6D28D9,#06B6D4" \
-  --styles "minimal,neon,blueprint" \
-  --preset bold \
-  -n 3 \
-  --out ./brand-assets \
-  --format webp \
-  --quality high
-
-# Dry run to preview prompts
-brandkit-forge --logo logo.png --name "Test" --dry-run
-```
-
----
-
-### Web UI Guide
-
-The web interface provides a visual, drag-and-drop experience for generating brand kits.
-
-#### Starting the Server
-
-```bash
-# Development mode (hot reload)
-npm run dev:web
-
-# Production mode
-npm run build:web
-npm run start:web
-```
-
-#### Ports
-
-| Service | Port | URL |
-|---------|------|-----|
-| Frontend | 3000 | http://localhost:3000 |
-| Backend API | 3001 | http://localhost:3001 |
-
-#### Features
-
-- **Drag & Drop** — Upload your logo with drag and drop
-- **Live Preview** — See selected styles and settings in real-time
-- **Cost Estimation** — View estimated API costs before generation
-- **Progress Tracking** — Real-time progress with SSE updates
-- **Gallery View** — Browse and download generated assets
-- **ZIP Export** — Download everything in one click
-
----
-
-### API Reference
-
-The REST API enables integration with external tools and workflows.
-
-#### Base URL
-
-```
-http://localhost:3001/api
-```
-
-#### Endpoints
-
-##### Create Job
-
-```http
-POST /api/jobs
-Content-Type: multipart/form-data
-```
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `file` | File | Logo image file |
-| `config` | JSON | Configuration object |
-
-**Config Object:**
-
-```json
-{
-  "name": "Brand Name",
-  "tagline": "Optional tagline",
-  "colors": "#6D28D9,#06B6D4",
-  "styles": "minimal,neon",
-  "preset": "core",
-  "n": "2",
-  "format": "png",
-  "quality": "high",
-  "apiKey": "sk-..."
-}
-```
-
-**Response:**
-
-```json
-{
-  "jobId": "550e8400-e29b-41d4-a716-446655440000"
-}
-```
-
-##### Subscribe to Progress
-
-```http
-GET /api/jobs/:id/events
-Accept: text/event-stream
-```
-
-**Event Types:**
-
-```javascript
-// Progress message
-{ "message": "Generating background for minimal style..." }
-
-// Cost update
-{ "cost": { "totalCost": 0.25, "apiCalls": 1, "breakdown": { ... } } }
-
-// Completion
-{ "status": "completed" }
-```
-
-##### Get Result
-
-```http
-GET /api/jobs/:id/result
-```
-
-**Response:**
-
-```json
-{
-  "manifest": { ... },
-  "files": [
-    { "path": "variants/minimal/0/hero-landscape.png", "url": "..." }
-  ],
-  "outputDir": "/path/to/output"
-}
-```
-
-##### Download Files
-
-```http
-GET /api/jobs/:id/files/:path
-GET /api/jobs/:id/download  # ZIP archive
-```
-
----
-
-### Configuration
-
-#### Environment Variables
-
-Create a `.env` file in the project root:
-
-```env
-# Required
-OPENAI_API_KEY=sk-your-api-key-here
-
-# Optional
-PORT=3001                    # API server port
-NODE_ENV=development         # development | production
-```
-
-#### Project Configuration
-
-Configuration can be provided via CLI flags, environment variables, or a `brandkit.config.json` file:
-
-```json
-{
-  "defaults": {
-    "quality": "high",
-    "format": "png",
-    "styles": ["minimal", "neon", "clay", "blueprint"],
-    "preset": "core",
-    "n": 2
-  },
-  "cache": {
-    "enabled": true,
-    "directory": ".cache"
-  }
-}
-```
-
----
-
-### Prompt Presets
-
-Presets control the overall visual aesthetic while preserving your chosen styles.
-
-| Preset | Description | Best For |
-|--------|-------------|----------|
-| `core` | Ultra-premium, cinematic, hero-grade polish | Product launches, premium brands |
-| `soft` | Luminous luxury with dreamy softness | Lifestyle, wellness, creative |
-| `bold` | Maximum contrast with bold energy | Gaming, tech startups, sports |
-| `noir` | Dark, sleek, cinematic intensity | Luxury, finance, entertainment |
-
----
-
-### Custom Styles
-
-Beyond the built-in styles, you can create custom styles with your own prompts.
-
-#### Via Web UI
-
-1. Click "Add custom style" in the Styles section
-2. Enter a name and description prompt
-3. The style will be added to your selection
-
-#### Via API
-
-Include custom styles in the config:
-
-```json
-{
-  "customStyles": {
-    "retro-wave": "synthwave aesthetic, neon grid, 80s retro futurism, purple and cyan glow",
-    "organic": "natural textures, earthy tones, botanical elements, sustainable feel"
-  }
-}
-```
-
----
-
-### Output Structure
-
-Generated assets follow a consistent directory structure:
+<details>
+<summary>📸 <strong>See example output</strong></summary>
 
 ```
 out/
-└── 2024-01-15T10-30-00-000Z/
-    ├── brandkit.json              # Complete manifest
+└── 2025-01-15T10-30-00/
+    ├── brandkit.json           # Complete manifest
     ├── gallery/
-    │   └── index.html             # Visual gallery
+    │   └── index.html          # Visual gallery
     ├── icons/
     │   ├── favicon-16.png
     │   ├── favicon-32.png
@@ -424,8 +149,8 @@ out/
     │   ├── app-icon-512.png
     │   └── app-icon-1024.png
     ├── social/
-    │   ├── og-1200x630.png        # Open Graph
-    │   └── x-1600x900.png         # Twitter/X
+    │   ├── og-1200x630.png
+    │   └── x-1600x900.png
     └── variants/
         ├── minimal/
         │   ├── 0/
@@ -440,216 +165,476 @@ out/
             └── ...
 ```
 
+</details>
+
 ---
 
-### Cost Estimation
+## 📖 Documentation
 
-Brandkit Forge provides real-time cost tracking based on OpenAI's `gpt-image-1.5` pricing.
+<details open>
+<summary><h3>📟 CLI Reference</h3></summary>
 
-#### Pricing (December 2025)
+```bash
+brandkit-forge [options]
+```
 
-| Quality | Square (1024×1024) | Landscape (1536×1024) |
-|---------|-------------------|----------------------|
-| Low | $0.01 | $0.015 |
-| Medium | $0.04 | $0.06 |
-| High | $0.17 | $0.25 |
+#### Required
+
+| Flag | Description |
+|------|-------------|
+| `--logo <path>` | Path to logo file (PNG, WebP, JPEG) |
+| `--name <name>` | Brand name for prompts |
+
+#### Options
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--tagline <text>` | Brand tagline | — |
+| `--colors <hex,hex>` | Brand colors (comma-separated) | Auto-detect |
+| `--styles <list>` | Style names (comma-separated) | `minimal,neon,clay,blueprint` |
+| `--preset <name>` | Visual preset | `core` |
+| `-n <number>` | Variants per style | `2` |
+| `--out <dir>` | Output directory | `./out` |
+| `--format <fmt>` | Image format | `png` |
+| `--quality <level>` | Generation quality | `high` |
+| `--dry-run` | Preview prompts only | `false` |
+| `--no-cache` | Disable caching | `false` |
+
+#### Examples
+
+```bash
+# Minimal
+brandkit-forge --logo logo.png --name "Acme"
+
+# Full options
+brandkit-forge \
+  --logo ./assets/logo.png \
+  --name "Side Quest" \
+  --tagline "Go outside. Level up." \
+  --colors "#6D28D9,#06B6D4" \
+  --styles "minimal,neon,blueprint,clay" \
+  --preset bold \
+  -n 3 \
+  --out ./brand-assets \
+  --format webp \
+  --quality high
+
+# Preview without API calls
+brandkit-forge --logo logo.png --name "Test" --dry-run
+```
+
+</details>
+
+<details>
+<summary><h3>🌐 Web UI</h3></summary>
+
+The web interface provides a visual, drag-and-drop experience.
+
+#### Start Server
+
+```bash
+# Development (hot reload)
+npm run dev:web
+
+# Production
+npm run build:web && npm run start:web
+```
+
+#### URLs
+
+| Service | URL |
+|---------|-----|
+| Frontend | http://localhost:3000 |
+| Backend API | http://localhost:3001 |
+
+#### Features
+
+| Feature | Description |
+|---------|-------------|
+| 🖱️ Drag & Drop | Upload logo with drag and drop |
+| 👁️ Live Preview | Real-time style and setting preview |
+| 💰 Cost Estimation | See estimated costs before generating |
+| 📊 Progress Tracking | SSE-powered real-time updates |
+| 🖼️ Gallery View | Browse and download generated assets |
+| 📥 ZIP Export | Download everything in one click |
+
+</details>
+
+<details>
+<summary><h3>🎨 Presets & Styles</h3></summary>
+
+#### Visual Presets
+
+| Preset | Description | Use Case |
+|--------|-------------|----------|
+| `core` | Ultra-premium, cinematic, hero-grade | Product launches, premium brands |
+| `soft` | Luminous luxury, dreamy softness | Lifestyle, wellness, creative |
+| `bold` | Maximum contrast, bold energy | Gaming, tech startups, sports |
+| `noir` | Dark, sleek, cinematic intensity | Luxury, finance, entertainment |
+
+#### Built-in Styles
+
+| Style | Description |
+|-------|-------------|
+| `minimal` | Clean lines, negative space, modern simplicity |
+| `neon` | Vibrant glow, cyberpunk aesthetics, electric colors |
+| `clay` | Soft 3D, tactile textures, playful depth |
+| `blueprint` | Technical precision, schematic aesthetics |
+
+#### Custom Styles
+
+Create unlimited custom styles via Web UI or API:
+
+```json
+{
+  "customStyles": {
+    "retro-wave": "synthwave, neon grid, 80s retro futurism, purple cyan glow",
+    "organic": "natural textures, earthy tones, botanical elements"
+  }
+}
+```
+
+</details>
+
+<details>
+<summary><h3>💰 Cost Estimation</h3></summary>
+
+Real-time cost tracking based on OpenAI `gpt-image-1.5` pricing.
+
+#### Pricing Table (December 2025)
+
+| Quality | 1024×1024 | 1536×1024 | 1024×1536 |
+|---------|-----------|-----------|-----------|
+| **Low** | $0.01 | $0.015 | $0.015 |
+| **Medium** | $0.04 | $0.06 | $0.06 |
+| **High** | $0.17 | $0.25 | $0.25 |
 
 #### Cost Formula
 
 ```
-Cost = Styles × Variants × (1 background + 2 heroes) × Price per image
+Total = Styles × Variants × 3 images × Price per image
 ```
 
-**Example:** 4 styles × 2 variants × 3 images × $0.25 = **$6.00** (high quality)
+#### Example Calculation
 
-> **Note:** Actual costs may vary based on OpenAI's token-based pricing for prompts.
+| Configuration | Calculation | Total |
+|---------------|-------------|-------|
+| 4 styles, 2 variants, high quality | 4 × 2 × 3 × ~$0.22 | **~$5.28** |
+| 2 styles, 1 variant, low quality | 2 × 1 × 3 × ~$0.013 | **~$0.08** |
+
+> ⚠️ **Note:** Actual costs may vary slightly based on OpenAI's token-based pricing for prompts.
+
+</details>
 
 ---
 
-### Caching
+## 🔌 API Reference
 
-Brandkit Forge caches generated images to avoid redundant API calls.
+<details open>
+<summary><h3>Endpoints</h3></summary>
 
-#### How It Works
-
-1. Each generation request is hashed based on prompt + settings
-2. If a matching hash exists, the cached image is returned
-3. Cache is stored in `.cache/` directory
-
-#### Cache Management
-
-```bash
-# Disable cache for a single run
-brandkit-forge --logo logo.png --name "Test" --no-cache
-
-# Clear cache manually
-rm -rf .cache/
+#### Base URL
+```
+http://localhost:3001/api
 ```
 
 ---
 
-### Architecture
+#### `POST /api/jobs` — Create Job
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                         Web Frontend                             │
-│                    (React + Vite + TypeScript)                   │
-└─────────────────────────────────────────────────────────────────┘
-                                 │
-                                 │ HTTP/SSE
-                                 ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                         API Server                               │
-│                   (Fastify + TypeScript)                         │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐  │
-│  │   Routes    │  │    Jobs     │  │      SSE Events         │  │
-│  └─────────────┘  └─────────────┘  └─────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-                                 │
-                                 ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                         Core Engine                              │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐  │
-│  │   Forge     │  │   Prompts   │  │        Cache            │  │
-│  └─────────────┘  └─────────────┘  └─────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-                                 │
-                                 ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                        Pipeline                                  │
-│  ┌───────────────┐  ┌────────────────┐  ┌───────────────────┐   │
-│  │  Backgrounds  │  │     Heroes     │  │   Export/Resize   │   │
-│  │   (Generate)  │  │     (Edit)     │  │     (Sharp)       │   │
-│  └───────────────┘  └────────────────┘  └───────────────────┘   │
-└─────────────────────────────────────────────────────────────────┘
-                                 │
-                                 ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                     OpenAI Images API                            │
-│                       (gpt-image-1.5)                            │
-└─────────────────────────────────────────────────────────────────┘
+Create a new brand kit generation job.
+
+**Request:**
+```http
+POST /api/jobs
+Content-Type: multipart/form-data
 ```
 
-#### Key Components
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `file` | File | ✅ | Logo image |
+| `config` | JSON | ✅ | Configuration |
 
-| Component | Description |
-|-----------|-------------|
+**Config Schema:**
+```typescript
+interface Config {
+  name: string;           // Brand name (required)
+  tagline?: string;       // Optional tagline
+  colors?: string;        // Comma-separated hex colors
+  styles?: string;        // Comma-separated style names
+  preset?: string;        // core | soft | bold | noir
+  n?: string;             // Variants per style
+  format?: string;        // png | webp | jpeg
+  quality?: string;       // low | medium | high | auto
+  apiKey?: string;        // OpenAI API key
+  customStyles?: object;  // Custom style definitions
+}
+```
+
+**Response:**
+```json
+{
+  "jobId": "550e8400-e29b-41d4-a716-446655440000"
+}
+```
+
+---
+
+#### `GET /api/jobs/:id/events` — Progress Stream
+
+Subscribe to real-time job progress via Server-Sent Events.
+
+**Request:**
+```http
+GET /api/jobs/:id/events
+Accept: text/event-stream
+```
+
+**Events:**
+```javascript
+// Progress update
+data: {"message": "Generating background for minimal style..."}
+
+// Cost update
+data: {"cost": {"totalCost": 0.25, "apiCalls": 1, "breakdown": {...}}}
+
+// Completion
+data: {"status": "completed"}
+
+// Error
+data: {"status": "error"}
+```
+
+---
+
+#### `GET /api/jobs/:id/result` — Get Result
+
+Retrieve completed job results.
+
+**Response:**
+```json
+{
+  "manifest": {
+    "timestamp": "2025-01-15T10:30:00.000Z",
+    "input": {...},
+    "config": {...},
+    "prompts": {...},
+    "generated": {...}
+  },
+  "files": [
+    {
+      "path": "variants/minimal/0/hero-landscape.png",
+      "url": "http://localhost:3001/api/jobs/:id/files/variants/minimal/0/hero-landscape.png"
+    }
+  ],
+  "outputDir": "/path/to/output"
+}
+```
+
+---
+
+#### `GET /api/jobs/:id/files/*` — Get File
+
+Download individual generated files.
+
+---
+
+#### `GET /api/jobs/:id/download` — Download ZIP
+
+Download all generated assets as a ZIP archive.
+
+**Response:**
+```http
+Content-Type: application/zip
+Content-Disposition: attachment; filename="brandkit-{id}.zip"
+```
+
+</details>
+
+---
+
+## 🏗️ Architecture
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                              FRONTEND                                   │
+│                        React + Vite + TypeScript                        │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌────────────┐  │
+│  │    Create    │  │   Results    │  │    Gallery   │  │  Settings  │  │
+│  │     Page     │  │     Page     │  │     View     │  │            │  │
+│  └──────────────┘  └──────────────┘  └──────────────┘  └────────────┘  │
+└────────────────────────────────────────────────────────────────────────┘
+                                    │
+                          HTTP / Server-Sent Events
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                            API SERVER                                   │
+│                      Fastify + TypeScript                               │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌────────────┐  │
+│  │    Routes    │  │     Jobs     │  │  SSE Events  │  │    Auth    │  │
+│  │   Handler    │  │   Manager    │  │   Streamer   │  │  (API Key) │  │
+│  └──────────────┘  └──────────────┘  └──────────────┘  └────────────┘  │
+└────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                           CORE ENGINE                                   │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌────────────┐  │
+│  │    Forge     │  │   Prompts    │  │    Cache     │  │    Cost    │  │
+│  │ Orchestrator │  │   Builder    │  │   Manager    │  │  Tracker   │  │
+│  └──────────────┘  └──────────────┘  └──────────────┘  └────────────┘  │
+└────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                            PIPELINE                                     │
+│  ┌────────────────┐  ┌────────────────┐  ┌────────────────────────┐    │
+│  │   Background   │  │      Hero      │  │    Export & Resize     │    │
+│  │   Generator    │  │    Composer    │  │   (Icons, Social, ZIP) │    │
+│  │  (Generate API)│  │   (Edit API)   │  │       (Sharp)          │    │
+│  └────────────────┘  └────────────────┘  └────────────────────────┘    │
+└────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                        EXTERNAL SERVICES                                │
+│  ┌────────────────────────────────────────────────────────────────┐    │
+│  │                    OpenAI Images API                            │    │
+│  │                      gpt-image-1.5                              │    │
+│  │              Generate API  •  Edit API                          │    │
+│  └────────────────────────────────────────────────────────────────┘    │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+#### Key Files
+
+| Path | Description |
+|------|-------------|
 | `src/core/forge.ts` | Main orchestration engine |
-| `src/lib/openai.ts` | OpenAI API client and cost calculation |
-| `src/lib/prompts.ts` | Prompt generation and templates |
-| `src/pipeline/` | Background, hero, and export pipelines |
+| `src/lib/openai.ts` | OpenAI client + cost calculation |
+| `src/lib/prompts.ts` | Prompt templates and builders |
+| `src/pipeline/` | Generation pipelines |
 | `src/server/` | Fastify API server |
-| `web/` | React frontend application |
+| `web/src/` | React frontend |
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
-We love contributions! Whether it's bug fixes, new features, or documentation improvements.
+We welcome contributions of all kinds!
 
 ### Development Setup
 
 ```bash
-# Clone and install
-git clone https://github.com/Cosmic-Game-studios/Brandkit-Forge.git
+# Fork and clone
+git clone https://github.com/YOUR_USERNAME/Brandkit-Forge.git
 cd Brandkit-Forge
+
+# Install dependencies
 npm install
 
-# Start development servers
-npm run dev:web     # Backend + Frontend
+# Start development
+npm run dev:web
 
-# Run type checking
+# Run checks
 npm run typecheck
-
-# Run linter
 npm run lint
 ```
 
-### Contribution Guidelines
+### Contribution Process
 
 1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes with clear messages
-4. **Push** to your fork
+2. **Create** a feature branch: `git checkout -b feature/amazing-feature`
+3. **Commit** changes: `git commit -m 'Add amazing feature'`
+4. **Push** to branch: `git push origin feature/amazing-feature`
 5. **Open** a Pull Request
 
-### Pull Request Checklist
+### PR Checklist
 
-- [ ] Code follows the existing style
 - [ ] TypeScript types are properly defined
-- [ ] No console errors or warnings
-- [ ] README updated if needed
+- [ ] No linting errors
 - [ ] Tested locally
+- [ ] Documentation updated (if needed)
+- [ ] Screenshots included (for UI changes)
 
 ---
 
-## Troubleshooting
+## 🗺️ Roadmap
+
+| Version | Feature | Status |
+|---------|---------|--------|
+| **v1.0** | Core CLI + Web UI | ✅ Released |
+| **v1.1** | Live cost tracking | ✅ Released |
+| **v1.2** | Custom styles | ✅ Released |
+| **v1.3** | Figma plugin export | 🔄 In Progress |
+| **v1.4** | Batch processing | 📋 Planned |
+| **v2.0** | Team workspaces | 📋 Planned |
+| **v2.1** | Community presets | 📋 Planned |
+| **v2.2** | Design system export | 📋 Planned |
+
+[View all planned features →](https://github.com/Cosmic-Game-studios/Brandkit-Forge/issues)
+
+---
+
+## ❓ FAQ
 
 <details>
-<summary><strong>"OPENAI_API_KEY not found"</strong></summary>
+<summary><strong>What image formats are supported for logos?</strong></summary>
 
-Create a `.env` file in the project root:
+PNG, WebP, and JPEG. We recommend PNG with transparency for best results.
+</details>
 
-```env
-OPENAI_API_KEY=sk-your-key-here
+<details>
+<summary><strong>How much does it cost to generate a brand kit?</strong></summary>
+
+Costs depend on quality and quantity. A typical kit (4 styles, 2 variants, high quality) costs ~$5-6. Use `--quality low` for drafts (~$0.50).
+</details>
+
+<details>
+<summary><strong>Can I use my own OpenAI API key?</strong></summary>
+
+Yes! Enter it in the Web UI or set `OPENAI_API_KEY` in your `.env` file.
+</details>
+
+<details>
+<summary><strong>Is there rate limiting?</strong></summary>
+
+We respect OpenAI's rate limits. Reduce variants or styles if you hit limits.
+</details>
+
+<details>
+<summary><strong>Can I create custom styles?</strong></summary>
+
+Yes! Use the "Add custom style" button in the Web UI or pass `customStyles` via API.
+</details>
+
+<details>
+<summary><strong>How do I clear the cache?</strong></summary>
+
+```bash
+rm -rf .cache/
+# Or use --no-cache flag for a single run
 ```
-
-Or pass it via the Web UI's API key field.
-</details>
-
-<details>
-<summary><strong>"Logo file not found"</strong></summary>
-
-- Verify the file path is correct
-- Use absolute paths or paths relative to your working directory
-- Supported formats: PNG, WebP, JPEG
-</details>
-
-<details>
-<summary><strong>API rate limits</strong></summary>
-
-OpenAI has rate limits on image generation. If you hit limits:
-- Reduce the number of variants (`-n`)
-- Use fewer styles
-- Wait and retry
-</details>
-
-<details>
-<summary><strong>High API costs</strong></summary>
-
-- Use `--quality low` or `--quality medium` for drafts
-- Reduce variants with `-n 1`
-- Use `--dry-run` to preview before generating
 </details>
 
 ---
 
-## Roadmap
+## 🔒 Security
 
-- [ ] **v1.1** — Figma plugin export
-- [ ] **v1.2** — Batch processing for multiple logos
-- [ ] **v1.3** — Prompt library and community presets
-- [ ] **v2.0** — Team workspaces and project history
-- [ ] **v2.1** — Design system integration (Tailwind, CSS vars)
+| Aspect | Implementation |
+|--------|----------------|
+| **API Keys** | Never committed, stored in env only |
+| **File Validation** | Only image files accepted |
+| **Job Isolation** | Each job runs in isolated temp directory |
+| **No Retention** | Generated files not stored permanently |
+| **HTTPS Ready** | Production deployment supports SSL |
 
-See the [open issues](https://github.com/Cosmic-Game-studios/Brandkit-Forge/issues) for feature requests.
-
----
-
-## Security
-
-- **API Keys** — Never committed to the repository
-- **File Validation** — Only image files accepted
-- **Sandboxed Jobs** — Each job runs in isolated temp directory
-- **No Data Retention** — Generated files are not stored permanently
-
-Report security vulnerabilities to [security@cosmic-game-studios.com](mailto:security@cosmic-game-studios.com).
+Report vulnerabilities to **security@cosmic-game-studios.com**
 
 ---
 
-## License
-
-Distributed under the **MIT License**. See [LICENSE](LICENSE) for details.
+## 📄 License
 
 ```
 MIT License
@@ -665,27 +650,44 @@ furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 ```
 
 ---
 
-## Acknowledgements
+## 🙏 Acknowledgements
 
-- [OpenAI](https://openai.com) — Images API (`gpt-image-1.5`)
-- [Sharp](https://sharp.pixelplumbing.com/) — High-performance image processing
-- [Fastify](https://www.fastify.io/) — Fast and low overhead web framework
-- [React](https://react.dev/) — UI library
-- [Vite](https://vitejs.dev/) — Next generation frontend tooling
-- [TypeScript](https://www.typescriptlang.org/) — Type safety
+<table>
+<tr>
+<td align="center"><a href="https://openai.com"><img src="https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white" alt="OpenAI" /></a><br />Images API</td>
+<td align="center"><a href="https://sharp.pixelplumbing.com/"><img src="https://img.shields.io/badge/Sharp-99CC00?style=for-the-badge&logo=sharp&logoColor=white" alt="Sharp" /></a><br />Image Processing</td>
+<td align="center"><a href="https://www.fastify.io/"><img src="https://img.shields.io/badge/Fastify-000000?style=for-the-badge&logo=fastify&logoColor=white" alt="Fastify" /></a><br />Web Framework</td>
+<td align="center"><a href="https://react.dev/"><img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" /></a><br />UI Library</td>
+<td align="center"><a href="https://vitejs.dev/"><img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" /></a><br />Build Tool</td>
+</tr>
+</table>
 
 ---
 
-<p align="center">
-  <sub>Built with passion by <a href="https://github.com/Cosmic-Game-studios">Cosmic Game Studios</a></sub>
-</p>
+<div align="center">
 
-<p align="center">
-  <a href="https://github.com/Cosmic-Game-studios/Brandkit-Forge">
-    <img src="https://img.shields.io/badge/Star_on_GitHub-⭐-yellow?style=for-the-badge" alt="Star on GitHub" />
-  </a>
-</p>
+### Built with ❤️ by [Cosmic Game Studios](https://github.com/Cosmic-Game-studios)
+
+<br />
+
+[![GitHub stars](https://img.shields.io/github/stars/Cosmic-Game-studios/Brandkit-Forge?style=social)](https://github.com/Cosmic-Game-studios/Brandkit-Forge/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Cosmic-Game-studios/Brandkit-Forge?style=social)](https://github.com/Cosmic-Game-studios/Brandkit-Forge/network/members)
+[![Twitter Follow](https://img.shields.io/twitter/follow/cosmicgamestudios?style=social)](https://twitter.com/cosmicgamestudios)
+
+<br />
+
+[⬆ Back to Top](#brandkit-forge)
+
+</div>
