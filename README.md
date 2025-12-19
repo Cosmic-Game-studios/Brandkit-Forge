@@ -734,7 +734,7 @@ Our roadmap is designed around one goal: **delivering the best possible brand as
 
 | Feature | Description | Status |
 |---------|-------------|--------|
-| **GPT-5.2 Integration** | Support for OpenAI's next-generation image model | 📋 Planned |
+| **gpt-image-2 Support** | Ready for OpenAI's next-generation image model | 📋 Planned |
 | **Multi-Model Pipeline** | Combine models (DALL-E, Midjourney, Stable Diffusion) | 📋 Planned |
 | **Model Comparison** | Generate with multiple models, pick the best result | 📋 Planned |
 | **Style Transfer** | Apply reference image styles to generations | 📋 Planned |
