@@ -4,8 +4,7 @@ import type { BrandConfig, BrandkitManifest } from '../types.js';
 import { buildBackgroundPrompt } from '../lib/prompts.js';
 import { generateBackground } from '../lib/openai.js';
 import { hashConfig, getCachedPath, setCachedPath } from '../lib/cache.js';
-
-export type CostCallback = (amount: number, type: 'backgrounds' | 'heroes') => void;
+import type { CostCallback } from './types.js';
 
 export async function generateBackgrounds(
   config: BrandConfig,
@@ -15,7 +14,7 @@ export async function generateBackgrounds(
 ): Promise<Map<string, string[]>> {
   const backgrounds = new Map<string, string[]>();
   const limit = pLimit(3);
-  const tasks = [];
+  const tasks: Array<Promise<string>> = [];
 
   for (const style of config.styles) {
     const styleBackgrounds: string[] = [];

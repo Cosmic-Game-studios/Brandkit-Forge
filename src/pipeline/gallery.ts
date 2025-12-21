@@ -1,29 +1,136 @@
 import { writeFileSync } from 'fs';
-import { join } from 'path';
+import { join, relative } from 'path';
 import type { BrandkitManifest } from '../types.js';
+
+const HERO_PATH_PATTERN = /variants[\\/]+([^\\/]+)[\\/]+(\d+)[\\/]+(.+)$/;
+
+type HeroGroups = Record<string, string[]>;
+
+function toWebPath(baseDir: string, absolutePath: string): string {
+  return relative(baseDir, absolutePath).split('\\').join('/');
+}
+
+function groupHeroesByVariant(heroes: string[]): HeroGroups {
+  return heroes.reduce<HeroGroups>((groups, heroPath) => {
+    const match = heroPath.match(HERO_PATH_PATTERN);
+    if (!match) {
+      return groups;
+    }
+
+    const [, style, index] = match;
+    const key = `${style}-${index}`;
+    if (!groups[key]) {
+      groups[key] = [];
+    }
+    groups[key].push(heroPath);
+    return groups;
+  }, {});
+}
+
+function getHeroLabel(filename: string): string {
+  if (filename.includes('landscape')) return 'Landscape';
+  if (filename.includes('portrait')) return 'Portrait';
+  return 'Square';
+}
+
+function renderVariantCard(heroPath: string, baseDir: string, style: string): string {
+  const filename = heroPath.split('/').pop() || '';
+  const label = getHeroLabel(filename);
+  const relativePath = toWebPath(baseDir, heroPath);
+
+  return `
+    <div class="variant">
+      <img src="${relativePath}" alt="${style} ${label}">
+      <div class="variant-info">
+        ${label} - ${filename}
+        <a href="${relativePath}" download class="download-link">Download</a>
+      </div>
+    </div>
+  `;
+}
+
+function renderStyleSection(
+  style: string,
+  heroGroups: HeroGroups,
+  baseDir: string
+): string {
+  const variants = Object.keys(heroGroups)
+    .filter((key) => key.startsWith(`${style}-`))
+    .map((key) => heroGroups[key])
+    .flat();
+
+  if (variants.length === 0) {
+    return '';
+  }
+
+  return `
+    <div class="style-group">
+      <div class="style-title">${style}</div>
+      <div class="variants">
+        ${variants.map((heroPath) => renderVariantCard(heroPath, baseDir, style)).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderIconsSection(iconPaths: string[], baseDir: string): string {
+  if (iconPaths.length === 0) {
+    return '';
+  }
+
+  return `
+    <div class="icons-section">
+      <h2>Icons</h2>
+      <div class="icons-grid">
+        ${iconPaths
+          .map((iconPath) => {
+            const name = iconPath.split('/').pop() || '';
+            const relativePath = toWebPath(baseDir, iconPath);
+            return `
+              <div class="icon-item">
+                <img src="${relativePath}" alt="${name}">
+                <div style="font-size: 0.75rem; margin-top: 0.25rem;">${name}</div>
+              </div>
+            `;
+          })
+          .join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderSocialSection(socialPaths: string[], baseDir: string): string {
+  if (socialPaths.length === 0) {
+    return '';
+  }
+
+  return `
+    <div class="social-section">
+      <h2>Social Media Assets</h2>
+      <div class="social-grid">
+        ${socialPaths
+          .map((socialPath) => {
+            const name = socialPath.split('/').pop() || '';
+            const relativePath = toWebPath(baseDir, socialPath);
+            return `
+              <div class="social-item">
+                <img src="${relativePath}" alt="${name}">
+                <div style="padding: 0.5rem; font-size: 0.85rem;">${name}</div>
+              </div>
+            `;
+          })
+          .join('')}
+      </div>
+    </div>
+  `;
+}
 
 export function generateGallery(outputDir: string, manifest: BrandkitManifest): void {
   const galleryDir = join(outputDir, 'gallery');
   const galleryPath = join(galleryDir, 'index.html');
 
+  const styleGroups = groupHeroesByVariant(manifest.generated.heroes);
   const styles = manifest.config.styles;
-  const heroes = manifest.generated.heroes;
-  const styleGroups: Record<string, string[]> = {};
-  for (const hero of heroes) {
-    const match = hero.match(/variants[\\/]+([^\\/]+)[\\/]+(\d+)[\\/]+(.+)$/);
-    if (match) {
-      const [, style, idx] = match;
-      const key = `${style}-${idx}`;
-      if (!styleGroups[key]) {
-        styleGroups[key] = [];
-      }
-      styleGroups[key].push(hero);
-    }
-  }
-
-  const relativePath = (path: string) => {
-    return path.replace(outputDir + '/', '');
-  };
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -141,70 +248,11 @@ export function generateGallery(outputDir: string, manifest: BrandkitManifest): 
   </div>
 
   <div class="styles">
-    ${styles.map(style => {
-      const variants = Object.keys(styleGroups)
-        .filter(key => key.startsWith(style + '-'))
-        .map(key => styleGroups[key])
-        .flat();
-
-      if (variants.length === 0) return '';
-
-      return `
-        <div class="style-group">
-          <div class="style-title">${style}</div>
-          <div class="variants">
-            ${variants.map(heroPath => {
-              const filename = heroPath.split('/').pop() || '';
-              const type = filename.includes('landscape') ? 'Landscape' : 'Square';
-              return `
-                <div class="variant">
-                  <img src="${relativePath(heroPath)}" alt="${style} ${type}">
-                  <div class="variant-info">
-                    ${type} - ${filename}
-                    <a href="${relativePath(heroPath)}" download class="download-link">Download</a>
-                  </div>
-                </div>
-              `;
-            }).join('')}
-          </div>
-        </div>
-      `;
-    }).join('')}
+    ${styles.map((style) => renderStyleSection(style, styleGroups, outputDir)).join('')}
   </div>
 
-  ${manifest.generated.icons.length > 0 ? `
-    <div class="icons-section">
-      <h2>Icons</h2>
-      <div class="icons-grid">
-        ${manifest.generated.icons.map(iconPath => {
-          const name = iconPath.split('/').pop() || '';
-          return `
-            <div class="icon-item">
-              <img src="${relativePath(iconPath)}" alt="${name}">
-              <div style="font-size: 0.75rem; margin-top: 0.25rem;">${name}</div>
-            </div>
-          `;
-        }).join('')}
-      </div>
-    </div>
-  ` : ''}
-
-  ${manifest.generated.social.length > 0 ? `
-    <div class="social-section">
-      <h2>Social Media Assets</h2>
-      <div class="social-grid">
-        ${manifest.generated.social.map(socialPath => {
-          const name = socialPath.split('/').pop() || '';
-          return `
-            <div class="social-item">
-              <img src="${relativePath(socialPath)}" alt="${name}">
-              <div style="padding: 0.5rem; font-size: 0.85rem;">${name}</div>
-            </div>
-          `;
-        }).join('')}
-      </div>
-    </div>
-  ` : ''}
+  ${renderIconsSection(manifest.generated.icons, outputDir)}
+  ${renderSocialSection(manifest.generated.social, outputDir)}
 </body>
 </html>
 `;

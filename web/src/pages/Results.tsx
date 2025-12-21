@@ -1,17 +1,9 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import type { FileInfo, JobResult } from '../types';
 import './Results.css';
 
-interface FileInfo {
-  path: string;
-  url: string;
-}
-
-interface ResultData {
-  manifest: any;
-  files: FileInfo[];
-  outputDir: string;
-}
+type AssetCategory = 'all' | 'backgrounds' | 'heroes' | 'icons' | 'social';
 
 interface CategoryFiles {
   backgrounds: FileInfo[];
@@ -20,13 +12,43 @@ interface CategoryFiles {
   social: FileInfo[];
 }
 
+const IMAGE_PATTERN = /\.(png|jpg|jpeg|webp)$/i;
+
+function categorizeFiles(files: FileInfo[]): CategoryFiles {
+  return {
+    backgrounds: files.filter((file) => file.path.includes('background')),
+    heroes: files.filter((file) => file.path.includes('hero')),
+    icons: files.filter((file) => file.path.includes('icons')),
+    social: files.filter((file) => file.path.includes('social')),
+  };
+}
+
+function getDisplayFiles(
+  category: AssetCategory,
+  files: FileInfo[],
+  categorized: CategoryFiles
+): FileInfo[] {
+  switch (category) {
+    case 'backgrounds':
+      return categorized.backgrounds;
+    case 'heroes':
+      return categorized.heroes;
+    case 'icons':
+      return categorized.icons;
+    case 'social':
+      return categorized.social;
+    default:
+      return files;
+  }
+}
+
 export default function Results() {
   const { jobId } = useParams<{ jobId: string }>();
-  const [result, setResult] = useState<ResultData | null>(null);
+  const [result, setResult] = useState<JobResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [previewImage, setPreviewImage] = useState<FileInfo | null>(null);
-  const [activeTab, setActiveTab] = useState<'all' | 'backgrounds' | 'heroes' | 'icons' | 'social'>('all');
+  const [activeTab, setActiveTab] = useState<AssetCategory>('all');
 
   useEffect(() => {
     if (!jobId) return;
@@ -34,10 +56,10 @@ export default function Results() {
       try {
         const response = await fetch(`/api/jobs/${jobId}/result`);
         if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.error || 'Failed to load results');
+          const payload = await response.json();
+          throw new Error(payload.error || 'Failed to load results');
         }
-        const data = await response.json();
+        const data = (await response.json()) as JobResult;
         setResult(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error');
@@ -63,7 +85,6 @@ export default function Results() {
     setPreviewImage(null);
   };
 
-  // Close on escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -73,6 +94,18 @@ export default function Results() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  const imageFiles = useMemo(() => {
+    return result?.files.filter((file) => IMAGE_PATTERN.test(file.path)) ?? [];
+  }, [result]);
+
+  const categorized = useMemo(() => categorizeFiles(imageFiles), [imageFiles]);
+
+  const displayFiles = useMemo(() => {
+    return getDisplayFiles(activeTab, imageFiles, categorized);
+  }, [activeTab, categorized, imageFiles]);
+
+  const assetCount = imageFiles.length;
 
   if (loading) {
     return (
@@ -104,38 +137,12 @@ export default function Results() {
     );
   }
 
-  const imageFiles = result.files.filter((f) =>
-    /\.(png|jpg|jpeg|webp)$/i.test(f.path)
-  );
-
-  // Categorize files
-  const categorized: CategoryFiles = {
-    backgrounds: imageFiles.filter(f => f.path.includes('background')),
-    heroes: imageFiles.filter(f => f.path.includes('hero')),
-    icons: imageFiles.filter(f => f.path.includes('icons')),
-    social: imageFiles.filter(f => f.path.includes('social')),
-  };
-
-  const getDisplayFiles = () => {
-    switch (activeTab) {
-      case 'backgrounds': return categorized.backgrounds;
-      case 'heroes': return categorized.heroes;
-      case 'icons': return categorized.icons;
-      case 'social': return categorized.social;
-      default: return imageFiles;
-    }
-  };
-
-  const displayFiles = getDisplayFiles();
-  const assetCount = imageFiles.length;
-
   return (
     <div className="results-page">
-      {/* Preview Modal */}
       {previewImage && (
         <div className="preview-modal" onClick={closePreview}>
           <div className="preview-modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="preview-close" onClick={closePreview}>×</button>
+            <button className="preview-close" onClick={closePreview}>x</button>
             <img src={previewImage.url} alt={previewImage.path} />
             <div className="preview-info">
               <span className="preview-path">{previewImage.path}</span>
@@ -175,7 +182,6 @@ export default function Results() {
         </div>
       </div>
 
-      {/* Category Tabs */}
       <div className="category-tabs">
         <button
           className={`tab-button ${activeTab === 'all' ? 'active' : ''}`}
@@ -232,7 +238,7 @@ export default function Results() {
               <div className="gallery-item-image">
                 <img src={file.url} alt={file.path} loading="lazy" />
                 <div className="gallery-item-overlay">
-                  <span className="zoom-icon">🔍</span>
+                  <span className="zoom-icon">+</span>
                 </div>
               </div>
               <div className="gallery-item-info">

@@ -4,16 +4,7 @@ import { createReadStream, existsSync } from 'fs';
 import archiver from 'archiver';
 import { createJob, getJob } from './jobs.js';
 import type { BrandConfig } from '../types.js';
-
-function parseColors(colorsStr?: string): string[] {
-  if (!colorsStr) return [];
-  return colorsStr.split(',').map((c) => c.trim()).filter(Boolean);
-}
-
-function parseStyles(stylesStr?: string): string[] {
-  if (!stylesStr) return ['minimal', 'neon', 'clay', 'blueprint'];
-  return stylesStr.split(',').map((s) => s.trim()).filter(Boolean);
-}
+import { normalizeConfig } from '../lib/config.js';
 
 export async function registerRoutes(fastify: FastifyInstance) {
   // CORS
@@ -55,26 +46,30 @@ export async function registerRoutes(fastify: FastifyInstance) {
       const configData = JSON.parse(configStr);
       const logoBuffer = await data.toBuffer();
 
-      const config: BrandConfig = {
-        logoPath: '', // Set in createJob
+      const normalized = normalizeConfig({
         name: configData.name,
         tagline: configData.tagline,
-        colors: parseColors(configData.colors),
-        styles: parseStyles(configData.styles),
+        colors: configData.colors,
+        styles: configData.styles,
         preset: configData.preset,
-        customStyles: configData.customStyles || undefined,
-        customPresets: configData.customPresets || undefined,
-        n: parseInt(configData.n || '2', 10),
-        outputDir: '', // Set in createJob
-        format: configData.format || 'png',
-        quality: configData.quality || 'high',
+        customStyles: configData.customStyles,
+        customPresets: configData.customPresets,
+        n: configData.n,
+        format: configData.format,
+        quality: configData.quality,
         dryRun: false,
         cache: configData.cache !== false,
-        apiKey: configData.apiKey, // API key from frontend
-        demoMode: configData.demoMode || false, // Demo mode
-        backgroundSize: configData.backgroundSize || 'landscape', // Image size
-        transparency: configData.transparency || false, // PNG transparency
-        compression: configData.compression || 85, // JPEG compression
+        apiKey: configData.apiKey,
+        demoMode: configData.demoMode,
+        backgroundSize: configData.backgroundSize,
+        transparency: configData.transparency,
+        compression: configData.compression,
+      });
+
+      const config: BrandConfig = {
+        ...normalized,
+        logoPath: '', // Set in createJob
+        outputDir: '', // Set in createJob
       };
 
       const jobId = await createJob(logoBuffer, config);

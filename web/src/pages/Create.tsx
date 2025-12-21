@@ -1,51 +1,23 @@
-import { useState, useRef } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  AVAILABLE_STYLES,
+  DEFAULT_STYLES,
+  MOOD_CHIPS,
+  PRESET_OPTIONS,
+  STYLE_CHIPS,
+  type MoodCategory,
+  type StyleCategory,
+} from '../lib/createConstants';
+import { estimateCost } from '../lib/costEstimate';
+import type {
+  BackgroundSize,
+  CustomPresetMap,
+  CustomStyleMap,
+  ImageFormat,
+  ImageQuality,
+} from '../types';
 import './Create.css';
-
-const PRESET_OPTIONS = [
-  {
-    id: 'core',
-    name: 'Core',
-    description: 'Ultra-premium, cinematic, hero-grade polish.',
-  },
-  {
-    id: 'soft',
-    name: 'Soft Airy',
-    description: 'Luminous luxury with dreamy softness.',
-  },
-  {
-    id: 'bold',
-    name: 'Bold Contrast',
-    description: 'Maximum contrast with bold energy and punch.',
-  },
-  {
-    id: 'noir',
-    name: 'Noir',
-    description: 'Dark, sleek, cinematic intensity with sharp highlights.',
-  },
-] as const;
-
-// Mood chips for easy preset building
-const MOOD_CHIPS = {
-  lighting: ['cinematic', 'soft', 'dramatic', 'natural', 'studio', 'neon', 'golden hour', 'moody'],
-  atmosphere: ['premium', 'minimal', 'bold', 'calm', 'energetic', 'dreamy', 'intense', 'elegant'],
-  style: ['modern', 'vintage', 'futuristic', 'organic', 'geometric', 'abstract', 'clean', 'textured'],
-  depth: ['deep shadows', 'soft shadows', 'flat', 'layered', '3D', 'gradient', 'high contrast', 'low contrast'],
-  finish: ['polished', 'matte', 'glossy', 'silky', 'refined', 'sharp', 'smooth', 'crisp'],
-} as const;
-
-type MoodCategory = keyof typeof MOOD_CHIPS;
-
-// Style chips for easy style building
-const STYLE_CHIPS = {
-  look: ['minimal', 'neon', 'clay', 'blueprint', 'retro', 'futuristic', 'organic', 'brutalist'],
-  surface: ['clean planes', 'smooth gradients', 'rough texture', 'glass', 'metallic', 'matte', 'holographic', 'iridescent'],
-  lighting: ['architectural', 'studio', 'dramatic', 'soft glow', 'rim light', 'ambient', 'spot light', 'diffused'],
-  mood: ['museum-grade', 'premium', 'playful', 'corporate', 'artistic', 'tech', 'luxury', 'indie'],
-  form: ['abstract', 'geometric', 'fluid', 'angular', 'rounded', 'layered', 'flat', '3D depth'],
-} as const;
-
-type StyleCategory = keyof typeof STYLE_CHIPS;
 
 export default function Create() {
   const navigate = useNavigate();
@@ -55,12 +27,12 @@ export default function Create() {
   const [name, setName] = useState('');
   const [tagline, setTagline] = useState('');
   const [colors, setColors] = useState<string[]>([]);
-  const [selectedStyles, setSelectedStyles] = useState<string[]>(['minimal', 'neon', 'clay', 'blueprint']);
-  const [customStyles, setCustomStyles] = useState<Record<string, string>>({});
+  const [selectedStyles, setSelectedStyles] = useState<string[]>(Array.from(DEFAULT_STYLES));
+  const [customStyles, setCustomStyles] = useState<CustomStyleMap>({});
   const [showCustomStyleModal, setShowCustomStyleModal] = useState(false);
   const [editingCustomStyle, setEditingCustomStyle] = useState<{ name: string; chips: string[] } | null>(null);
   const [preset, setPreset] = useState<string>('core');
-  const [customPresets, setCustomPresets] = useState<Record<string, { description: string; background: string; edit: string }>>({});
+  const [customPresets, setCustomPresets] = useState<CustomPresetMap>({});
   const [showCustomPresetModal, setShowCustomPresetModal] = useState(false);
   const [editingCustomPreset, setEditingCustomPreset] = useState<{
     id: string;
@@ -83,12 +55,12 @@ export default function Create() {
     newColors[index] = value;
     setColors(newColors);
   };
-  const [format, setFormat] = useState('png');
-  const [backgroundSize, setBackgroundSize] = useState<'landscape' | 'square' | 'portrait'>('landscape');
+  const [format, setFormat] = useState<ImageFormat>('png');
+  const [backgroundSize, setBackgroundSize] = useState<BackgroundSize>('landscape');
   const [transparency, setTransparency] = useState(false);
   const [compression, setCompression] = useState(85);
 
-  const availableStyles = ['minimal', 'neon', 'clay', 'blueprint'];
+  const availableStyles = AVAILABLE_STYLES;
   
   const toggleStyle = (style: string) => {
     setSelectedStyles((prev) =>
@@ -210,7 +182,7 @@ export default function Create() {
     }
   };
 
-  const [quality, setQuality] = useState('high');
+  const [quality, setQuality] = useState<ImageQuality>('high');
   const [n, setN] = useState('2');
   const [cache, setCache] = useState(true);
   const [apiKey, setApiKey] = useState('');
@@ -283,7 +255,7 @@ export default function Create() {
           name,
           tagline: tagline || undefined,
           colors: colors.length > 0 ? colors.join(',') : undefined,
-          styles: styles || undefined,
+          styles: stylesValue || undefined,
           customStyles: Object.keys(customStyles).length > 0 ? customStyles : undefined,
           customPresets: Object.keys(customPresets).length > 0 ? customPresets : undefined,
           preset: preset || undefined,
@@ -390,51 +362,17 @@ export default function Create() {
     }
   };
 
-  const styles = selectedStyles.join(',');
+  const stylesValue = selectedStyles.join(',');
 
   const styleTokens = selectedStyles.slice(0, 6);
   const selectedPreset = PRESET_OPTIONS.find((option) => option.id === preset);
   const customPreset = customPresets[preset];
-  const presetLabel = selectedPreset ? selectedPreset.name : (customPreset ? preset : preset);
+  const presetLabel = selectedPreset?.name ?? preset;
 
-  // Calculate estimated cost based on selected options
-  // GPT-image-1.5 pricing (December 2025)
-  const estimatedCost = (() => {
-    const variants = parseInt(n) || 1;
-    const numStyles = selectedStyles.length;
-
-    // Pricing per image based on quality (gpt-image-1.5)
-    const pricing: Record<string, { landscape: number; square: number; portrait: number }> = {
-      low: { landscape: 0.015, square: 0.01, portrait: 0.015 },
-      medium: { landscape: 0.06, square: 0.04, portrait: 0.06 },
-      high: { landscape: 0.25, square: 0.17, portrait: 0.25 },
-      auto: { landscape: 0.25, square: 0.17, portrait: 0.25 }, // auto defaults to high
-    };
-
-    const prices = pricing[quality] || pricing.high;
-
-    // Calculate API calls based on size selection
-    // Square: 1 background + 1 square hero = 2 calls
-    // Landscape/Portrait: 1 background + 1 primary hero + 1 square hero = 3 calls
-    let costPerVariant: number;
-    let apiCallsPerVariant: number;
-
-    if (backgroundSize === 'square') {
-      costPerVariant = prices.square + prices.square; // bg + square hero
-      apiCallsPerVariant = 2;
-    } else if (backgroundSize === 'portrait') {
-      costPerVariant = prices.portrait + prices.portrait + prices.square; // bg + portrait hero + square hero
-      apiCallsPerVariant = 3;
-    } else {
-      costPerVariant = prices.landscape + prices.landscape + prices.square; // bg + landscape hero + square hero
-      apiCallsPerVariant = 3;
-    }
-
-    const totalCost = numStyles * variants * costPerVariant;
-    const totalApiCalls = numStyles * variants * apiCallsPerVariant;
-
-    return { totalCost, totalApiCalls, numStyles, variants };
-  })();
+  const estimatedCost = useMemo(() => {
+    const variants = Number.parseInt(n, 10) || 1;
+    return estimateCost(quality, backgroundSize, selectedStyles.length, variants);
+  }, [backgroundSize, n, quality, selectedStyles.length]);
 
   return (
     <div className="create-page">
@@ -1000,7 +938,7 @@ export default function Create() {
                 <select
                   id="backgroundSize"
                   value={backgroundSize}
-                  onChange={(e) => setBackgroundSize(e.target.value as 'landscape' | 'square' | 'portrait')}
+                  onChange={(e) => setBackgroundSize(e.target.value as BackgroundSize)}
                 >
                   <option value="landscape">Landscape (1536×1024)</option>
                   <option value="square">Square (1024×1024)</option>
@@ -1013,7 +951,7 @@ export default function Create() {
                 <select
                   id="quality"
                   value={quality}
-                  onChange={(e) => setQuality(e.target.value)}
+                  onChange={(e) => setQuality(e.target.value as ImageQuality)}
                 >
                   <option value="low">Low</option>
                   <option value="medium">Medium</option>
@@ -1029,7 +967,7 @@ export default function Create() {
                 <select
                   id="format"
                   value={format}
-                  onChange={(e) => setFormat(e.target.value)}
+                  onChange={(e) => setFormat(e.target.value as ImageFormat)}
                 >
                   <option value="png">PNG</option>
                   <option value="webp">WebP</option>

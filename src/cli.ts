@@ -7,6 +7,8 @@ import { z } from 'zod';
 import type { BrandConfig } from './types.js';
 import { forgeBrandKit } from './core/forge.js';
 import { getDefaultPresetId, getPromptPresetIds } from './lib/promptLibrary.js';
+import { getDefaultStyles } from './lib/styles.js';
+import { normalizeConfig } from './lib/config.js';
 
 dotenv.config();
 
@@ -25,19 +27,10 @@ const ConfigSchema = z.object({
   cache: z.boolean().optional(),
 });
 
-function parseColors(colorsStr?: string): string[] {
-  if (!colorsStr) return [];
-  return colorsStr.split(',').map((c) => c.trim()).filter(Boolean);
-}
-
-function parseStyles(stylesStr?: string): string[] {
-  if (!stylesStr) return ['minimal', 'neon', 'clay', 'blueprint'];
-  return stylesStr.split(',').map((s) => s.trim()).filter(Boolean);
-}
-
 async function main() {
   const defaultPreset = getDefaultPresetId();
   const presetList = getPromptPresetIds().join('|');
+  const defaultStylesLabel = getDefaultStyles().join(',');
   const program = new Command();
 
   program
@@ -50,7 +43,7 @@ async function main() {
     .option('--colors <colors>', 'Comma-separated colors (#RRGGBB)')
     .option(
       '--styles <styles>',
-      'Comma-separated styles (default: minimal,neon,clay,blueprint)'
+      `Comma-separated styles (default: ${defaultStylesLabel})`
     )
     .option(
       '--preset <preset>',
@@ -87,19 +80,23 @@ async function main() {
       cache: options.cache !== false,
     });
 
-    const config: BrandConfig = {
-      logoPath: validated.logo,
+    const normalized = normalizeConfig({
       name: validated.name,
       tagline: validated.tagline,
-      colors: parseColors(validated.colors),
-      styles: parseStyles(validated.styles),
+      colors: validated.colors,
+      styles: validated.styles,
       preset: validated.preset || defaultPreset,
-      n: parseInt(validated.n || '2', 10),
-      outputDir: validated.out || './out',
-      format: validated.format || 'png',
-      quality: validated.quality || 'high',
+      n: validated.n,
+      format: validated.format,
+      quality: validated.quality,
       dryRun: validated['dry-run'] || false,
       cache: validated.cache !== false,
+    });
+
+    const config: BrandConfig = {
+      ...normalized,
+      logoPath: validated.logo,
+      outputDir: validated.out || './out',
     };
 
     if (!existsSync(config.logoPath)) {

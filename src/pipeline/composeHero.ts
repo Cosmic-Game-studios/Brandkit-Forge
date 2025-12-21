@@ -4,25 +4,19 @@ import type { BrandConfig, BrandkitManifest } from '../types.js';
 import { buildEditPrompt } from '../lib/prompts.js';
 import { composeHero } from '../lib/openai.js';
 import { hashConfig, getCachedPath, setCachedPath } from '../lib/cache.js';
-import type { CostCallback } from './generateBackgrounds.js';
+import { getHeroSizes } from '../lib/imageSizes.js';
+import type { CostCallback } from './types.js';
 
-function getHeroSizes(config: BrandConfig): Array<{ type: string; size: '1536x1024' | '1024x1024' | '1024x1536'; filename: string }> {
-  const bgSize = config.backgroundSize || 'landscape';
-  const sizes: Array<{ type: string; size: '1536x1024' | '1024x1024' | '1024x1536'; filename: string }> = [];
+function buildEditKey(style: string, variant: number, sizeType: string): string {
+  return `${style}-${variant}-${sizeType}`;
+}
 
-  // Use .png as base - convertToFormat will change extension if needed
-  // Always include a square version
-  sizes.push({ type: 'square', size: '1024x1024', filename: 'hero-square.png' });
-
-  // Add the primary size based on config
-  if (bgSize === 'portrait') {
-    sizes.push({ type: 'portrait', size: '1024x1536', filename: 'hero-portrait.png' });
-  } else if (bgSize === 'landscape') {
-    sizes.push({ type: 'landscape', size: '1536x1024', filename: 'hero-landscape.png' });
-  }
-  // If square, we only generate the square version (already added above)
-
-  return sizes;
+function recordEditPrompt(
+  manifest: BrandkitManifest,
+  editKey: string,
+  prompt: string
+): void {
+  manifest.prompts.edits[editKey] = prompt;
 }
 
 export async function composeHeroes(
@@ -33,7 +27,7 @@ export async function composeHeroes(
   onCost?: CostCallback
 ): Promise<void> {
   const limit = pLimit(2);
-  const tasks = [];
+  const tasks: Array<Promise<string>> = [];
   const editPrompt = buildEditPrompt(config);
   const heroSizes = getHeroSizes(config);
 
@@ -42,20 +36,20 @@ export async function composeHeroes(
       const backgroundPath = bgPaths[i];
       for (const { type: sizeType, size, filename } of heroSizes) {
         const outputPath = join(outputDir, 'variants', style, `${i}`, filename);
-
-        const hash = hashConfig(config, `${style}-${i}-${sizeType}-${editPrompt}`);
+        const editKey = buildEditKey(style, i, sizeType);
+        const hash = hashConfig(config, `${editKey}-${editPrompt}`);
         const cachedPath = getCachedPath(hash, config);
 
         if (cachedPath) {
           manifest.generated.heroes.push(cachedPath);
-          manifest.prompts.edits[`${style}-${i}-${sizeType}`] = editPrompt;
+          recordEditPrompt(manifest, editKey, editPrompt);
           continue;
         }
 
         if (config.dryRun) {
-          console.log(`  [DRY-RUN] Would compose: ${style}-${i}-${sizeType}`);
+          console.log(`  [DRY-RUN] Would compose: ${editKey}`);
           console.log(`    Prompt: ${editPrompt}`);
-          manifest.prompts.edits[`${style}-${i}-${sizeType}`] = editPrompt;
+          recordEditPrompt(manifest, editKey, editPrompt);
           continue;
         }
 
@@ -70,8 +64,7 @@ export async function composeHeroes(
           );
           setCachedPath(hash, result.path, config);
           manifest.generated.heroes.push(result.path);
-          manifest.prompts.edits[`${style}-${i}-${sizeType}`] = editPrompt;
-          // Report cost
+          recordEditPrompt(manifest, editKey, editPrompt);
           if (onCost) {
             onCost(result.cost.cost, 'heroes');
           }

@@ -639,11 +639,16 @@ Content-Disposition: attachment; filename="brandkit-{id}.zip"
 | Path | Description |
 |------|-------------|
 | `src/core/forge.ts` | Main orchestration engine |
+| `src/lib/config.ts` | Shared config normalization + defaults |
+| `src/lib/imageFormat.ts` | Output format helpers for images |
+| `src/lib/imageSizes.ts` | Background/hero size helpers |
 | `src/lib/openai.ts` | OpenAI client + cost calculation |
 | `src/lib/prompts.ts` | Prompt templates and builders |
+| `src/lib/styles.ts` | Default styles + parsing helpers |
 | `src/pipeline/` | Generation pipelines |
 | `src/server/` | Fastify API server |
 | `web/src/` | React frontend |
+| `web/src/lib/` | Shared UI constants and helpers |
 
 ---
 

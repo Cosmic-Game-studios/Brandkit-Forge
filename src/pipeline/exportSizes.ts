@@ -4,6 +4,12 @@ import { join } from 'path';
 import { mkdir } from 'fs/promises';
 import type { BrandConfig, BrandkitManifest } from '../types.js';
 import pLimit from 'p-limit';
+import {
+  applyOutputFormat,
+  getOutputExtension,
+  getOutputFormat,
+  getOutputQuality,
+} from '../lib/imageFormat.js';
 
 const ICON_SIZES = [
   { name: 'app-icon-1024', size: 1024 },
@@ -17,18 +23,6 @@ const ICON_SIZES = [
   { name: 'favicon-16', size: 16 },
 ];
 
-function applyFormat(sharpInstance: sharp.Sharp, config: BrandConfig): sharp.Sharp {
-  const format = config.format || 'png';
-  const quality = config.compression || 85;
-
-  if (format === 'jpeg') {
-    return sharpInstance.jpeg({ quality });
-  } else if (format === 'webp') {
-    return sharpInstance.webp({ quality });
-  }
-  return sharpInstance.png();
-}
-
 export async function exportIcons(
   logoPath: string,
   outputDir: string,
@@ -40,21 +34,25 @@ export async function exportIcons(
 
   const logoBuffer = readFileSync(logoPath);
   const limit = pLimit(5);
-  const format = config.format || 'png';
+  const format = getOutputFormat(config);
+  const quality = getOutputQuality(config);
+  const extension = getOutputExtension(format);
 
   const tasks = ICON_SIZES.map(({ name, size }) =>
     limit(async () => {
-      const ext = format === 'jpeg' ? 'jpg' : format;
-      const outputPath = join(iconsDir, `${name}.${ext}`);
+      const outputPath = join(iconsDir, `${name}.${extension}`);
 
       let sharpInstance = sharp(logoBuffer)
-        .resize(size, size, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } });
+        .resize(size, size, {
+          fit: 'contain',
+          background: { r: 0, g: 0, b: 0, alpha: 0 },
+        });
 
-      sharpInstance = applyFormat(sharpInstance, config);
+      sharpInstance = applyOutputFormat(sharpInstance, format, quality);
       await sharpInstance.toFile(outputPath);
 
       manifest.generated.icons.push(outputPath);
-      console.log(`  Exported: ${name}.${ext}`);
+      console.log(`  Exported: ${name}.${extension}`);
     })
   );
 
@@ -71,21 +69,27 @@ export async function exportSocial(
   await mkdir(socialDir, { recursive: true });
 
   const heroBuffer = readFileSync(heroPath);
-  const format = config.format || 'png';
+  const format = getOutputFormat(config);
+  const quality = getOutputQuality(config);
+  const extension = getOutputExtension(format);
 
-  const ogExt = format === 'jpeg' ? 'jpg' : format;
-  const ogPath = join(socialDir, `og-1200x630.${ogExt}`);
-  let ogSharp = sharp(heroBuffer).resize(1200, 630, { fit: 'cover', position: 'center' });
-  ogSharp = applyFormat(ogSharp, config);
+  const ogPath = join(socialDir, `og-1200x630.${extension}`);
+  let ogSharp = sharp(heroBuffer).resize(1200, 630, {
+    fit: 'cover',
+    position: 'center',
+  });
+  ogSharp = applyOutputFormat(ogSharp, format, quality);
   await ogSharp.toFile(ogPath);
   manifest.generated.social.push(ogPath);
-  console.log(`  Exported: og-1200x630.${ogExt}`);
+  console.log(`  Exported: og-1200x630.${extension}`);
 
-  const xExt = format === 'jpeg' ? 'jpg' : format;
-  const xPath = join(socialDir, `x-1600x900.${xExt}`);
-  let xSharp = sharp(heroBuffer).resize(1600, 900, { fit: 'cover', position: 'center' });
-  xSharp = applyFormat(xSharp, config);
+  const xPath = join(socialDir, `x-1600x900.${extension}`);
+  let xSharp = sharp(heroBuffer).resize(1600, 900, {
+    fit: 'cover',
+    position: 'center',
+  });
+  xSharp = applyOutputFormat(xSharp, format, quality);
   await xSharp.toFile(xPath);
   manifest.generated.social.push(xPath);
-  console.log(`  Exported: x-1600x900.${xExt}`);
+  console.log(`  Exported: x-1600x900.${extension}`);
 }
