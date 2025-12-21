@@ -20,7 +20,7 @@
 
 <img src="assets/demo-ui.png" alt="Brandkit Forge Demo - Modern UI with Wizard Flow" width="100%" />
 
-> **Modern UI:** The interface features a 3-step wizard (Identity → Aesthetics → Configuration), live preview sidebar, and polished design built with Tailwind CSS.
+> **🎨 Redesigned UI (v1.5):** Complete visual overhaul with advanced settings panel, image size selection, format options, lightbox preview, and category-based gallery with tabs.
 
 <br />
 
@@ -85,6 +85,7 @@ The result? Professional-quality brand assets that would normally take a designe
 - **Multiple Styles** — Minimal, Neon, Clay, Blueprint + unlimited custom styles
 - **Quality Presets** — Core, Soft, Bold, Noir aesthetic directions
 - **Color Intelligence** — Automatic color palette detection and integration
+- **Image Size Options** — Landscape (1536×1024), Square (1024×1024), Portrait (1024×1536)
 
 </td>
 <td width="50%" valign="top">
@@ -93,7 +94,8 @@ The result? Professional-quality brand assets that would normally take a designe
 
 - **Complete Icon Pack** — 16px → 1024px, favicons included
 - **Social Media Kit** — OG images, Twitter/X cards, LinkedIn banners
-- **Multiple Formats** — PNG, WebP, JPEG with quality control
+- **Multiple Formats** — PNG, WebP, JPEG with compression control
+- **Transparency Support** — PNG alpha channel for transparent backgrounds
 - **ZIP Export** — One-click download of all generated assets
 - **JSON Manifest** — Full audit trail with prompts and parameters
 
@@ -106,11 +108,13 @@ The result? Professional-quality brand assets that would normally take a designe
 
 - **CLI + Modern Web UI** — Choose your preferred workflow
 - **Wizard-Based Interface** — Intuitive 3-step guided process
+- **Advanced Settings Panel** — Fine-tune image size, format, and compression
 - **REST API** — Full programmatic access for automation
 - **Real-time Updates** — Server-Sent Events for live progress
-- **Live Cost Tracking** — Know your API costs before and during generation
+- **Live Cost Tracking** — Dynamic cost estimation based on settings
 - **TypeScript** — Fully typed codebase with excellent IDE support
 - **Tailwind CSS** — Modern, maintainable styling with utility classes
+- **Vitest Testing** — Unit tests for API client and form logic
 
 </td>
 <td width="50%" valign="top">
@@ -137,10 +141,14 @@ The result? Professional-quality brand assets that would normally take a designe
 
 - **🧙‍♂️ Wizard Flow** — Guided 3-step process (Identity → Aesthetics → Configuration) makes brandkit creation intuitive
 - **👁️ Live Preview** — Real-time preview card in the sidebar shows your selections as you configure
+- **⚙️ Advanced Settings** — Expandable panel for image size, format, compression, and transparency options
+- **💰 Dynamic Cost Display** — Cost estimation updates in real-time based on selected settings
 - **✨ Smooth Animations** — Fluid transitions and micro-interactions throughout the interface
 - **📱 Responsive Design** — Works beautifully on desktop, tablet, and mobile devices
 - **🎯 Clear Navigation** — Step-by-step progress indicator keeps you oriented
-- **🖼️ Enhanced Gallery** — Modern grid layout with improved image preview and download options
+- **🖼️ Lightbox Preview** — Click any image to view full-size with zoom overlay
+- **📂 Category Tabs** — Filter results by All, Backgrounds, Heroes, Icons, or Social
+- **📋 Collapsible Manifest** — View generation details without cluttering the gallery
 
 ---
 
@@ -168,7 +176,7 @@ The result? Professional-quality brand assets that would normally take a designe
 </tr>
 </table>
 
-> **Note:** Screenshots show the modernized UI with Tailwind CSS, wizard flow, and English interface. The interface features a 3-step guided process with live preview sidebar.
+> **Note:** Screenshots are being updated to reflect the latest UI redesign (v1.5) with advanced settings, lightbox preview, and category-based gallery.
 
 ```bash
 # Start the Web UI
@@ -285,8 +293,11 @@ brandkit-forge [options]
 | `--preset <name>` | Visual preset | `core` |
 | `-n <number>` | Variants per style | `2` |
 | `--out <dir>` | Output directory | `./out` |
-| `--format <fmt>` | Image format | `png` |
+| `--format <fmt>` | Image format (png, webp, jpeg) | `png` |
 | `--quality <level>` | Generation quality | `high` |
+| `--size <size>` | Image size (landscape, square, portrait) | `landscape` |
+| `--compression <num>` | JPEG compression (50-100) | `85` |
+| `--transparent` | Enable PNG transparency | `false` |
 | `--dry-run` | Preview prompts only | `false` |
 | `--no-cache` | Disable caching | `false` |
 
@@ -344,12 +355,14 @@ npm run build:web && npm run start:web
 | 🧙‍♂️ **Wizard Flow** | Guided 3-step process (Identity → Aesthetics → Configuration) |
 | 🖱️ **Drag & Drop** | Upload logo with drag and drop |
 | 👁️ **Live Preview** | Real-time style and setting preview in sidebar |
-| 💰 **Cost Estimation** | See estimated costs before generating |
+| ⚙️ **Advanced Settings** | Image size, format (PNG/WebP/JPEG), compression, transparency |
+| 💰 **Dynamic Cost** | Cost estimation updates based on size and quality settings |
 | 📊 **Progress Tracking** | SSE-powered real-time updates with beautiful UI |
-| 🖼️ **Modern Gallery** | Responsive grid view with enhanced image preview |
+| 🖼️ **Lightbox Gallery** | Click-to-zoom image preview with ESC to close |
+| 📂 **Category Tabs** | Filter by All, Backgrounds, Heroes, Icons, Social |
 | 📥 **ZIP Export** | Download everything in one click |
 | 🎨 **Modern Design** | Built with Tailwind CSS for a polished, professional look |
-| ✨ **Smooth Animations** | Fluid transitions and interactions throughout |
+| ✨ **Smooth Animations** | Fluid transitions and hover effects throughout |
 
 </details>
 
@@ -463,15 +476,16 @@ Real-time cost tracking based on OpenAI `gpt-image-1.5` pricing.
 #### Cost Formula
 
 ```
-Total = Styles × Variants × 3 images × Price per image
+Total = Styles × Variants × 3 images × Price per image (based on size)
 ```
 
 #### Example Calculation
 
-| Configuration | Calculation | Total |
-|---------------|-------------|-------|
-| 4 styles, 2 variants, high quality | 4 × 2 × 3 × ~$0.22 | **~$5.28** |
-| 2 styles, 1 variant, low quality | 2 × 1 × 3 × ~$0.013 | **~$0.08** |
+| Configuration | Size | Calculation | Total |
+|---------------|------|-------------|-------|
+| 4 styles, 2 variants, high quality | Landscape | 4 × 2 × 3 × $0.25 | **~$6.00** |
+| 4 styles, 2 variants, high quality | Square | 4 × 2 × 3 × $0.17 | **~$4.08** |
+| 2 styles, 1 variant, low quality | Square | 2 × 1 × 3 × $0.01 | **~$0.06** |
 
 > ⚠️ **Note:** Actual costs may vary slightly based on OpenAI's token-based pricing for prompts.
 
@@ -517,6 +531,9 @@ interface Config {
   n?: string;             // Variants per style
   format?: string;        // png | webp | jpeg
   quality?: string;       // low | medium | high | auto
+  size?: string;          // landscape | square | portrait
+  compression?: number;   // JPEG compression 50-100
+  transparent?: boolean;  // PNG transparency
   apiKey?: string;        // OpenAI API key
   customStyles?: object;  // Custom style definitions
 }
@@ -730,6 +747,7 @@ Our roadmap is designed around one goal: **delivering the best possible brand as
 | **v1.2** | Custom Styles | User-defined style templates with prompt control |
 | **v1.3** | Chip-Based Builder | Visual prompt builder — no prompt engineering needed |
 | **v1.4** | Modern UI/UX | Wizard flow, Tailwind CSS design, improved gallery, smooth animations |
+| **v1.5** | Advanced Settings & Gallery | Image size selector, format options (PNG/WebP/JPEG), compression control, transparency support, lightbox preview, category tabs, collapsible manifest |
 
 ---
 
