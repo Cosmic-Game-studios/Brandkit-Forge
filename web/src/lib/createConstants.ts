@@ -41,6 +41,16 @@ export const STYLE_CHIPS = {
 
 export const DEFAULT_STYLES = ['minimal', 'neon', 'clay', 'blueprint'] as const;
 export const AVAILABLE_STYLES = [...DEFAULT_STYLES];
+export const DEFAULT_STYLE_CHIPS = [
+  'minimal',
+  'clean planes',
+  'architectural',
+  'premium',
+  'abstract',
+] as const;
+
+export const DEFAULT_PRESET_BACKGROUND_CHIPS = ['cinematic', 'premium', 'modern'] as const;
+export const DEFAULT_PRESET_EDIT_CHIPS = ['polished', 'refined', 'clean'] as const;
 
 export type MoodCategory = keyof typeof MOOD_CHIPS;
 export type StyleCategory = keyof typeof STYLE_CHIPS;

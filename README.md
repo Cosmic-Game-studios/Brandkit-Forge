@@ -18,7 +18,9 @@
 
 <br />
 
-<img src="assets/demo-ui.png" alt="Brandkit Forge Demo" width="100%" />
+<img src="assets/demo-ui.png" alt="Brandkit Forge Demo - Modern UI with Wizard Flow" width="100%" />
+
+> **Modern UI:** The interface features a 3-step wizard (Identity → Aesthetics → Configuration), live preview sidebar, and polished design built with Tailwind CSS.
 
 <br />
 
@@ -102,11 +104,13 @@ The result? Professional-quality brand assets that would normally take a designe
 
 ### 🛠 Developer Experience
 
-- **CLI + Web UI** — Choose your preferred workflow
+- **CLI + Modern Web UI** — Choose your preferred workflow
+- **Wizard-Based Interface** — Intuitive 3-step guided process
 - **REST API** — Full programmatic access for automation
 - **Real-time Updates** — Server-Sent Events for live progress
 - **Live Cost Tracking** — Know your API costs before and during generation
 - **TypeScript** — Fully typed codebase with excellent IDE support
+- **Tailwind CSS** — Modern, maintainable styling with utility classes
 
 </td>
 <td width="50%" valign="top">
@@ -125,6 +129,21 @@ The result? Professional-quality brand assets that would normally take a designe
 
 ---
 
+## 🎨 Modern Web Interface
+
+**Experience a polished, professional UI** built with Tailwind CSS and modern design principles.
+
+### Key UI Features
+
+- **🧙‍♂️ Wizard Flow** — Guided 3-step process (Identity → Aesthetics → Configuration) makes brandkit creation intuitive
+- **👁️ Live Preview** — Real-time preview card in the sidebar shows your selections as you configure
+- **✨ Smooth Animations** — Fluid transitions and micro-interactions throughout the interface
+- **📱 Responsive Design** — Works beautifully on desktop, tablet, and mobile devices
+- **🎯 Clear Navigation** — Step-by-step progress indicator keeps you oriented
+- **🖼️ Enhanced Gallery** — Modern grid layout with improved image preview and download options
+
+---
+
 ## 🎮 Demo Mode
 
 **Try Brandkit Forge without an API key!** Demo Mode generates prompts you can use to create your brand assets manually.
@@ -134,7 +153,7 @@ The result? Professional-quality brand assets that would normally take a designe
 <td width="33%" align="center">
 <strong>1. Configure in Demo Mode</strong><br />
 <img src="docs/examples/01-demo-mode-ui.png" alt="Demo Mode UI" width="100%" /><br />
-<em>Enable Demo Mode, upload logo, select styles</em>
+<em>Wizard flow: Identity → Aesthetics → Configuration</em>
 </td>
 <td width="33%" align="center">
 <strong>2. Copy Generated Prompts</strong><br />
@@ -148,6 +167,8 @@ The result? Professional-quality brand assets that would normally take a designe
 </td>
 </tr>
 </table>
+
+> **Note:** Screenshots show the modernized UI with Tailwind CSS, wizard flow, and English interface. The interface features a 3-step guided process with live preview sidebar.
 
 ```bash
 # Start the Web UI
@@ -297,7 +318,7 @@ brandkit-forge --logo logo.png --name "Test" --dry-run
 <details>
 <summary><h3>🌐 Web UI</h3></summary>
 
-The web interface provides a visual, drag-and-drop experience.
+The web interface provides a modern, intuitive experience with a guided wizard flow. Built with **Tailwind CSS** and **Lucide Icons** for a polished, professional design.
 
 #### Start Server
 
@@ -320,12 +341,15 @@ npm run build:web && npm run start:web
 
 | Feature | Description |
 |---------|-------------|
-| 🖱️ Drag & Drop | Upload logo with drag and drop |
-| 👁️ Live Preview | Real-time style and setting preview |
-| 💰 Cost Estimation | See estimated costs before generating |
-| 📊 Progress Tracking | SSE-powered real-time updates |
-| 🖼️ Gallery View | Browse and download generated assets |
-| 📥 ZIP Export | Download everything in one click |
+| 🧙‍♂️ **Wizard Flow** | Guided 3-step process (Identity → Aesthetics → Configuration) |
+| 🖱️ **Drag & Drop** | Upload logo with drag and drop |
+| 👁️ **Live Preview** | Real-time style and setting preview in sidebar |
+| 💰 **Cost Estimation** | See estimated costs before generating |
+| 📊 **Progress Tracking** | SSE-powered real-time updates with beautiful UI |
+| 🖼️ **Modern Gallery** | Responsive grid view with enhanced image preview |
+| 📥 **ZIP Export** | Download everything in one click |
+| 🎨 **Modern Design** | Built with Tailwind CSS for a polished, professional look |
+| ✨ **Smooth Animations** | Fluid transitions and interactions throughout |
 
 </details>
 
@@ -585,10 +609,10 @@ Content-Disposition: attachment; filename="brandkit-{id}.zip"
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
 │                              FRONTEND                                   │
-│                        React + Vite + TypeScript                        │
+│              React + Vite + TypeScript + Tailwind CSS                   │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌────────────┐  │
 │  │    Create    │  │   Results    │  │    Gallery   │  │  Settings  │  │
-│  │     Page     │  │     Page     │  │     View     │  │            │  │
+│  │  (Wizard)    │  │     Page     │  │     View     │  │            │  │
 │  └──────────────┘  └──────────────┘  └──────────────┘  └────────────┘  │
 └────────────────────────────────────────────────────────────────────────┘
                                     │
@@ -647,7 +671,8 @@ Content-Disposition: attachment; filename="brandkit-{id}.zip"
 | `src/lib/styles.ts` | Default styles + parsing helpers |
 | `src/pipeline/` | Generation pipelines |
 | `src/server/` | Fastify API server |
-| `web/src/` | React frontend |
+| `web/src/` | React frontend (Tailwind CSS + Wizard Flow) |
+| `web/src/pages/` | Create (Wizard), Results (Gallery) pages |
 | `web/src/lib/` | Shared UI constants and helpers |
 
 ---
@@ -704,6 +729,7 @@ Our roadmap is designed around one goal: **delivering the best possible brand as
 | **v1.1** | Cost Transparency | Live cost tracking, estimated pricing before generation |
 | **v1.2** | Custom Styles | User-defined style templates with prompt control |
 | **v1.3** | Chip-Based Builder | Visual prompt builder — no prompt engineering needed |
+| **v1.4** | Modern UI/UX | Wizard flow, Tailwind CSS design, improved gallery, smooth animations |
 
 ---
 
