@@ -24,6 +24,10 @@
 
 <br />
 
+> **🏆 1st Place — Community Dev Challenge (Image Gen API):** Recognized for clean execution and the strongest overall use of the Image API.
+
+<br />
+
 ### Example Output
 
 <img src="docs/examples/04-tool-output-hero.png" alt="Generated Hero Image" width="600" />
