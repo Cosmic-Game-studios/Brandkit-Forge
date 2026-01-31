@@ -31,6 +31,15 @@ export function PreviewSidebar({
   n,
   estimatedCost,
 }: PreviewSidebarProps) {
+  const variantCount = Number.parseInt(n, 10) || 0;
+  const hasSelections = selectedStyles.length > 0;
+  const costNudge =
+    hasSelections && variantCount > 0
+      ? `Current setup: ${selectedStyles.length} style${
+          selectedStyles.length === 1 ? '' : 's'
+        } × ${variantCount} variant${variantCount === 1 ? '' : 's'}.`
+      : 'Select at least one style and a variant count to see cost guidance.';
+
   return (
     <div className="space-y-6">
       <div className="sticky top-28 space-y-6">
@@ -153,8 +162,28 @@ export function PreviewSidebar({
             </div>
           </div>
         )}
+
+        <div className="bg-white rounded-3xl p-6 shadow-xl border border-gray-100 space-y-4">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-widest text-gray-500">
+              Update: Cost Optimization
+            </span>
+            <div className="px-2.5 py-1 rounded-full bg-brand-teal/10 text-[10px] font-bold text-brand-teal uppercase tracking-widest">
+              New
+            </div>
+          </div>
+          <p className="text-sm font-semibold text-gray-900">
+            Save budget and improve image quality with small tweaks.
+          </p>
+          <p className="text-xs text-gray-500 font-medium">{costNudge}</p>
+          <ul className="space-y-2 text-xs text-gray-600 leading-relaxed">
+            <li>• Reduce variants or styles to lower API costs immediately.</li>
+            <li>• Choose “Medium” for balance and use “High” only for final assets.</li>
+            <li>• Use PNG + transparency for logos and WebP/JPEG for lighter hero images.</li>
+            <li>• Keep the logo clean: high contrast and minimal text deliver better results.</li>
+          </ul>
+        </div>
       </div>
     </div>
   );
 }
-
