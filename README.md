@@ -7,7 +7,7 @@
 ### Transform a single logo into a complete brand asset pack with AI
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/Cosmic-Game-studios/Brandkit-Forge/ci.yml?branch=main&style=for-the-badge&logo=github)](https://github.com/Cosmic-Game-studios/Brandkit-Forge/actions)
-[![npm version](https://img.shields.io/npm/v/brandkit-forge?style=for-the-badge&logo=npm&color=cb3837)](https://www.npmjs.com/package/brandkit-forge)
+[![npm version](https://img.shields.io/badge/version-2.0.0-blue?style=for-the-badge&logo=npm&color=cb3837)](https://www.npmjs.com/package/brandkit-forge)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![OpenAI](https://img.shields.io/badge/OpenAI-GPT--image--1.5-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com)
@@ -20,7 +20,7 @@
 
 <img src="assets/demo-ui.png" alt="Brandkit Forge Demo - Modern UI with Wizard Flow" width="100%" />
 
-> **🎨 Redesigned UI (v1.5):** Complete visual overhaul with advanced settings panel, image size selection, format options, lightbox preview, and category-based gallery with tabs.
+> **🚀 v2.0 Risen Major Update:** 8 visual styles, 8 presets, 12 industry templates, AI color extraction, dark mode, modernized gallery, performance tracking, and enhanced CLI.
 
 <br />
 
@@ -86,9 +86,10 @@ The result? Professional-quality brand assets that would normally take a designe
 
 - **Smart Backgrounds** — Context-aware backgrounds that complement your brand identity
 - **Hero Compositions** — Professional logo placement with optional tagline
-- **Multiple Styles** — Minimal, Neon, Clay, Blueprint + unlimited custom styles
-- **Quality Presets** — Core, Soft, Bold, Noir aesthetic directions
-- **Color Intelligence** — Automatic color palette detection and integration
+- **8 Visual Styles** — Minimal, Neon, Clay, Blueprint, Gradient, Retro, Glassmorphism, Watercolor
+- **8 Quality Presets** — Core, Soft, Bold, Noir, Zen, Electric, Vintage, Fresh
+- **12 Industry Templates** — Tech, Creative, Finance, Food, Fashion, Health, Gaming, Education, Music, Eco, Vintage, Minimal
+- **AI Color Extractor** — Auto-detect dominant colors from logo with smart style/preset suggestions
 - **Image Size Options** — Landscape (1536×1024), Square (1024×1024), Portrait (1024×1536)
 
 </td>
@@ -112,13 +113,14 @@ The result? Professional-quality brand assets that would normally take a designe
 
 - **CLI + Modern Web UI** — Choose your preferred workflow
 - **Wizard-Based Interface** — Intuitive 3-step guided process
+- **Quick Start Templates** — One-click industry templates for instant configuration
+- **Dark Mode** — Full dark/light theme with system preference detection
 - **Advanced Settings Panel** — Fine-tune image size, format, and compression
-- **REST API** — Full programmatic access for automation
+- **REST API** — Full programmatic access with new endpoints for templates, presets, and color analysis
 - **Real-time Updates** — Server-Sent Events for live progress
 - **Live Cost Tracking** — Dynamic cost estimation based on settings
+- **Performance Stats** — Per-step timing breakdown with visual charts
 - **TypeScript** — Fully typed codebase with excellent IDE support
-- **Tailwind CSS** — Modern, maintainable styling with utility classes
-- **Vitest Testing** — Unit tests for API client and form logic
 
 </td>
 <td width="50%" valign="top">
@@ -130,6 +132,7 @@ The result? Professional-quality brand assets that would normally take a designe
 - **Parallel Processing** — Concurrent generation for speed
 - **Error Recovery** — Graceful handling with detailed logs
 - **Extensible** — Custom styles, presets, and pipelines
+- **Performance Tracking** — Per-step duration metrics in forge engine
 
 </td>
 </tr>
@@ -144,6 +147,8 @@ The result? Professional-quality brand assets that would normally take a designe
 ### Key UI Features
 
 - **🧙‍♂️ Wizard Flow** — Guided 3-step process (Identity → Aesthetics → Configuration) makes brandkit creation intuitive
+- **🚀 Quick Start Templates** — One-click industry templates pre-configure styles, presets, colors, and settings
+- **🌙 Dark Mode** — Full dark/light theme toggle with system preference detection and localStorage persistence
 - **👁️ Live Preview** — Real-time preview card in the sidebar shows your selections as you configure
 - **⚙️ Advanced Settings** — Expandable panel for image size, format, compression, and transparency options
 - **💰 Dynamic Cost Display** — Cost estimation updates in real-time based on selected settings
@@ -180,7 +185,7 @@ The result? Professional-quality brand assets that would normally take a designe
 </tr>
 </table>
 
-> **Note:** Screenshots are being updated to reflect the latest UI redesign (v1.5) with advanced settings, lightbox preview, and category-based gallery.
+> **Note:** Screenshots are being updated to reflect the v2.0 redesign with dark mode, industry templates, and expanded styles.
 
 ```bash
 # Start the Web UI
@@ -295,6 +300,9 @@ brandkit-forge [options]
 | `--colors <hex,hex>` | Brand colors (comma-separated) | Auto-detect |
 | `--styles <list>` | Style names (comma-separated) | `minimal,neon,clay,blueprint` |
 | `--preset <name>` | Visual preset | `core` |
+| `--template <id>` | Use an industry template | — |
+| `--list-templates` | List available industry templates | — |
+| `--analyze-colors` | Auto-extract dominant colors from logo | `false` |
 | `-n <number>` | Variants per style | `2` |
 | `--out <dir>` | Output directory | `./out` |
 | `--format <fmt>` | Image format (png, webp, jpeg) | `png` |
@@ -305,11 +313,36 @@ brandkit-forge [options]
 | `--dry-run` | Preview prompts only | `false` |
 | `--no-cache` | Disable caching | `false` |
 
+#### Available Styles
+
+`minimal`, `neon`, `clay`, `blueprint`, `gradient`, `retro`, `glassmorphism`, `watercolor`
+
+#### Available Presets
+
+`core`, `soft`, `bold`, `noir`, `zen`, `electric`, `vintage`, `fresh`
+
 #### Examples
 
 ```bash
 # Minimal
 brandkit-forge --logo logo.png --name "Acme"
+
+# Use an industry template
+brandkit-forge --logo logo.png --name "Acme" --template tech-startup
+
+# Auto-detect colors from logo
+brandkit-forge --logo logo.png --name "Acme" --analyze-colors
+
+# List all templates
+brandkit-forge --logo logo.png --name "x" --list-templates
+
+# New styles: watercolor + glassmorphism with zen preset
+brandkit-forge \
+  --logo ./assets/logo.png \
+  --name "Harmony" \
+  --styles "watercolor,glassmorphism,gradient" \
+  --preset zen \
+  -n 2
 
 # Full options
 brandkit-forge \
@@ -317,8 +350,8 @@ brandkit-forge \
   --name "Side Quest" \
   --tagline "Go outside. Level up." \
   --colors "#6D28D9,#06B6D4" \
-  --styles "minimal,neon,blueprint,clay" \
-  --preset bold \
+  --styles "minimal,neon,retro,gradient" \
+  --preset electric \
   -n 3 \
   --out ./brand-assets \
   --format webp \
@@ -357,6 +390,8 @@ npm run build:web && npm run start:web
 | Feature | Description |
 |---------|-------------|
 | 🧙‍♂️ **Wizard Flow** | Guided 3-step process (Identity → Aesthetics → Configuration) |
+| 🚀 **Template Picker** | Quick start with 12 industry templates — one click to configure everything |
+| 🌙 **Dark Mode** | Full dark/light toggle with system preference and localStorage persistence |
 | 🖱️ **Drag & Drop** | Upload logo with drag and drop |
 | 👁️ **Live Preview** | Real-time style and setting preview in sidebar |
 | ⚙️ **Advanced Settings** | Image size, format (PNG/WebP/JPEG), compression, transparency |
@@ -365,15 +400,15 @@ npm run build:web && npm run start:web
 | 🖼️ **Lightbox Gallery** | Click-to-zoom image preview with ESC to close |
 | 📂 **Category Tabs** | Filter by All, Backgrounds, Heroes, Icons, Social |
 | 📥 **ZIP Export** | Download everything in one click |
-| 🎨 **Modern Design** | Built with Tailwind CSS for a polished, professional look |
-| ✨ **Smooth Animations** | Fluid transitions and hover effects throughout |
+| 🎨 **Modern Design** | Built with Tailwind CSS with CSS variable theming |
+| ✨ **Smooth Animations** | Fluid transitions, fade-in, slide-up effects throughout |
 
 </details>
 
 <details>
 <summary><h3>🎨 Presets & Styles</h3></summary>
 
-#### Visual Presets
+#### Visual Presets (8)
 
 | Preset | Description | Use Case |
 |--------|-------------|----------|
@@ -381,8 +416,12 @@ npm run build:web && npm run start:web
 | `soft` | Luminous luxury, dreamy softness | Lifestyle, wellness, creative |
 | `bold` | Maximum contrast, bold energy | Gaming, tech startups, sports |
 | `noir` | Dark, sleek, cinematic intensity | Luxury, finance, entertainment |
+| `zen` | Calm, balanced, meditative serenity | Health, wellness, mindfulness |
+| `electric` | High-voltage energy, vivid spectrum bursts | Gaming, esports, music |
+| `vintage` | Warm nostalgic tones, classic elegance | Heritage brands, artisan, craft |
+| `fresh` | Vibrant, youthful, clean modern optimism | Education, food, startups |
 
-#### Built-in Styles
+#### Built-in Styles (8)
 
 | Style | Description |
 |-------|-------------|
@@ -390,6 +429,29 @@ npm run build:web && npm run start:web
 | `neon` | Vibrant glow, cyberpunk aesthetics, electric colors |
 | `clay` | Soft 3D, tactile textures, playful depth |
 | `blueprint` | Technical precision, schematic aesthetics |
+| `gradient` | Rich multi-layered gradients, aurora color transitions |
+| `retro` | Vintage halftone textures, warm analog tones, nostalgic pop art |
+| `glassmorphism` | Frosted glass layers, translucent surfaces, modern UI aesthetic |
+| `watercolor` | Soft watercolor washes, organic paint bleeds, fine art quality |
+
+#### Industry Templates (12)
+
+One-click templates that pre-configure styles, presets, colors, and settings:
+
+| Template | Industry | Styles | Preset |
+|----------|----------|--------|--------|
+| Tech Startup | Technology | minimal, gradient, glassmorphism | core |
+| Creative Agency | Creative | watercolor, gradient, clay | bold |
+| Finance & Banking | Finance | minimal, blueprint, glassmorphism | noir |
+| Food & Beverage | Food | watercolor, retro, clay | fresh |
+| Fashion & Luxury | Fashion | minimal, glassmorphism, gradient | noir |
+| Health & Wellness | Health | minimal, watercolor, gradient | zen |
+| Gaming & Esports | Gaming | neon, gradient, glassmorphism | electric |
+| Education | Education | clay, minimal, gradient | fresh |
+| Music & Entertainment | Entertainment | retro, neon, gradient | electric |
+| Eco & Sustainable | Environment | watercolor, minimal, clay | zen |
+| Vintage & Craft | Craft | retro, watercolor, blueprint | vintage |
+| Minimal Modern | General | minimal, glassmorphism | soft |
 
 #### Custom Styles
 
@@ -398,7 +460,7 @@ Create unlimited custom styles via Web UI or API:
 ```json
 {
   "customStyles": {
-    "retro-wave": "synthwave, neon grid, 80s retro futurism, purple cyan glow",
+    "synthwave": "synthwave, neon grid, 80s retro futurism, purple cyan glow",
     "organic": "natural textures, earthy tones, botanical elements"
   }
 }
@@ -419,11 +481,11 @@ Instead of writing complex prompts manually, select properties from curated cate
 
 | Category | Available Chips |
 |----------|-----------------|
-| **Look** | minimal, neon, clay, blueprint, retro, futuristic, organic, brutalist |
-| **Surface** | clean planes, smooth gradients, rough texture, glass, metallic, matte, holographic, iridescent |
-| **Lighting** | architectural, studio, dramatic, soft glow, rim light, ambient, spot light, diffused |
-| **Mood** | museum-grade, premium, playful, corporate, artistic, tech, luxury, indie |
-| **Form** | abstract, geometric, fluid, angular, rounded, layered, flat, 3D depth |
+| **Look** | minimal, neon, clay, blueprint, gradient, retro, glassmorphism, watercolor, futuristic, organic, brutalist |
+| **Surface** | clean planes, smooth gradients, rough texture, glass, metallic, matte, holographic, iridescent, frosted, watercolor wash |
+| **Lighting** | architectural, studio, dramatic, soft glow, rim light, ambient, spot light, diffused, golden hour, electric |
+| **Mood** | museum-grade, premium, playful, corporate, artistic, tech, luxury, indie, zen, retro-futuristic |
+| **Form** | abstract, geometric, fluid, angular, rounded, layered, flat, 3D depth, organic flow, paint bleeds |
 
 #### Preset Builder Categories
 
@@ -531,7 +593,7 @@ interface Config {
   tagline?: string;       // Optional tagline
   colors?: string;        // Comma-separated hex colors
   styles?: string;        // Comma-separated style names
-  preset?: string;        // core | soft | bold | noir
+  preset?: string;        // core | soft | bold | noir | zen | electric | vintage | fresh
   n?: string;             // Variants per style
   format?: string;        // png | webp | jpeg
   quality?: string;       // low | medium | high | auto
@@ -540,6 +602,7 @@ interface Config {
   transparent?: boolean;  // PNG transparency
   apiKey?: string;        // OpenAI API key
   customStyles?: object;  // Custom style definitions
+  customPresets?: object; // Custom preset definitions
 }
 ```
 
@@ -621,6 +684,86 @@ Content-Type: application/zip
 Content-Disposition: attachment; filename="brandkit-{id}.zip"
 ```
 
+---
+
+#### `GET /api/templates` — List Templates *(v2.0)*
+
+Returns all 12 industry templates with their configurations.
+
+**Response:**
+```json
+[
+  {
+    "id": "tech-startup",
+    "name": "Tech Startup",
+    "industry": "Technology",
+    "description": "Clean, modern look with bold gradients...",
+    "styles": ["minimal", "gradient", "glassmorphism"],
+    "preset": "core",
+    "suggestedColors": ["#6366f1", "#06b6d4", "#1e1b4b"],
+    "backgroundSize": "landscape",
+    "n": 2,
+    "quality": "high"
+  }
+]
+```
+
+---
+
+#### `GET /api/templates/:id` — Get Template *(v2.0)*
+
+Returns a single template by ID.
+
+---
+
+#### `GET /api/presets` — List Presets *(v2.0)*
+
+Returns all 8 built-in presets with their prompt configurations.
+
+---
+
+#### `GET /api/styles` — List Styles *(v2.0)*
+
+Returns all 8 built-in style names.
+
+---
+
+#### `POST /api/analyze-colors` — Analyze Logo Colors *(v2.0)*
+
+Extract dominant colors from an uploaded logo and get smart suggestions.
+
+**Request:**
+```http
+POST /api/analyze-colors
+Content-Type: multipart/form-data
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `file` | File | Yes | Logo image to analyze |
+
+**Response:**
+```json
+{
+  "palette": {
+    "dominant": { "hex": "#6366f1", "r": 99, "g": 102, "b": 241, "percentage": 35 },
+    "colors": [...],
+    "isDark": false,
+    "isVibrant": true
+  },
+  "suggestions": {
+    "preset": "electric",
+    "styles": ["gradient", "clay", "retro"]
+  }
+}
+```
+
+---
+
+#### `GET /api/jobs` — List Jobs *(v2.0)*
+
+Returns all jobs with their status (for history display).
+
 </details>
 
 ---
@@ -683,18 +826,22 @@ Content-Disposition: attachment; filename="brandkit-{id}.zip"
 
 | Path | Description |
 |------|-------------|
-| `src/core/forge.ts` | Main orchestration engine |
+| `src/core/forge.ts` | Main orchestration engine with performance tracking |
 | `src/lib/config.ts` | Shared config normalization + defaults |
-| `src/lib/imageFormat.ts` | Output format helpers for images |
-| `src/lib/imageSizes.ts` | Background/hero size helpers |
+| `src/lib/colorExtractor.ts` | AI color extraction from logos (Sharp) |
+| `src/lib/templates.ts` | 12 industry template definitions |
+| `src/lib/promptLibrary.ts` | 8 preset definitions |
+| `src/lib/prompts.ts` | 8 style templates and prompt builders |
+| `src/lib/styles.ts` | Style list management |
 | `src/lib/openai.ts` | OpenAI client + cost calculation |
-| `src/lib/prompts.ts` | Prompt templates and builders |
-| `src/lib/styles.ts` | Default styles + parsing helpers |
+| `src/pipeline/gallery.ts` | Modern dark-themed HTML gallery generator |
 | `src/pipeline/` | Generation pipelines |
-| `src/server/` | Fastify API server |
-| `web/src/` | React frontend (Tailwind CSS + Wizard Flow) |
-| `web/src/pages/` | Create (Wizard), Results (Gallery) pages |
-| `web/src/lib/` | Shared UI constants and helpers |
+| `src/server/routes.ts` | REST API with template, preset, color endpoints |
+| `web/src/App.tsx` | Main app with dark mode toggle |
+| `web/src/hooks/useDarkMode.ts` | Dark mode hook with persistence |
+| `web/src/pages/Create.tsx` | Multi-step wizard with template picker |
+| `web/src/pages/create/components/TemplatePicker.tsx` | Industry template quick start |
+| `web/src/lib/createConstants.ts` | Frontend style/preset/chip constants |
 
 ---
 
@@ -751,7 +898,8 @@ Our roadmap is designed around one goal: **delivering the best possible brand as
 | **v1.2** | Custom Styles | User-defined style templates with prompt control |
 | **v1.3** | Chip-Based Builder | Visual prompt builder — no prompt engineering needed |
 | **v1.4** | Modern UI/UX | Wizard flow, Tailwind CSS design, improved gallery, smooth animations |
-| **v1.5** | Advanced Settings & Gallery | Image size selector, format options (PNG/WebP/JPEG), compression control, transparency support, lightbox preview, category tabs, collapsible manifest |
+| **v1.5** | Advanced Settings & Gallery | Image size selector, format options, compression, transparency, lightbox preview, category tabs |
+| **v2.0** | Risen Major Update | 8 styles, 8 presets, 12 industry templates, AI color extraction, dark mode, modernized gallery, performance tracking, enhanced CLI, new API endpoints |
 
 ---
 
@@ -873,7 +1021,7 @@ Report vulnerabilities to **security@cosmic-game-studios.com**
 ```
 MIT License
 
-Copyright (c) 2025 Cosmic Game Studios
+Copyright (c) 2025-2026 Cosmic Game Studios
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
