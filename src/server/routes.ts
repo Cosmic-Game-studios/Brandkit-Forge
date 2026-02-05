@@ -2,10 +2,14 @@ import type { FastifyInstance } from 'fastify';
 import { join } from 'path';
 import { createReadStream, existsSync } from 'fs';
 import archiver from 'archiver';
-import { createJob, getJob } from './jobs.js';
+import { createJob, getJob, getAllJobs } from './jobs.js';
 import type { BrandConfig } from '../types.js';
 import { normalizeConfig } from '../lib/config.js';
 import { FileUploadError, ValidationError, NotFoundError, isAppError, getErrorMessage } from '../lib/errors.js';
+import { getTemplates, getTemplate } from '../lib/templates.js';
+import { getPromptPresets } from '../lib/promptLibrary.js';
+import { getAllBuiltInStyles } from '../lib/styles.js';
+import { extractColors, suggestPreset, suggestStyles } from '../lib/colorExtractor.js';
 
 export async function registerRoutes(fastify: FastifyInstance) {
   // CORS
@@ -356,4 +360,102 @@ export async function registerRoutes(fastify: FastifyInstance) {
       }
     }
   );
+
+  // ============================================================
+  // v2.0 API Endpoints: Templates, Presets, Styles, Color Analysis
+  // ============================================================
+
+  /**
+   * GET /api/templates - List all industry templates
+   */
+  fastify.get('/api/templates', async (_request, reply) => {
+    return reply.send(getTemplates());
+  });
+
+  /**
+   * GET /api/templates/:id - Get a single template
+   */
+  fastify.get<{ Params: { id: string } }>(
+    '/api/templates/:id',
+    async (request, reply) => {
+      const template = getTemplate(request.params.id);
+      if (!template) {
+        return reply.code(404).send({ error: 'Template not found' });
+      }
+      return reply.send(template);
+    }
+  );
+
+  /**
+   * GET /api/presets - List all prompt presets
+   */
+  fastify.get('/api/presets', async (_request, reply) => {
+    return reply.send(getPromptPresets());
+  });
+
+  /**
+   * GET /api/styles - List all built-in styles
+   */
+  fastify.get('/api/styles', async (_request, reply) => {
+    return reply.send(getAllBuiltInStyles());
+  });
+
+  /**
+   * POST /api/analyze-colors - Extract dominant colors from an uploaded logo
+   */
+  fastify.post('/api/analyze-colors', async (request, reply) => {
+    try {
+      const data = await request.file();
+      if (!data) {
+        throw new FileUploadError('No file uploaded');
+      }
+
+      const buffer = await data.toBuffer();
+      if (buffer.length === 0) {
+        throw new FileUploadError('Uploaded file is empty', data.filename);
+      }
+
+      const palette = await extractColors(buffer);
+      const suggestedPresetId = suggestPreset(palette);
+      const suggestedStylesList = suggestStyles(palette);
+
+      return reply.send({
+        palette,
+        suggestions: {
+          preset: suggestedPresetId,
+          styles: suggestedStylesList,
+        },
+      });
+    } catch (error) {
+      fastify.log.error(error);
+
+      if (isAppError(error)) {
+        return reply.code(error.statusCode).send({
+          error: error.message,
+          code: error.code,
+        });
+      }
+
+      return reply.code(500).send({
+        error: getErrorMessage(error),
+        code: 'INTERNAL_ERROR',
+      });
+    }
+  });
+
+  /**
+   * GET /api/jobs - List all jobs (for history)
+   */
+  fastify.get('/api/jobs', async (_request, reply) => {
+    const jobs = getAllJobs().map((job) => ({
+      id: job.id,
+      status: job.status,
+      brandName: job.config.name,
+      styles: job.config.styles,
+      preset: job.config.preset,
+      cost: job.cost,
+      createdAt: job.progress[0] ? new Date().toISOString() : undefined,
+    }));
+    return reply.send(jobs);
+  });
 }

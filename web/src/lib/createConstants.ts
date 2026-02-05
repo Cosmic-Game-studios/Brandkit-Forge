@@ -21,6 +21,26 @@ export const PRESET_OPTIONS: PresetOption[] = [
     name: 'Noir',
     description: 'Dark, sleek, cinematic intensity with sharp highlights.',
   },
+  {
+    id: 'zen',
+    name: 'Zen',
+    description: 'Calm, balanced, meditative serenity with organic harmony.',
+  },
+  {
+    id: 'electric',
+    name: 'Electric',
+    description: 'High-voltage energy, vivid spectrum bursts, and kinetic motion.',
+  },
+  {
+    id: 'vintage',
+    name: 'Vintage',
+    description: 'Warm nostalgic tones, classic elegance, and timeless charm.',
+  },
+  {
+    id: 'fresh',
+    name: 'Fresh',
+    description: 'Vibrant, youthful energy with clean modern optimism.',
+  },
 ];
 
 export const MOOD_CHIPS = {
@@ -32,15 +52,18 @@ export const MOOD_CHIPS = {
 } as const;
 
 export const STYLE_CHIPS = {
-  look: ['minimal', 'neon', 'clay', 'blueprint', 'retro', 'futuristic', 'organic', 'brutalist'],
-  surface: ['clean planes', 'smooth gradients', 'rough texture', 'glass', 'metallic', 'matte', 'holographic', 'iridescent'],
-  lighting: ['architectural', 'studio', 'dramatic', 'soft glow', 'rim light', 'ambient', 'spot light', 'diffused'],
-  mood: ['museum-grade', 'premium', 'playful', 'corporate', 'artistic', 'tech', 'luxury', 'indie'],
-  form: ['abstract', 'geometric', 'fluid', 'angular', 'rounded', 'layered', 'flat', '3D depth'],
+  look: ['minimal', 'neon', 'clay', 'blueprint', 'gradient', 'retro', 'glassmorphism', 'watercolor', 'futuristic', 'organic', 'brutalist'],
+  surface: ['clean planes', 'smooth gradients', 'rough texture', 'glass', 'metallic', 'matte', 'holographic', 'iridescent', 'frosted', 'watercolor wash'],
+  lighting: ['architectural', 'studio', 'dramatic', 'soft glow', 'rim light', 'ambient', 'spot light', 'diffused', 'golden hour', 'electric'],
+  mood: ['museum-grade', 'premium', 'playful', 'corporate', 'artistic', 'tech', 'luxury', 'indie', 'zen', 'retro-futuristic'],
+  form: ['abstract', 'geometric', 'fluid', 'angular', 'rounded', 'layered', 'flat', '3D depth', 'organic flow', 'paint bleeds'],
 } as const;
 
 export const DEFAULT_STYLES = ['minimal', 'neon', 'clay', 'blueprint'] as const;
-export const AVAILABLE_STYLES = [...DEFAULT_STYLES];
+export const AVAILABLE_STYLES = [
+  ...DEFAULT_STYLES,
+  'gradient', 'retro', 'glassmorphism', 'watercolor',
+] as const;
 export const DEFAULT_STYLE_CHIPS = [
   'minimal',
   'clean planes',

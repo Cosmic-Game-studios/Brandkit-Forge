@@ -1,7 +1,7 @@
 {
   "name": "brandkit-forge",
-  "version": "1.0.0",
-  "description": "One logo in -> complete launch asset pack out with the OpenAI Images API",
+  "version": "2.0.0",
+  "description": "AI-powered brand asset generation — one logo in, complete launch asset pack out",
   "type": "module",
   "main": "dist/cli.js",
   "bin": {
