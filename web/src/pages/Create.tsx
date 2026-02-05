@@ -36,6 +36,8 @@ import { IdentityStep } from './create/components/IdentityStep';
 import { PreviewSidebar } from './create/components/PreviewSidebar';
 import { ProgressPanel } from './create/components/ProgressPanel';
 import { Stepper } from './create/components/Stepper';
+import TemplatePicker from './create/components/TemplatePicker';
+import type { BrandTemplate } from './create/components/TemplatePicker';
 import type {
   CostInfo,
   DemoPromptEntry,
@@ -61,6 +63,7 @@ export default function Create() {
   const [tagline, setTagline] = useState('');
   const [colors, setColors] = useState<string[]>([]);
   const [selectedStyles, setSelectedStyles] = useState<string[]>(Array.from(DEFAULT_STYLES));
+  const [showTemplatePicker, setShowTemplatePicker] = useState(true);
   const [customStyles, setCustomStyles] = useState<CustomStyleMap>({});
   const [showCustomStyleModal, setShowCustomStyleModal] = useState(false);
   const [editingCustomStyle, setEditingCustomStyle] = useState<EditingCustomStyle | null>(null);
@@ -127,6 +130,14 @@ export default function Create() {
       }
       return newColors;
     });
+  }, []);
+
+  const handleTemplateSelect = useCallback((template: BrandTemplate) => {
+    setSelectedStyles(template.styles);
+    setPreset(template.preset);
+    setColors(template.suggestedColors);
+    setBackgroundSize(template.backgroundSize);
+    setShowTemplatePicker(false);
   }, []);
 
   const [format, setFormat] = useState<ImageFormat>('png');
@@ -785,12 +796,19 @@ export default function Create() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">
+      {showTemplatePicker && currentStep === 'IDENTITY' && (
+        <TemplatePicker
+          onSelect={handleTemplateSelect}
+          onClose={() => setShowTemplatePicker(false)}
+        />
+      )}
+
       <Stepper currentStep={currentStep} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Form Area */}
         <div className="lg:col-span-2 space-y-6">
-          <form onSubmit={handleSubmit} className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-gray-200/50 border-2 border-white/20">
+          <form onSubmit={handleSubmit} className="bg-[var(--surface)]/95 backdrop-blur-xl rounded-3xl p-8 shadow-2xl shadow-gray-200/50 dark:shadow-black/30 border-2 border-white/20 dark:border-white/5">
             {currentStep === 'IDENTITY' && (
               <IdentityStep
                 logoPreview={logoPreview}
