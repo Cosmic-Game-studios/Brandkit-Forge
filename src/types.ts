@@ -77,3 +77,13 @@ export interface CostInfo {
     heroes: number;
   };
 }
+
+export interface PerformanceStats {
+  totalDurationMs: number;
+  steps: {
+    name: string;
+    durationMs: number;
+  }[];
+  startedAt: string;
+  completedAt: string;
+}

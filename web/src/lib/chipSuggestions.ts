@@ -130,7 +130,7 @@ export function getSuggestedChips(
   if (selectedChips.length === 0) return [];
 
   const compatibilityMap = type === 'style' ? STYLE_CHIP_COMPATIBILITY : MOOD_CHIP_COMPATIBILITY;
-  const allChips = type === 'style' 
+  const allChips: string[] = type === 'style'
     ? Object.values(STYLE_CHIPS).flat()
     : Object.values(MOOD_CHIPS).flat();
 
