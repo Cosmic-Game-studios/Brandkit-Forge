@@ -10,6 +10,14 @@ const STYLE_TEMPLATES = {
     'hyper polished claymorphism, bold pill forms, studio key light, deep soft shadows, premium 3D, tactile depth',
   blueprint:
     'high contrast blueprint style, razor grid lines, technical overlays, precision geometry, monochrome',
+  gradient:
+    'rich multi-layered gradients, aurora borealis color transitions, seamless spectrum flow, luminous depth, ethereal color blending, abstract',
+  retro:
+    'vintage halftone textures, warm analog tones, 70s/80s color palette, grainy film quality, nostalgic pop art, retro typography feel',
+  glassmorphism:
+    'frosted glass layers, translucent surfaces, soft blur depth, subtle reflections, floating card elements, modern glass UI aesthetic',
+  watercolor:
+    'soft watercolor washes, organic paint bleeds, delicate pigment transitions, natural texture, artistic hand-painted feel, fine art quality',
 } as const;
 
 const DEFAULT_STYLE_KEY = 'minimal';

@@ -45,6 +45,42 @@ const PROMPT_PRESETS: PromptPreset[] = [
     edit:
       'vivid logo, razor separation against the dark base',
   },
+  {
+    id: 'zen',
+    name: 'Zen',
+    description: 'Calm, balanced, meditative serenity with organic harmony.',
+    background:
+      'serene harmony, muted earth tones, balanced negative space, calm organic flow',
+    edit:
+      'gentle separation, soft breathing space around logo, tranquil finish',
+  },
+  {
+    id: 'electric',
+    name: 'Electric',
+    description: 'High-voltage energy, vivid spectrum bursts, and kinetic motion.',
+    background:
+      'electric spectrum bursts, high-voltage energy, kinetic motion trails, vivid saturated accents',
+    edit:
+      'energized glow halo, dynamic separation, vibrant edge lighting',
+  },
+  {
+    id: 'vintage',
+    name: 'Vintage',
+    description: 'Warm nostalgic tones, classic elegance, and timeless charm.',
+    background:
+      'warm sepia undertones, classic film grain, timeless elegance, aged paper texture',
+    edit:
+      'warm-toned separation, classic emboss feel, nostalgic premium finish',
+  },
+  {
+    id: 'fresh',
+    name: 'Fresh',
+    description: 'Vibrant, youthful energy with clean modern optimism.',
+    background:
+      'bright optimistic palette, clean white space, youthful gradients, spring-fresh vibrancy',
+    edit:
+      'crisp clean separation, bright airy halo, modern optimistic polish',
+  },
 ];
 
 export function getPromptPresets(): PromptPreset[] {
